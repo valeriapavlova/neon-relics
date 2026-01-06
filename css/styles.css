@@ -1,0 +1,6 @@
+/* styles.css */
+:root { --bg:#0b0b0f; --neon:#39ff14; --muted:#bfc3c7 }
+html,body{height:100%;}
+body{margin:0; font-family:system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial; background:var(--bg); color:var(--muted); display:flex; align-items:center; justify-content:center}
+main{text-align:center}
+h1{color:var(--neon); font-size:2.5rem; text-shadow:0 0 12px rgba(57,255,20,0.25)}
