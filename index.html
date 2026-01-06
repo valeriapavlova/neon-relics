@@ -1,5 +1,6 @@
 <!doctype html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
@@ -7,30 +8,63 @@
   <link rel="stylesheet" href="css/styles.css">
   <script defer src="js/index.js" type="module"></script>
 </head>
-<body>
-    
-  <!-- HEADER -->
-  <header class="site-header">
-    <div class="logo">NEON RELICS</div>
 
-    <nav class="main-nav">
-      <a href="#collection">Collection</a>
-      <a href="#about-teaser">About</a>
-      <a href="#capsule-info">Capsule</a>
-      <a href="#contact">Contact</a>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <!-- header logo-->
+    <div class="header__logo">
+      <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
+    </div>
+
+    <!-- header nav-->
+    <nav class="header__nav nav">
+      <ul class="nav__items">
+        <li><a id="collection-link" class="nav__item" href="#collection">Collection</a></li>
+        <li><a id="about-link" class="nav__item" href="#about-teaser">About</a></li>
+        <li><a id="capsule-link" class="nav__item" href="#capsule-info">Capsule</a></li>
+        <li><a id="contact-link" class="nav__item" href="#contact">Contact</a></li>
+      </ul>
     </nav>
 
-    <div class="header-actions">
-      <button class="capsule-counter">Capsule (0)</button>
+    <!-- header actions-->
+    <div class="header__actions">
+      <button type="button" class="wishlist-counter">Wishlist (0)</button>
+      <button type="button" class="capsule-counter">Capsule (0)</button>
     </div>
   </header>
-<!-- / HEADER -->
+  <!-- / HEADER -->
 
+  <!-- MAIN -->
   <main>
-    
+    <!-- HERO SECTION -->
+    <section class="hero">
+      <div class="hero__images">
+        <div>
+          <span>04</span>
+          <picture>
+            <source media="(min-width: 1024px)" srcset="assets/images/hero-image-04-desktop.jpg">
+            <source media="(min-width: 768px)" srcset="assets/images/hero-image-04-tablet.jpg">
+            <img src="assets/images/hero-image-04-mobile.jpg" alt="Hero image 04">
+          </picture>
+        </div>
+      </div>
+      <div class="hero__content">
+        <h1 class="hero__title">Jewelry for quiet dominion</h1>
+        <p class="hero__subtitle">Discover our exclusive collection of handcrafted jewelry pieces that embody elegance and power. Each design is meticulously crafted to enhance your presence and leave a lasting impression.</p>
+        <a href="#collection" class="hero__cta-button">Explore the Collection</a>
+      </div>
+    </section>
+    <!-- / HERO SECTION -->
+
+    <!-- ADDITIONAL SECTIONS WOULD GO HERE -->
   </main>
+  <!-- / MAIN -->
+
   <footer>
 
   </footer>
 </body>
+
 </html>
