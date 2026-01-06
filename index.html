@@ -21,10 +21,10 @@
     <!-- header nav-->
     <nav class="header__nav nav">
       <ul class="nav__items">
-        <li><a id="collection-link" class="nav__item" href="#collection">Collection</a></li>
-        <li><a id="about-link" class="nav__item" href="#about-teaser">About</a></li>
-        <li><a id="capsule-link" class="nav__item" href="#capsule-info">Capsule</a></li>
-        <li><a id="contact-link" class="nav__item" href="#contact">Contact</a></li>
+        <li class="nav__item"><a class="nav__link" href="#collection">Collection</a></li>
+        <li class="nav__item"><a class="nav__link" href="#about-teaser">About</a></li>
+        <li class="nav__item"><a class="nav__link" href="#capsule-info">Capsule</a></li>
+        <li class="nav__item"><a class="nav__link" href="#contact">Contact</a></li>
       </ul>
     </nav>
 
@@ -45,14 +45,16 @@
       <div class="hero__images">
         <div class="relic-card">
           <span>01</span>
-          <video class="media-video" autoplay muted loop playsinline preload="metadata" poster="assets/posters/hero.jpg" aria-hidden="true">
+          <video class="media-video" autoplay muted loop playsinline preload="metadata" poster="assets/posters/hero.jpg"
+            aria-hidden="true">
             <source src="assets/videos/hero/hero_1.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
         </div>
         <div class="relic-card">
           <span>03</span>
-          <video class="media-video" autoplay muted loop playsinline preload="metadata" poster="assets/posters/hero.jpg" aria-hidden="true">
+          <video class="media-video" autoplay muted loop playsinline preload="metadata" poster="assets/posters/hero.jpg"
+            aria-hidden="true">
             <source src="assets/videos/hero/hero_2.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
@@ -71,7 +73,7 @@
             </video>
           </div>
           <div>
-            <h1 class="hero__title">Jewelry for quiet dominion</h1>
+            <h1 class="hero__title t--xxl">Jewelry for quiet dominion</h1>
             <div class="relic-card">
               <span>02</span>
               <video class="media-video" autoplay muted loop playsinline preload="metadata"
@@ -85,16 +87,65 @@
 
         <!-- Hero section text -->
         <div class="hero__text">
-          <p class="hero__subtitle">NEON RELICS crafts jewelry that empowers the wearer with a sense of quiet dominion,
+          <p class="body-text body-text--big">NEON RELICS crafts jewelry that empowers the wearer with a sense of quiet
+            dominion,
             blending futuristic aesthetics with timeless elegance.</p>
-            <div class="hero__buttons">
-              <a href="#collection" class="btn btn--primary">Explore collection</a>
-              <a href="capsule.html" class="btn btn--secondary">Enter capsule</a>
-            </div>
+          <div class="hero__buttons">
+            <a href="#collection" class="btn btn--primary">Explore collection</a>
+            <a href="capsule.html" class="btn btn--secondary">Enter capsule</a>
+          </div>
         </div>
       </div>
     </section>
     <!-- / HERO SECTION -->
+
+    <!-- Manifest section -->
+    <section class="manifest">
+      <div class="manifest__bg" aria-hidden="true"></div>
+      <div class="manifest__content">
+        <div class="heading-block">
+          <span class="subtitle">no noise. just presence.</span>
+          <h2 class="manifest__title t--xl">A private ritual of adornment</h2>
+        </div>
+        <p class="body-text">Each relic is created as if it were a rite:
+          slow, precise, wrapped in silence. It does not follow seasons or trends; it simply waits for the wearer
+          capable
+          of holding it.</p>
+      </div>
+    </section>
+    <!-- / Manifest section -->
+
+    <!-- Relics section -->
+    <section id="collection" class="relics">
+      <!-- <picture>
+        <source media="(min-width: 1024px)" srcset="assets/images/relics_bg_desktop.jpg">
+        <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
+        <img src="assets/images/relics_bg_mobile.jpg" alt="Background image for the relics section" class="relics__bg"
+          aria-hidden="true">
+      </picture> -->
+        <div class="heading-block">
+            <span class="subtitle">explore the collection</span>
+            <h2 class="t--xxl">Featured relics</h2>
+        </div>
+        <p class="body-text">Twelve pieces, three entry portals. Start here and let the collection speak for itself.</p>
+
+      <!-- Slider block -->
+      <div class="slider slider--relics" id="slider">
+        <div class="slider__track" aria-label="Featured relics" tabindex="0">
+          <!-- Relic cards will be dynamically inserted here -->
+        </div>
+
+        <!-- Slider navigation buttons -->
+        <button class="slider__nav slider__nav--prev" id="slider-prev" type="button" aria-label="Previous relic">
+          <span class="slider__arrow slider__arrow--left" aria-hidden="true"></span>
+        </button>
+
+        <button class="slider__nav slider__nav--next" id="slider-next" type="button" aria-label="Next relic">
+          <span class="slider__arrow slider__arrow--right" aria-hidden="true"></span>
+        </button>
+      </div>
+    </section>
+    <!-- / Relics section -->
 
   </main>
   <!-- / MAIN -->

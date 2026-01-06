@@ -26,3 +26,33 @@
 	.site-logo{ height:40px; }
 }
 
+/* Manifest section background that overflows its container */
+.manifest{
+	position:relative;
+	overflow:visible; /* allow background element to escape */
+	padding:4rem 2rem;
+}
+
+
+.manifest__bg{
+	position:absolute;
+	right:-8%; /* push image outside the section */
+	top:-8%; /* overflow top by 8% */
+	width:56%;
+	max-width:680px;
+	height:auto;
+	background-image: url('assets/images/manifest/manifest-bg.png');
+	background-size: cover;
+	background-position: center center;
+	pointer-events: none;
+	z-index:0;
+	transform: translateZ(0);
+}
+
+.manifest__content{ position:relative; z-index:1; }
+
+@media (max-width:900px){
+	.manifest__bg{ right:-18%; top:-8%; width:80%; }
+}
+
+
