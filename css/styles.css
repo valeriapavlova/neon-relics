@@ -132,7 +132,7 @@ a {
     text-decoration: none;
 }
 
-/* 2. Variables (custom properties) */
+/* 2. VARIABLES (custom properties) */
 
 :root {
     /* Colors */
@@ -181,8 +181,103 @@ a {
 
     /* Motion */
     --transition-fast: 150ms ease-out;
-    --transition-normal: 250ms ease-out;
-    --transition-slow: 400ms ease-out;
+    --transition-normal: 0.3 ease-out;
+    --transition-slow: 0.5 ease-out;
+}
+
+/* 3. GLOBAL (body, headings, links, imágenes) */
+
+body {
+    font-family: var(--font-base);
+    font-size: var(--fs-md);
+    font-weight: var(--fw-regular);
+    color: var(--c-text);
+    background-color: var(--c-bg);
+    line-height: 1.3;
+}
+
+.body-text {
+    font-size: var(--fs-md);
+    color: var(--c-text);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+
+    &--big {
+    font-size: var(--fs-lg);
+    }
+}
+
+
+.subtitle {
+    font-size: var(--fs-md);
+    font-weight: var(--fw-medium);
+
+}
+
+.t--xl,
+.t--xxl, 
+.t--link,
+.t--link-big,
+.t--card {
+    font-family: var(--font-heading);
+    line-height: 1.05;
+    text-transform: uppercase;
+}
+
+.t--xl,
+.t--xxl,
+.t--link {
+    line-height: 1.05;
+    text-transform: uppercase;
+    color: var(--c-primary);
+}
+
+.t--xl,
+.t--xxl {
+    font-weight: var(--fw-semibold);
+}
+
+.t--xl {
+    font-size: var(--fs-xl);
+}
+
+.t--xxl {
+    font-size: var(--fs-2xl);
+}
+
+.t--link,
+.t--card {
+    font-size: var(--fs-sm);
+    font-weight: var(--fw-medium);
+}
+
+.t--link,
+.t--link-big {
+    position: relative;
+
+    &::after {
+        content: "";
+        position: absolute;
+        left: 0;
+        bottom: -2px;
+        width: 100%;
+        height: 2px;
+        background: currentColor;
+        transform: scaleX(0);
+        transform-origin: left;
+        transition: transform var(--transition-normal);
+        pointer-events: none;
+    }
+
+    &:hover::after,
+    &:focus-visible::after {
+        transform: scaleX(1);
+    }
+}
+
+.t--link-big {
+    font-size: var(--fs-lg);
+    font-weight: var(--fw-medium);
 }
 
 
