@@ -1,4 +1,5 @@
-(/* Header and logo styles */)
+/*
+
 :root{
 	--spacing: 1rem;
 }
@@ -53,6 +54,7 @@
 
 @media (max-width:900px){
 	.manifest__bg{ right:-18%; top:-8%; width:80%; }
-}
+} 
+*/
 
 

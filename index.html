@@ -5,6 +5,9 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>NEON RELICS — Jewelry for quiet dominion</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Unbounded:wght@200..900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <script defer src="js/index.js" type="module"></script>
 </head>
@@ -14,7 +17,7 @@
   <!-- HEADER -->
   <header class="header">
     <!-- header logo-->
-    <div class="header__logo">
+    <div class="logo header__logo">
       <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
     </div>
 
@@ -22,7 +25,7 @@
     <nav class="header__nav nav">
       <ul class="nav__items">
         <li class="nav__item"><a class="nav__link" href="#collection">Collection</a></li>
-        <li class="nav__item"><a class="nav__link" href="#about-teaser">About</a></li>
+        <li class="nav__item"><a class="nav__link" href="#about">About</a></li>
         <li class="nav__item"><a class="nav__link" href="#capsule-info">Capsule</a></li>
         <li class="nav__item"><a class="nav__link" href="#contact">Contact</a></li>
       </ul>
@@ -45,7 +48,15 @@
       <div class="hero__images">
         <div class="relic-card">
           <span>01</span>
-          <video class="media-video" autoplay muted loop playsinline preload="metadata" poster="assets/posters/hero.jpg"
+          <!--hay que adjuntar poster-->
+          <video 
+            class="media-video" 
+            autoplay 
+            muted 
+            loop 
+            playsinline 
+            preload="none" 
+            poster="assets/posters/hero.jpg" 
             aria-hidden="true">
             <source src="assets/videos/hero/hero_1.mp4" type="video/mp4">
             Your browser does not support the video tag.
@@ -53,7 +64,14 @@
         </div>
         <div class="relic-card">
           <span>03</span>
-          <video class="media-video" autoplay muted loop playsinline preload="metadata" poster="assets/posters/hero.jpg"
+          <video 
+            class="media-video" 
+            autoplay 
+            muted 
+            loop 
+            playsinline 
+            preload="none" 
+            poster="assets/posters/hero.jpg" 
             aria-hidden="true">
             <source src="assets/videos/hero/hero_2.mp4" type="video/mp4">
             Your browser does not support the video tag.
@@ -66,8 +84,15 @@
         <div class="hero__heading">
           <div class="relic-card">
             <span>04</span>
-            <video class="media-video" autoplay muted loop playsinline preload="metadata"
-              poster="assets/posters/hero.jpg" aria-hidden="true">
+            <video 
+              class="media-video" 
+              autoplay 
+              muted 
+              loop 
+              playsinline 
+              preload="none"
+              poster="assets/posters/hero.jpg" 
+              aria-hidden="true">
               <source src="assets/videos/hero/hero_3.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
@@ -76,8 +101,15 @@
             <h1 class="hero__title t--xxl">Jewelry for quiet dominion</h1>
             <div class="relic-card">
               <span>02</span>
-              <video class="media-video" autoplay muted loop playsinline preload="metadata"
-                poster="assets/posters/hero.jpg" aria-hidden="true">
+              <video 
+                class="media-video" 
+                autoplay 
+                muted 
+                loop 
+                playsinline 
+                preload="none"
+                poster="assets/posters/hero.jpg" 
+                aria-hidden="true">
                 <source src="assets/videos/hero/hero_4.mp4" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
@@ -120,8 +152,12 @@
       <!-- <picture>
         <source media="(min-width: 1024px)" srcset="assets/images/relics_bg_desktop.jpg">
         <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
-        <img src="assets/images/relics_bg_mobile.jpg" alt="Background image for the relics section" class="relics__bg"
-          aria-hidden="true">
+        <img 
+        src="assets/images/relics_bg_mobile.jpg" 
+        alt="Background image for the relics section" 
+        class="relics__bg"
+        loading="lazy"
+        aria-hidden="true">
       </picture> -->
       <div class="heading-block">
         <span class="subtitle">explore the collection</span>
@@ -155,7 +191,14 @@
         <!-- it will be a background video -->
         <div class="capsule__bg" aria-hidden="true">
           <!--
-          <video class="media-video" autoplay muted loop playsinline preload="metadata" poster="assets/posters/capsule.jpg">
+          <video 
+            class="media-video" 
+            autoplay 
+            muted 
+            loop 
+            playsinline 
+            preload="none"
+            aria-hidden="true">
             <source src="assets/videos/capsule/capsule_bg.mp4" type="video/mp4">
             Your browser does not support the video tag.
           </video>
@@ -202,8 +245,12 @@
       <!-- <picture>
         <source media="(min-width: 1024px)" srcset="assets/images/relics_bg_desktop.jpg">
         <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
-        <img src="assets/images/relics_bg_mobile.jpg" alt="Background image for the relics section" class="relics__bg"
-          aria-hidden="true">
+        <img 
+        src="assets/images/relics_bg_mobile.jpg" 
+        alt="Abstract image behind the events calendar" 
+        class="relics__bg"
+        loading="lazy"
+        aria-hidden="true">
       </picture> -->
 
     </section>
@@ -221,7 +268,10 @@
           <span>07</span>
           <picture>
             <source srcset="assets/img/about/about_1.webp" type="image/webp">
-            <img src="assets/img/about/about_1.jpg" alt="About NEON RELICS" class="about__image" loading="lazy">
+            <img src="assets/img/about/about_1.jpg" 
+            alt="About NEON RELICS" 
+            class="about__image" 
+            loading="lazy">
           </picture>
         </div>
         <!-- About teaser content -->
@@ -230,7 +280,11 @@
             <span>03</span>
             <picture>
               <source srcset="assets/img/about/about_2.webp" type="image/webp">
-              <img src="assets/img/about/about_2.jpg" alt="About NEON RELICS" class="about__image" loading="lazy">
+              <img 
+              src="assets/img/about/about_2.jpg" 
+              alt="About NEON RELICS" 
+              class="about__image" 
+              loading="lazy">
             </picture>
           </div>
           <video
@@ -240,7 +294,7 @@
             loop
             muted
             playsinline
-            preload="metadata"
+            preload="none"
             aria-hidden="true"
             width="288px"
           ></video>
@@ -249,7 +303,11 @@
             <span>06</span>
             <picture>
               <source srcset="assets/img/about/about_3.webp" type="image/webp">
-              <img src="assets/img/about/about_3.jpg" alt="About NEON RELICS" class="about__image" loading="lazy">
+              <img 
+              src="assets/img/about/about_3.jpg" 
+              alt="About NEON RELICS" 
+              class="about__image" 
+              loading="lazy">
             </picture>
           </div>
           <!-- About teaser text block -->
@@ -284,8 +342,12 @@
       <!-- <picture>
         <source media="(min-width: 1024px)" srcset="assets/images/relics_bg_desktop.jpg">
         <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
-        <img src="assets/images/relics_bg_mobile.jpg" alt="Background image for the relics section" class="relics__bg"
-          aria-hidden="true">
+        <img 
+        src="assets/images/relics_bg_mobile.jpg" 
+        alt="Abstract background behind the newsletter form" 
+        class="relics__bg"
+        loading="lazy"
+        aria-hidden="true">
       </picture> -->
 
       <!-- Form -->
@@ -321,6 +383,20 @@
           >
         </div>
 
+        <!-- Checkbox de consentimiento -->
+        <div class="frequency__field frequency__field--checkbox">
+          <input
+            type="checkbox"
+            id="consent"
+            name="consent"
+            class="frequency__checkbox"
+            required
+          >
+          <label for="consent" class="frequency__checkbox-label">
+            I agree to receive transmissions about NEON RELICS chapters.
+          </label>
+        </div>
+
         <button type="submit" class="btn btn--primary">
           Notify me
         </button>
@@ -328,6 +404,8 @@
         <!-- Success / error message (in JS) -->
         <p class="frequency__message" aria-live="polite"></p>
       </form>
+
+
           <video
             class="about__video"
             src="assets/videos/about/about_video.mp4" 
@@ -335,21 +413,90 @@
             loop
             muted
             playsinline
-            preload="metadata"
+            preload="none"
             aria-hidden="true"
-            width="288px"
+            width="288"
           ></video> <!-- Change a video file -->
 
     </section>
-
     <!-- / Form  -->
 
   </main>
   <!-- / MAIN -->
 
-  <footer>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer__grid">
 
+      <!-- Row 1 -->
+
+      <!-- Logo -->
+      <div class="footer__item footer__item--brand">
+        <div class="logo footer__logo">
+          <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
+        </div>
+        <p class="footer__claim">Limited relics for unlimited futures.</p>
+      </div>
+
+      <!-- Navigation -->
+      <nav class="footer__item footer__item--nav" aria-label="Footer navigation">
+        <ul class="footer-nav__list">
+          <li><a href="capsule.html" class="footer-nav__link">Capsule</a></li>
+          <li><a href="about.html" class="footer-nav__link">About</a></li>
+          <li><a href="#collection" class="footer-nav__link">Collection</a></li>
+          <li><a href="#contact" class="footer-nav__link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Social links -->
+      <nav class="footer__item footer__item--social" aria-label="Social links">
+        <ul class="footer-nav__list">
+          <li>
+            <a href="https://github.com/valeriapavlova"
+                class="footer-nav__link"
+                target="_blank"
+                rel="noreferrer"
+                title="GitHub">
+              GitHub
+            </a>
+          </li>
+          <li>
+            <a href="https://www.instagram.com/"
+                class="footer-nav__link"
+                target="_blank"
+                rel="noreferrer"
+                title="Instagram">
+              Instagram
+            </a>
+          </li>
+          <li>
+            <a href="https://www.linkedin.com/"
+                class="footer-nav__link"
+                target="_blank"
+                rel="noreferrer"
+                title="LinkedIn">
+              LinkedIn
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Row 2 -->
+      <p class="footer__item footer__item--credit">
+        Concept website created as a CEI final project.
+      </p>
+
+      <p class="footer__item footer__item--credit">
+        Photos by Max Shirko.
+      </p>
+
+      <p class="footer__item footer__item--credit">
+        All rights reserved Valeriia Pavlova.
+      </p>
+
+    </div>
   </footer>
+  <!-- / FOOTER -->
 </body>
 
 </html>
