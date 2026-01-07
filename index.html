@@ -242,6 +242,7 @@
             playsinline
             preload="metadata"
             aria-hidden="true"
+            width="288px"
           ></video>
 
           <div class="relic-card">
@@ -267,7 +268,81 @@
     </section>
     <!-- / About teaser section -->
 
+    <!-- Form / Newsletter section -->
+    <section class="frequency" id="contact">
+      <div class="frequency__heading-wrapper">
+        <div class="heading-block">
+          <span class="subtitle">stay in the orbit</span>
+          <h2 class="t--xxl">Join the inner frequency</h2>
+        </div>
+  
+        <p class="body-text">
+          No spam, no algorithms. Just a notice when a new chapter of the collection opens.
+        </p>
+      </div>
 
+      <!-- <picture>
+        <source media="(min-width: 1024px)" srcset="assets/images/relics_bg_desktop.jpg">
+        <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
+        <img src="assets/images/relics_bg_mobile.jpg" alt="Background image for the relics section" class="relics__bg"
+          aria-hidden="true">
+      </picture> -->
+
+      <!-- Form -->
+      <form
+        class="frequency__form"
+        action="#"
+        method="post"
+        novalidate
+      >
+        <div class="frequency__field">
+          <label for="name" class="frequency__label">Name</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            class="frequency__input"
+            placeholder="Enter your name"
+            autocomplete="name"
+            required
+          >
+        </div>
+
+        <div class="frequency__field">
+          <label for="email" class="frequency__label">Email</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            class="frequency__input"
+            placeholder="Enter your transmission point"
+            autocomplete="email"
+            required
+          >
+        </div>
+
+        <button type="submit" class="btn btn--primary">
+          Notify me
+        </button>
+
+        <!-- Success / error message (in JS) -->
+        <p class="frequency__message" aria-live="polite"></p>
+      </form>
+          <video
+            class="about__video"
+            src="assets/videos/about/about_video.mp4" 
+            autoplay
+            loop
+            muted
+            playsinline
+            preload="metadata"
+            aria-hidden="true"
+            width="288px"
+          ></video> <!-- Change a video file -->
+
+    </section>
+
+    <!-- / Form  -->
 
   </main>
   <!-- / MAIN -->
