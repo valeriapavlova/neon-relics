@@ -73,25 +73,25 @@
 
 /* Box model y scroll */
 html {
-  box-sizing: border-box;
-  font-size: 16px;
-  scroll-behavior: smooth;
+    box-sizing: border-box;
+    font-size: 16px;
+    scroll-behavior: smooth;
 }
 
 *,
 *::before,
 *::after {
-  box-sizing: inherit;
-  margin: 0;
-  padding: 0;
+    box-sizing: inherit;
+    margin: 0;
+    padding: 0;
 }
 
 /* Body base */
 body {
-  min-height: 100vh;
-  text-rendering: optimizeLegibility; /* consejo de Perplexity */
-  -webkit-font-smoothing: antialiased; /* consejo de Perplexity */
-  -moz-osx-font-smoothing: grayscale; /* consejo de Perplexity */
+    min-height: 100vh;
+    text-rendering: optimizeLegibility; /* consejo de Perplexity */
+    -webkit-font-smoothing: antialiased; /* consejo de Perplexity */
+    -moz-osx-font-smoothing: grayscale; /* consejo de Perplexity */
 }
 
 /* Media elements */
@@ -100,9 +100,9 @@ picture,
 video,
 canvas,
 svg {
-  display: block;
-  max-width: 100%;
-  height: auto;
+    display: block;
+    max-width: 100%;
+    height: auto;
 }
 
 /* Formularios básicos */
@@ -110,25 +110,79 @@ button,
 input,
 select,
 textarea {
-  font: inherit;
-  color: inherit;
+    font: inherit;
+    color: inherit;
 }
 
 /* Botones sin estilos por defecto pero accesibles */
 button {
-  background: none;
-  border: none;
-  cursor: pointer;
+    background: none;
+    border: none;
+    cursor: pointer;
 }
 
 /* Listas y enlaces */
 ul,
 ol {
-  list-style: none;
+    list-style: none;
 }
 
 a {
-  color: inherit;
-  text-decoration: none;
+    color: inherit;
+    text-decoration: none;
 }
+
+/* 2. Variables (custom properties) */
+
+:root {
+    /* Colors */
+    --c-bg: #D8DFE6;
+    --c-bg--soft: #DEE3E9;
+
+    --c-primary: #CC230F;
+    --c-primary--dark: #A41F10;
+    --c-primary--soft: #E08C82;
+
+    --c-text: #0F1821;
+    --c-text--muted: #82868B;
+
+    /* Typography */
+    --font-base: "Jost", system-ui, sans-serif;
+    --font-heading: "Unbounded", system-ui, sans-serif;
+
+    /* Font sizes */
+    --fs-sm: 0.75em;
+    --fs-md: 1em;
+    --fs-lg: 1.25em;
+    --fs-xl: 3em;
+    --fs-2xl: 6em;
+
+    /* Font weights */
+    --fw-regular: 400;
+    --fw-medium: 500;
+    --fw-semibold: 600;
+
+    /* Paddings */
+    --space-3xs: 0.25rem;
+    --space-2xs: 0.5rem;
+    --space-xs: 1rem;
+    --space-sm: 1.5rem;
+    --space-md: 2rem;
+    --space-lg: 4rem;
+    --space-xl: 5rem;
+    --space-2xl: 6rem;
+    --space-3xl: 8rem;
+    --space-4xl: 10rem;
+    --space-5xl: 20rem;
+
+    /* Border radius */
+    --r-xs: 0.125rem;
+    --r-s: 0.25rem;
+
+    /* Motion */
+    --transition-fast: 150ms ease-out;
+    --transition-normal: 250ms ease-out;
+    --transition-slow: 400ms ease-out;
+}
+
 
