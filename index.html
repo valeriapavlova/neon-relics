@@ -19,7 +19,7 @@
 
   <!-- HEADER -->
   <header class="header">
-    <div class="container">
+    <div class="container header__container">
       <!-- header logo-->
       <div class="logo header__logo">
         <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
@@ -50,20 +50,22 @@
     <section class="section hero">
       <div class="container">
         <!-- Hero section upper -->
-        <div class="hero__images">
+        <div class="hero__images flex-row">
+
           <div class="relic-card">
             <span class="t--card">01</span>
             <!--hay que adjuntar poster-->
-            <video class="media-video" autoplay muted loop playsinline preload="none" poster="assets/posters/hero.jpg"
-              aria-hidden="true">
+            <video class="media-video media-video--hero-1" autoplay muted loop playsinline preload="none"
+              poster="assets/posters/hero.jpg" aria-hidden="true">
               <source src="assets/videos/hero/hero_1.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
           </div>
+
           <div class="relic-card">
             <span class="t--card">03</span>
-            <video class="media-video" autoplay muted loop playsinline preload="none" poster="assets/posters/hero.jpg"
-              aria-hidden="true">
+            <video class="media-video media-video--hero-2" autoplay muted loop playsinline preload="none"
+              poster="assets/posters/hero.jpg" aria-hidden="true">
               <source src="assets/videos/hero/hero_2.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
@@ -71,39 +73,43 @@
         </div>
 
         <!-- Hero section heading -->
-        <div class="hero__content">
-          <div class="hero__heading">
-            <div class="relic-card">
+        <div class="hero__content flex-row">
+          <div class="hero__title-block-wrapper">
+
+            <div class="relic-card hero__title-bg-card">
               <span class="t--card">04</span>
-              <video class="media-video" autoplay muted loop playsinline preload="none" poster="assets/posters/hero.jpg"
-                aria-hidden="true">
+              <video class="media-video media-video--hero-3" autoplay muted loop playsinline preload="none"
+                poster="assets/posters/hero.jpg" aria-hidden="true">
                 <source src="assets/videos/hero/hero_3.mp4" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
             </div>
-            <div>
+
+            <div class="hero__title-block">
               <h1 class="hero__title t--md">Jewelry for quiet dominion</h1>
+
               <div class="relic-card">
                 <span class="t--card">02</span>
-                <video class="media-video" autoplay muted loop playsinline preload="none"
+                <video class="media-video media-video--hero-4" autoplay muted loop playsinline preload="none"
                   poster="assets/posters/hero.jpg" aria-hidden="true">
                   <source src="assets/videos/hero/hero_4.mp4" type="video/mp4">
                   Your browser does not support the video tag.
                 </video>
               </div>
+
             </div>
           </div>
+        </div>
 
-          <!-- Hero section text -->
-          <div class="hero__text">
-            <p class="body-text body-text--big">NEON RELICS crafts jewelry that empowers the wearer with a sense of
-              quiet
-              dominion,
-              blending futuristic aesthetics with timeless elegance.</p>
-            <div class="hero__buttons">
-              <a href="#collection" class="btn btn--primary">Explore collection</a>
-              <a href="capsule.html" class="btn btn--secondary">Enter capsule</a>
-            </div>
+        <!-- Hero section text -->
+        <div class="hero__text-wrapper">
+          <p class="body-text body-text--big">NEON RELICS crafts jewelry that empowers the wearer with a sense of
+            quiet
+            dominion,
+            blending futuristic aesthetics with timeless elegance.</p>
+          <div class="hero__buttons">
+            <a href="#collection" class="btn btn--primary">Explore collection</a>
+            <a href="capsule.html" class="btn btn--secondary">Enter capsule</a>
           </div>
         </div>
       </div>
@@ -113,16 +119,24 @@
     <!-- Manifest section -->
     <section class="section manifest">
       <div class="container">
-        <div class="manifest__bg" aria-hidden="true"></div>
-        <div class="manifest__content">
-          <div class="heading-block flex-column">
-            <span class="subtitle">no noise. just presence.</span>
-            <h2 class="manifest__title t--md">A private ritual of adornment</h2>
+        <div class="manifest__wrapper flex-row">
+          <div class="manifest__bg" aria-hidden="true">
+            <picture>
+              <source srcset="assets/img/manifest/man_red.webp" type="image/webp">
+              <img src="assets/img/manifest/man_red.png" alt="Abstract background image for the manifest section"
+                class="manifest__image" loading="lazy">
+            </picture>
           </div>
-          <p class="body-text">Each relic is created as if it were a rite:
-            slow, precise, wrapped in silence. It does not follow seasons or trends; it simply waits for the wearer
-            capable
-            of holding it.</p>
+          <div class="manifest__content flex-column">
+            <div class="heading-block flex-column">
+              <span class="subtitle">no noise. just presence.</span>
+              <h2 class="manifest__title t--md">A private ritual of adornment</h2>
+            </div>
+            <p class="body-text">Each relic is created as if it were a rite:
+              slow, precise, wrapped in silence. It does not follow seasons or trends; it simply waits for the wearer
+              capable
+              of holding it.</p>
+          </div>
         </div>
       </div>
     </section>
@@ -131,21 +145,13 @@
     <!-- Relics section -->
     <section id="collection" class="section relics">
       <div class="container">
-        <!-- <picture>
-        <source media="(min-width: 1024px)" srcset="assets/images/relics_bg_desktop.jpg">
-        <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
-        <img 
-        src="assets/images/relics_bg_mobile.jpg" 
-        alt="Background image for the relics section" 
-        class="relics__bg"
-        loading="lazy"
-        aria-hidden="true">
-      </picture> -->
-        <div class="heading-block flex-column">
-          <span class="subtitle">explore the collection</span>
-          <h2 class="t--md">Featured relics</h2>
+        <div class="relics__heading-wrapper padding--l-3xl">
+          <div class="heading-block flex-column">
+            <span class="subtitle">explore the collection</span>
+            <h2 class="t--md">Featured relics</h2>
+          </div>
+          <p class="body-text">Twelve pieces, three entry portals. Start here and let the collection speak for itself.</p>
         </div>
-        <p class="body-text">Twelve pieces, three entry portals. Start here and let the collection speak for itself.</p>
 
         <!-- Slider block -->
         <div class="slider slider--relics" id="slider">
