@@ -521,7 +521,6 @@ padding-top: calc(4rem + 2 * var(--space-xs));
 /* MANIFEST Section */
 
 .manifest {
-    & .container {
 
         & .manifest__wrapper {
         position: relative;
@@ -571,9 +570,6 @@ padding-top: calc(4rem + 2 * var(--space-xs));
             }
         }
     }
-    }
-
-    
 }
 
 /* RELICS SECTION */
