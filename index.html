@@ -150,7 +150,8 @@
             <span class="subtitle">explore the collection</span>
             <h2 class="t--md">Featured relics</h2>
           </div>
-          <p class="body-text">Twelve pieces, three entry portals. Start here and let the collection speak for itself.</p>
+          <p class="body-text">Twelve pieces, three entry portals. Start here and let the collection speak for itself.
+          </p>
         </div>
 
         <!-- Slider block -->
@@ -176,41 +177,40 @@
     <section class="section capsule" id="capsule-info">
       <div class="container">
 
-        <div class="capsule__container">
+        <div class="capsule__wrapper flex-column">
 
-          <!-- it will be a background video -->
+          <!-- background video -->
           <div class="capsule__bg" aria-hidden="true">
-            <!--
-          <video 
-            class="media-video" 
-            autoplay 
-            muted 
-            loop 
-            playsinline 
-            preload="none"
-            aria-hidden="true">
-            <source src="assets/videos/capsule/capsule_bg.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          -->
+            <video class="media-video" autoplay muted loop playsinline preload="none" aria-hidden="true">
+              <source src="assets/videos/capsule/capsule_bg.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
           </div>
 
-          <div class="heading-block flex-column">
-            <span class="subtitle">a private ritual of adornment</span>
-            <h2 class="t--md">Your personal capsule</h2>
-          </div>
-
+          <!-- Capsule content -->
           <div class="capsule__content">
-            <div class="capsule__text">
-              <p class="body-text">Instead of a classic cart, each selection is kept in your capsule: an intimate
-                inventory of
-                pieces that resonate with you.</p>
-              <p class="body-text">Add, remove, reorder. You are not buying impulses; you are curating a small archive
-                of
-                power.</p>
+            <!-- Capsule heading -->
+            <div class="heading-block flex-column">
+              <span class="subtitle">a private ritual of adornment</span>
+              <h2 class="t--md">Your personal capsule</h2>
             </div>
 
-            <a href="capsule.html" class="btn btn--secondary">Enter the capsule</a>
+            <!-- Capsule text block -->
+            <div class="capsule__text-block">
+              <div class="capsule__text flex-column">
+                <p class="body-text">Instead of a classic cart, each selection is kept in your capsule: an intimate
+                  inventory of
+                  pieces that resonate with you.</p>
+                <p class="body-text">Add, remove, reorder. You are not buying impulses; you are curating a small archive
+                  of
+                  power.</p>
+              </div>
+              <!-- Capsule button -->
+
+              <div class="capsule__button-wrapper">
+                <a href="capsule.html" class="btn btn--secondary">Enter the capsule</a>
+              </div>
+            </div>
           </div>
 
         </div>
@@ -221,30 +221,35 @@
     <!-- Events section -->
     <section class="section events" id="events">
       <div class="container">
+        <div class="events__wrapper">
+          <!-- Events heading -->
+          <div class="heading-block flex-column padding--l-3xl">
+            <span class="subtitle">calendar of quiet power</span>
+            <h2 class="t--md">Upcoming drops &amp; rites</h2>
+          </div>
+          <div class="events__text-block">
+              <p class="body-text">
+                NEON RELICS doesn't release collections, it summons chapters. Some are public; others only open by
+                invitation.
+              </p>
+          </div>
+          
+          <!-- Events list -->
+          <ul class="events__list" id="events-list">
+            <!-- items inserted by JavaScript -->
+          </ul>
 
-        <div class="heading-block flex-column">
-          <span class="subtitle">calendar of quiet power</span>
-          <h2 class="t--md">Upcoming drops &amp; rites</h2>
+          <!-- <picture>
+            <source media="(min-width: 1024px)" srcset="assets/images/relics_bg_desktop.jpg">
+            <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
+            <img 
+            src="assets/images/relics_bg_mobile.jpg" 
+            alt="Abstract image behind the events calendar" 
+            class="relics__bg"
+            loading="lazy"
+            aria-hidden="true">
+          </picture> -->
         </div>
-        <p class="body-text">
-          NEON RELICS doesn't release collections, it summons chapters. Some are public; others only open by invitation.
-        </p>
-
-        <!-- Events list -->
-        <ul class="events__list" id="events-list">
-          <!-- items inserted by JavaScript -->
-        </ul>
-
-        <!-- <picture>
-        <source media="(min-width: 1024px)" srcset="assets/images/relics_bg_desktop.jpg">
-        <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
-        <img 
-        src="assets/images/relics_bg_mobile.jpg" 
-        alt="Abstract image behind the events calendar" 
-        class="relics__bg"
-        loading="lazy"
-        aria-hidden="true">
-      </picture> -->
 
       </div>
     </section>
@@ -253,51 +258,53 @@
     <!-- About teaser section -->
     <section class="section about" id="about">
       <div class="container">
-
-        <div class="about__title-block">
-          <div class="heading-block flex-column">
-            <span class="subtitle">the ritual of creation</span>
-            <h2 class="t--md">Born between fashion and signal</h2>
-          </div>
-          <div class="relic-card">
-            <span class="t--card">07</span>
-            <picture>
-              <source srcset="assets/img/about/about_1.webp" type="image/webp">
-              <img src="assets/img/about/about_1.jpg" alt="About NEON RELICS" class="about__image" loading="lazy">
-            </picture>
-          </div>
-          <!-- About teaser content -->
-          <div class="about__content">
-            <div class="relic-card">
-              <span class="t--card">03</span>
+        <div class="about__wrapper">
+          
+          <!-- About teaser heading and content -->
+          <div class="about__title-block">
+            <div class="heading-block flex-column">
+              <span class="subtitle">the ritual of creation</span>
+              <h2 class="t--md">Born between fashion and signal</h2>
+            </div>
+            <div class="relic-card about__image-card">
+              <span class="t--card">07</span>
               <picture>
-                <source srcset="assets/img/about/about_2.webp" type="image/webp">
-                <img src="assets/img/about/about_2.jpg" alt="About NEON RELICS" class="about__image" loading="lazy">
+                <source srcset="assets/img/about/about_1.webp" type="image/webp">
+                <img src="assets/img/about/about_1.jpg" alt="About NEON RELICS" class="about__image" loading="lazy">
               </picture>
             </div>
-            <video class="about__video" src="assets/videos/about/about_video.mp4" autoplay loop muted playsinline
-              preload="none" aria-hidden="true" width="288px"></video>
-
-            <div class="relic-card">
-              <span class="t--card">06</span>
-              <picture>
-                <source srcset="assets/img/about/about_3.webp" type="image/webp">
-                <img src="assets/img/about/about_3.jpg" alt="About NEON RELICS" class="about__image" loading="lazy">
-              </picture>
-            </div>
-            <!-- About teaser text block -->
-            <div class="about__text-block">
-              <div class="about__text">
-                <p class="body-text">NEON RELICS is born where haute couture crosses paths with the interface.</p>
-                <p class="body-text">Each piece is a silent signal: it declares something without saying it, it occupies
-                  space
-                  without asking permission.</p>
+          </div>
+            <!-- About teaser content -->
+            <div class="about__content">
+              <div class="relic-card">
+                <span class="t--card">03</span>
+                <picture>
+                  <source srcset="assets/img/about/about_2.webp" type="image/webp">
+                  <img src="assets/img/about/about_2.jpg" alt="About NEON RELICS" class="about__image" loading="lazy">
+                </picture>
               </div>
-              <!-- About teaser button -->
-              <a href="about.html" class="btn btn--secondary">Read the full story</a>
+              <video class="about__video" src="assets/videos/about/about_video.mp4" autoplay loop muted playsinline
+                preload="none" aria-hidden="true" width="288px"></video>
+  
+              <div class="relic-card">
+                <span class="t--card">06</span>
+                <picture>
+                  <source srcset="assets/img/about/about_3.webp" type="image/webp">
+                  <img src="assets/img/about/about_3.jpg" alt="About NEON RELICS" class="about__image" loading="lazy">
+                </picture>
+              </div>
+              <!-- About teaser text block -->
+              <div class="about__text-block">
+                <div class="about__text">
+                  <p class="body-text">NEON RELICS is born where haute couture crosses paths with the interface.</p>
+                  <p class="body-text">Each piece is a silent signal: it declares something without saying it, it occupies
+                    space without asking permission.</p>
+                </div>
+                <!-- About teaser button -->
+                <a href="about.html" class="btn btn--secondary">Read the full story</a>
+              </div>
             </div>
 
-          </div>
         </div>
       </div>
     </section>

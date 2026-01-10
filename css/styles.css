@@ -366,7 +366,7 @@ a {
 .container {
     max-width: 120rem;
     margin: 0 auto;
-    padding: var(--space-xl) 0;
+    padding: var(--space-4xl) 0;
 
     /* Responsive padding */
     @media (max-width: 768px) {
@@ -444,7 +444,6 @@ padding-top: calc(4rem + 2 * var(--space-xs));
         flex-direction: column;
         gap: var(--space-3xl);
         padding: var(--space-2xl) 0;
-        margin-bottom: var(--space-4xl);
     }
 
     & .hero__images {
@@ -574,9 +573,6 @@ padding-top: calc(4rem + 2 * var(--space-xs));
 
 /* RELICS SECTION */
 .relics {
-    & .container {
-        margin-top: var(--space-4xl);
-    }
 
     & .relics__heading-wrapper {
         display: flex;
@@ -593,6 +589,149 @@ padding-top: calc(4rem + 2 * var(--space-xs));
 
 /*CAPSULE SECTION */
 .capsule {
+
+    & .capsule__wrapper {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        justify-content: flex-start;
+        gap: var(--space-3xl);
+        padding: var(--space-2xl) 0;
+        z-index: 0;
+        overflow: visible;
+        min-height: 60vh;
+
+        & .capsule__bg {
+            position: absolute;
+            inset: 0;
+            background: url('assets/img/capsule/capsule_bg.webp') center/cover no-repeat;
+            z-index: 0;
+            opacity: 0.95;
+            pointer-events: none;
+            top: -10%;
+            left: 40%;
+            transform: translateX(-40%);
+
+            & .media-video {
+                width: 80%;
+                height: auto;
+                object-fit: cover;
+                pointer-events: none;
+            }
+        }
+
+        & .capsule__content {
+            position: relative;
+            z-index: 2;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: var(--space-md);
+
+            & .heading-block {
+                width: 100%;
+
+                & h2 {
+                    max-width: 68rem;
+                }
+            }
+
+            & .capsule__text-block {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: var(--space-md);
+
+                & .capsule__text {
+                    gap: var(--space-sm);
+
+                    & p {
+                        max-width: 32rem;
+                    }
+                }
+
+                .capsule__button-wrapper {
+                    width: 100%;
+                    display: flex;
+                    justify-content: flex-start;
+                }
+            }
+        }
+    }
+}
+
+/* EVENTS SECTION */
+.events {
+    & .container {
+
+        & .events__wrapper {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+
+            padding: var(--space-2xl) var(--space-md);
+            border-radius: var(--r-s);
+            background-color: var(--c-text);
+
+            & .subtitle, p {
+                color: var(--c-bg);
+            }
+            
+            & h2 {
+                max-width: 68rem;
+            }
+            & .events__text-block {
+                align-self: flex-end;
+                    & p {
+                    max-width: 32rem;
+                }
+            }
+        }
+    }
+}
+
+
+/* ABOUT SECTION */
+.about {
+
+    & .about__wrapper {
+        display: flex;
+        flex-direction: column;
+        align-content: flex-start;
+
+        & .about__title-block {
+            display: flex;
+            justify-content: space-between;
+
+            & .heading-block {
+                width: 100%;
+                flex: 1.5 0 0;
+
+                & h2 {
+                    max-width: 68rem;
+                }
+            }
+
+            & .relic-card {
+                max-width: 20rem;
+                flex: 1 0 0;
+            }
+        }
+
+        & .about__content {
+            display: flex;
+            justify-content: space-between;
+
+            & .about__text-block {
+                max-width: 20rem;
+
+
+        }
+    }
+}
 
 /* FOOTER */
 .footer {
