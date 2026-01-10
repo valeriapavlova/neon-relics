@@ -359,6 +359,7 @@ a {
     align-items: flex-start;
 }
 
+/* Section and container */
 .section {
     padding: 0 var(--space-md);
 }
@@ -380,22 +381,51 @@ a {
     gap: var(--space-2xs);
 }
 
+/* Relic card sizes */
 .relic-card {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: var(--space-2xs);
+
+    width: 18rem;
+    height: auto;
+}
+
+.relic-card--xs {
+    width: 8rem;
+}
+
+.relic-card--sm {
+    width: 16rem;
+}
+
+.relic-card--md {
+    width: 20rem;
+}
+
+.relic-card--lg {
+    width: 28rem;
+}
+
+.relic-card--xl {
+    width: 36rem;
+}
+
+/* Padding utilities */
+
+.padding--t-2xl {
+    padding-top: var(--space-2xl);
+}
+
+.padding--t-5xl {
+    padding-top: var(--space-5xl);
 }
 
 .padding--l-3xl {
     padding-left: var(--space-3xl);
 }
 
-/* Individual hero video sizes */
-.media-video--hero-1 { max-width: 18rem; height: auto; }
-.media-video--hero-2 { max-width: 12rem; height: auto; }
-.media-video--hero-3 { max-width: 26rem; height: auto; }
-.media-video--hero-4 { max-width: 8rem; height: auto; }
 
 /* 5. LAYOUT GENERALES (header, main, footer, grids) */
 
@@ -461,13 +491,14 @@ padding-top: calc(4rem + 2 * var(--space-xs));
         & .relic-card.hero__title-bg-card {
             /* Video de fondo ABSOLUTO detrás del título */
             position: absolute;
-            top: 50%;
+            top: 30%;
             left: 50%;
             transform: translate(-50%, -50%);
             z-index: 0;
             width: 100%;
-            max-width: 28rem;
+            max-width: 36rem;
             height: auto;
+
 
             & .media-video--hero-3 {
             width: 100%;
@@ -665,29 +696,27 @@ padding-top: calc(4rem + 2 * var(--space-xs));
 
 /* EVENTS SECTION */
 .events {
-    & .container {
 
-        & .events__wrapper {
-            display: flex;
-            flex-direction: column;
-            gap: var(--space-md);
+    & .events__wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-md);
 
-            padding: var(--space-2xl) var(--space-md);
-            border-radius: var(--r-s);
-            background-color: var(--c-text);
+        padding: var(--space-2xl) var(--space-md);
+        border-radius: var(--r-s);
+        background-color: var(--c-text);
+        color: var(--c-bg);
 
-            & .subtitle, p {
+        & h2 {
+            max-width: 68rem;
+        }
+
+        & .events__text-block {
+            align-self: flex-end;
+
+            & p {
+                max-width: 32rem;
                 color: var(--c-bg);
-            }
-            
-            & h2 {
-                max-width: 68rem;
-            }
-            & .events__text-block {
-                align-self: flex-end;
-                    & p {
-                    max-width: 32rem;
-                }
             }
         }
     }
@@ -714,11 +743,6 @@ padding-top: calc(4rem + 2 * var(--space-xs));
                     max-width: 68rem;
                 }
             }
-
-            & .relic-card {
-                max-width: 20rem;
-                flex: 1 0 0;
-            }
         }
 
         & .about__content {
@@ -726,12 +750,54 @@ padding-top: calc(4rem + 2 * var(--space-xs));
             justify-content: space-between;
 
             & .about__text-block {
+                display: flex;
                 max-width: 20rem;
+                flex-direction: column;
+                flex-wrap: wrap;
+                justify-content: flex-end;
+                align-items: flex-start;
+                gap: var(--space-md);
 
-
+                & .about__text{
+                    gap: var(--space-sm);
+                }
+            }
         }
     }
 }
+
+
+/* FREQUENCY SECTION */
+.frequency {
+
+    & .frequency__wrapper {
+        display: flex;
+        gap: var(--space-xl);
+
+        padding: var(--space-2xl) var(--space-md);
+
+        background-color: var(--c-primary--dark);
+        border-radius: var(--r-s);
+        color: var(--c-bg);
+
+        & .frequency__heading-wrapper {
+            width: 100%;
+            flex: 1.5 0 0;
+
+            & h2 {
+                max-width: 68rem;
+                color: var(--c-bg);
+            }
+            & .frequency__text {
+                align-self: flex-end;
+                max-width: 32rem;
+                & .body-text {
+                color: var(--c-bg);
+            }
+        }
+    }
+}
+
 
 /* FOOTER */
 .footer {

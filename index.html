@@ -52,19 +52,19 @@
         <!-- Hero section upper -->
         <div class="hero__images flex-row">
 
-          <div class="relic-card">
+          <div class="relic-card relic-card--md">
             <span class="t--card">01</span>
             <!--hay que adjuntar poster-->
-            <video class="media-video media-video--hero-1" autoplay muted loop playsinline preload="none"
+            <video class="media-video" autoplay muted loop playsinline preload="none"
               poster="assets/posters/hero.jpg" aria-hidden="true">
               <source src="assets/videos/hero/hero_1.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
           </div>
 
-          <div class="relic-card">
+          <div class="relic-card relic-card--sm">
             <span class="t--card">03</span>
-            <video class="media-video media-video--hero-2" autoplay muted loop playsinline preload="none"
+            <video class="media-video" autoplay muted loop playsinline preload="none"
               poster="assets/posters/hero.jpg" aria-hidden="true">
               <source src="assets/videos/hero/hero_2.mp4" type="video/mp4">
               Your browser does not support the video tag.
@@ -76,9 +76,9 @@
         <div class="hero__content flex-row">
           <div class="hero__title-block-wrapper">
 
-            <div class="relic-card hero__title-bg-card">
+            <div class="relic-card relic-card--xl hero__title-bg-card">
               <span class="t--card">04</span>
-              <video class="media-video media-video--hero-3" autoplay muted loop playsinline preload="none"
+              <video class="media-video" autoplay muted loop playsinline preload="none"
                 poster="assets/posters/hero.jpg" aria-hidden="true">
                 <source src="assets/videos/hero/hero_3.mp4" type="video/mp4">
                 Your browser does not support the video tag.
@@ -88,9 +88,9 @@
             <div class="hero__title-block">
               <h1 class="hero__title t--md">Jewelry for quiet dominion</h1>
 
-              <div class="relic-card">
+              <div class="relic-card relic-card--xs">
                 <span class="t--card">02</span>
-                <video class="media-video media-video--hero-4" autoplay muted loop playsinline preload="none"
+                <video class="media-video" autoplay muted loop playsinline preload="none"
                   poster="assets/posters/hero.jpg" aria-hidden="true">
                   <source src="assets/videos/hero/hero_4.mp4" type="video/mp4">
                   Your browser does not support the video tag.
@@ -253,9 +253,10 @@
 
       </div>
     </section>
-    <!-- / Events section -->
+    <!-- / EVENTS section -->
 
-    <!-- About teaser section -->
+
+    <!-- ABOUT teaser section -->
     <section class="section about" id="about">
       <div class="container">
         <div class="about__wrapper">
@@ -266,7 +267,7 @@
               <span class="subtitle">the ritual of creation</span>
               <h2 class="t--md">Born between fashion and signal</h2>
             </div>
-            <div class="relic-card about__image-card">
+            <div class="relic-card relic-card--md">
               <span class="t--card">07</span>
               <picture>
                 <source srcset="assets/img/about/about_1.webp" type="image/webp">
@@ -276,17 +277,19 @@
           </div>
             <!-- About teaser content -->
             <div class="about__content">
-              <div class="relic-card">
+
+              <div class="relic-card relic-card--lg padding--t-2xl">
                 <span class="t--card">03</span>
                 <picture>
                   <source srcset="assets/img/about/about_2.webp" type="image/webp">
                   <img src="assets/img/about/about_2.jpg" alt="About NEON RELICS" class="about__image" loading="lazy">
                 </picture>
               </div>
-              <video class="about__video" src="assets/videos/about/about_video.mp4" autoplay loop muted playsinline
+
+              <video class="about__video relic-card--sm padding--t-5xl" src="assets/videos/about/about_video.mp4" autoplay loop muted playsinline
                 preload="none" aria-hidden="true" width="288px"></video>
   
-              <div class="relic-card">
+              <div class="relic-card relic-card--sm">
                 <span class="t--card">06</span>
                 <picture>
                   <source srcset="assets/img/about/about_3.webp" type="image/webp">
@@ -295,7 +298,7 @@
               </div>
               <!-- About teaser text block -->
               <div class="about__text-block">
-                <div class="about__text">
+                <div class="about__text flex-column">
                   <p class="body-text">NEON RELICS is born where haute couture crosses paths with the interface.</p>
                   <p class="body-text">Each piece is a silent signal: it declares something without saying it, it occupies
                     space without asking permission.</p>
@@ -308,69 +311,82 @@
         </div>
       </div>
     </section>
-    <!-- / About teaser section -->
+    <!-- / ABOUT teaser section -->
 
-    <!-- Form / Newsletter section -->
+    <!-- FORM / Newsletter section -->
+  
     <section class="section frequency" id="contact">
       <div class="container">
-        <div class="frequency__heading-wrapper">
-          <div class="heading-block flex-column">
-            <span class="subtitle">stay in the orbit</span>
-            <h2 class="t--md">Join the inner frequency</h2>
+
+        <!-- Newsletter form wrapper -->
+          <div class="frequency__wrapper flex-column">
+
+            <!-- Newsletter heading wrapper -->
+            <div class="frequency__heading-wrapper">
+
+              <div class="heading-block flex-column">
+                <span class="subtitle">stay in the orbit</span>
+                <h2 class="t--md">Join the inner frequency</h2>
+              </div>
+
+              <!-- Newsletter text -->
+              <div class="frequency__text">
+                <p class="body-text">
+                  No spam, no algorithms. Just a notice when a new chapter of the collection opens.
+                </p>
+              </div>
+
+            </div>
+    
+            <!-- <picture>
+            <source media="(min-width: 1024px)" srcset="assets/images/relics_bg_desktop.jpg">
+            <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
+            <img 
+            src="assets/images/relics_bg_mobile.jpg" 
+            alt="Abstract background behind the newsletter form" 
+            class="relics__bg"
+            loading="lazy"
+            aria-hidden="true">
+          </picture> -->
+    
+            <!-- Form -->
+            <form class="frequency__form" action="#" method="post" novalidate>
+              <div class="frequency__field">
+                <label for="name" class="frequency__label">Name</label>
+                <input id="name" name="name" type="text" class="frequency__input" placeholder="Enter your name"
+                  autocomplete="name" required>
+              </div>
+    
+              <div class="frequency__field">
+                <label for="email" class="frequency__label">Email</label>
+                <input id="email" name="email" type="email" class="frequency__input"
+                  placeholder="Enter your transmission point" autocomplete="email" required>
+              </div>
+    
+              <!-- Checkbox de consentimiento -->
+              <div class="frequency__field frequency__field--checkbox">
+                <input type="checkbox" id="consent" name="consent" class="frequency__checkbox" required>
+                <label for="consent" class="frequency__checkbox-label">
+                  I agree to receive transmissions about NEON RELICS chapters.
+                </label>
+              </div>
+    
+              <button type="submit" class="btn btn--light">
+                Notify me
+              </button>
+    
+              <!-- Success / error message (in JS) -->
+              <p class="frequency__message" aria-live="polite"></p>
+            </form>
+    
+    
+            <video class="about__video" src="assets/videos/about/about_video.mp4" autoplay loop muted playsinline
+              preload="none" aria-hidden="true" width="288"></video> <!-- Change a video file -->
+
           </div>
-
-          <p class="body-text">
-            No spam, no algorithms. Just a notice when a new chapter of the collection opens.
-          </p>
-        </div>
-
-        <!-- <picture>
-        <source media="(min-width: 1024px)" srcset="assets/images/relics_bg_desktop.jpg">
-        <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
-        <img 
-        src="assets/images/relics_bg_mobile.jpg" 
-        alt="Abstract background behind the newsletter form" 
-        class="relics__bg"
-        loading="lazy"
-        aria-hidden="true">
-      </picture> -->
-
-        <!-- Form -->
-        <form class="frequency__form" action="#" method="post" novalidate>
-          <div class="frequency__field">
-            <label for="name" class="frequency__label">Name</label>
-            <input id="name" name="name" type="text" class="frequency__input" placeholder="Enter your name"
-              autocomplete="name" required>
-          </div>
-
-          <div class="frequency__field">
-            <label for="email" class="frequency__label">Email</label>
-            <input id="email" name="email" type="email" class="frequency__input"
-              placeholder="Enter your transmission point" autocomplete="email" required>
-          </div>
-
-          <!-- Checkbox de consentimiento -->
-          <div class="frequency__field frequency__field--checkbox">
-            <input type="checkbox" id="consent" name="consent" class="frequency__checkbox" required>
-            <label for="consent" class="frequency__checkbox-label">
-              I agree to receive transmissions about NEON RELICS chapters.
-            </label>
-          </div>
-
-          <button type="submit" class="btn btn--light">
-            Notify me
-          </button>
-
-          <!-- Success / error message (in JS) -->
-          <p class="frequency__message" aria-live="polite"></p>
-        </form>
-
-
-        <video class="about__video" src="assets/videos/about/about_video.mp4" autoplay loop muted playsinline
-          preload="none" aria-hidden="true" width="288"></video> <!-- Change a video file -->
-
       </div>
     </section>
+
     <!-- / Form  -->
 
   </main>
