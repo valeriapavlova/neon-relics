@@ -460,8 +460,45 @@ a {
     }
 }
 
-main {
+/* MAIN */
+.main {
 padding-top: calc(4rem + 2 * var(--space-xs));
+}
+
+/* WRAPPER COMPONENT (used in events and frequency sections) */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+
+    padding: var(--space-2xl) var(--space-md);
+    border-radius: var(--r-s);
+    color: var(--c-bg);
+
+    & h2 {
+        max-width: 68rem;
+    }
+
+    & .wrapper__text-block {
+        align-self: flex-end;
+
+        & p {
+            max-width: 32rem;
+            color: var(--c-bg);
+        }
+    }
+}
+
+.wrapper--dark {
+    background-color: var(--c-text);
+}
+    
+.wrapper--red {
+    background-color: var(--c-primary--dark);
+
+    & .title-light {
+        color: var(--c-bg);
+    }
 }
 
 /* 6. COMPONENTES (hero, relics, capsule, events, about, frequency, etc.) */
@@ -697,29 +734,6 @@ padding-top: calc(4rem + 2 * var(--space-xs));
 /* EVENTS SECTION */
 .events {
 
-    & .events__wrapper {
-        display: flex;
-        flex-direction: column;
-        gap: var(--space-md);
-
-        padding: var(--space-2xl) var(--space-md);
-        border-radius: var(--r-s);
-        background-color: var(--c-text);
-        color: var(--c-bg);
-
-        & h2 {
-            max-width: 68rem;
-        }
-
-        & .events__text-block {
-            align-self: flex-end;
-
-            & p {
-                max-width: 32rem;
-                color: var(--c-bg);
-            }
-        }
-    }
 }
 
 
@@ -769,33 +783,7 @@ padding-top: calc(4rem + 2 * var(--space-xs));
 
 /* FREQUENCY SECTION */
 .frequency {
-
-    & .frequency__wrapper {
-        display: flex;
-        gap: var(--space-xl);
-
-        padding: var(--space-2xl) var(--space-md);
-
-        background-color: var(--c-primary--dark);
-        border-radius: var(--r-s);
-        color: var(--c-bg);
-
-        & .frequency__heading-wrapper {
-            width: 100%;
-            flex: 1.5 0 0;
-
-            & h2 {
-                max-width: 68rem;
-                color: var(--c-bg);
-            }
-            & .frequency__text {
-                align-self: flex-end;
-                max-width: 32rem;
-                & .body-text {
-                color: var(--c-bg);
-            }
-        }
-    }
+    
 }
 
 
