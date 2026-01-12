@@ -116,7 +116,7 @@
     </section>
     <!-- / HERO SECTION -->
 
-    <!-- Manifest section -->
+    <!-- MANIFEST section -->
     <section class="section manifest">
       <div class="container">
         <div class="manifest__wrapper flex-row">
@@ -140,9 +140,9 @@
         </div>
       </div>
     </section>
-    <!-- / Manifest section -->
+    <!-- / MANIFEST section -->
 
-    <!-- Relics section -->
+    <!-- RELICS section -->
     <section id="collection" class="section relics">
       <div class="container">
         <div class="relics__heading-wrapper padding--l-3xl">
@@ -158,6 +158,26 @@
         <div class="slider slider--relics" id="slider">
           <div class="slider__track" aria-label="Featured relics" tabindex="0">
             <!-- Relic cards will be dynamically inserted here -->
+              <article class="relic-card">
+                <div class="favorite__wrapper">
+                  <span class="t--card">03</span>
+                  <button class="btn favorite-btn" aria-label="Add to wishlist">
+                    <i class="ri-heart-add-2-line" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <a href="piece-07-crimson-echo-collar.html" class="relic-card__link">
+                  <figure class="relic-card__media">
+                    <img src="images/07.jpeg" alt="Crimson Echo Collar" loading="lazy">
+                  </figure>
+                </a>
+                <div class="relic-card__body">
+                  <h3 class="relic-card__title">Crimson Echo Collar</h3>
+                  <button class="btn cart-btn" aria-label="Add to cart">
+                    <i class="ri-arrow-right-circle-line" aria-hidden="true"></i>
+                  </button>
+                  <a href="piece-07-crimson-echo-collar.html" class="relic-card__link">View relic →</a>
+                </div>
+            </article>
           </div>
 
           <!-- Slider navigation buttons -->
@@ -171,9 +191,9 @@
         </div>
       </div>
     </section>
-    <!-- / Relics section -->
+    <!-- / RELICS section -->
 
-    <!-- Capsule section -->
+    <!-- CAPSULE section -->
     <section class="section capsule" id="capsule-info">
       <div class="container">
 
@@ -216,26 +236,29 @@
         </div>
       </div>
     </section>
-    <!-- / Capsule section -->
+    <!-- / CAPSULE section -->
 
-    <!-- Events section -->
+    <!-- EVENTS section -->
     <section class="section events" id="events">
       <div class="container">
 
         <!-- Events wrapper -->
         <div class="wrapper wrapper--dark">
+
           <!-- Events heading -->
-          <div class="heading-block flex-column padding--l-3xl">
-            <span class="subtitle">calendar of quiet power</span>
-            <h2 class="t--md">Upcoming drops &amp; rites</h2>
-          </div>
-          <!-- Events text block -->
-          <div class="wrapper__text-block">
-              <p class="body-text">
-                NEON RELICS doesn't release collections, it summons chapters. Some are public; others only open by
-                invitation.
-              </p>
-          </div>
+          <div class="heading-wrapper flex-column">
+            <div class="heading-block flex-column padding--l-3xl">
+              <span class="subtitle">calendar of quiet power</span>
+              <h2 class="t--md">Upcoming drops &amp; rites</h2>
+            </div>
+            <!-- Events text block -->
+            <div class="wrapper__text-block">
+                <p class="body-text">
+                  NEON RELICS doesn't release collections, it summons chapters. Some are public; others only open by
+                  invitation.
+                </p>
+            </div>
+          </div> 
           
           <!-- Events list -->
           <ul class="events__list" id="events-list">
@@ -325,6 +348,7 @@
           <div class="wrapper wrapper--red">
 
             <!-- Newsletter heading wrapper -->
+            <div class="heading-wrapper flex-row">
               <div class="heading-block flex-column padding--l-3xl">
                 <span class="subtitle">stay in the orbit</span>
                 <h2 class="t--md title-light">Join the inner frequency</h2>
@@ -335,63 +359,73 @@
                   No spam, no algorithms. Just a notice when a new chapter of the collection opens.
                 </p>
               </div>
+            </div> 
     
-            <!-- <picture>
-            <source media="(min-width: 1024px)" srcset="assets/images/relics_bg_desktop.jpg">
+
+            <div class="frequency__form-block">
+
+                        <picture class="form-img" aria-hidden="true">
+            <source media="(min-width: 1024px)" srcset="../assets/img/form/form_img.webp" type="image/webp">
             <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
             <img 
-            src="assets/images/relics_bg_mobile.jpg" 
+            src="assets/img/form/form_img.png" 
             alt="Abstract background behind the newsletter form" 
             class="relics__bg"
             loading="lazy"
             aria-hidden="true">
-          </picture> -->
-    
-            <!-- Form -->
-            <form class="frequency__form" action="#" method="post" novalidate>
-              <div class="frequency__field">
-                <label for="name" class="frequency__label">Name</label>
-                <input id="name" name="name" type="text" class="frequency__input" placeholder="Enter your name"
-                  autocomplete="name" required>
-              </div>
-    
-              <div class="frequency__field">
-                <label for="email" class="frequency__label">Email</label>
-                <input id="email" name="email" type="email" class="frequency__input"
-                  placeholder="Enter your transmission point" autocomplete="email" required>
-              </div>
-    
-              <!-- Checkbox de consentimiento -->
-              <div class="frequency__field frequency__field--checkbox">
-                <input type="checkbox" id="consent" name="consent" class="frequency__checkbox" required>
-                <label for="consent" class="frequency__checkbox-label">
-                  I agree to receive transmissions about NEON RELICS chapters.
-                </label>
-              </div>
-    
-              <button type="submit" class="btn btn--light">
-                Notify me
-              </button>
-    
-              <!-- Success / error message (in JS) -->
-              <p class="frequency__message" aria-live="polite"></p>
-            </form>
-    
-    
-            <video class="about__video" src="assets/videos/about/about_video.mp4" autoplay loop muted playsinline
-              preload="none" aria-hidden="true" width="288"></video> <!-- Change a video file -->
+          </picture>
+
+              <!-- Form -->
+              <form class="form" action="#" method="post" novalidate>    
+                <div class="input-wrapper">
+
+                  <div class="form__field">
+                    <label for="name" class="form__label"></label>
+                    <input id="name" name="name" type="text" class="form__input" placeholder="Enter your name"
+                      autocomplete="name" required>
+                  </div>
+        
+                  <div class="form__field">
+                    <label for="email" class="form__label"></label>
+                    <input id="email" name="email" type="email" class="form__input"
+                      placeholder="Enter your transmission point" autocomplete="email" required>
+                  </div>
+        
+                  <!-- Checkbox de consentimiento -->
+                  <div class="form__field-checkbox">
+                    <input type="checkbox" id="consent" name="consent" class="form__checkbox" required>
+                    <label for="consent" class="form__checkbox-label">
+                      I agree to receive transmissions about NEON RELICS chapters.
+                    </label>
+                  </div>
+                </div>
+
+                <div class="form__btn-wrapper">
+                  <button type="submit" class="btn btn--light">
+                    Notify me
+                  </button>
+                </div>
+      
+                <!-- Success / error message (in JS) -->
+                <p class="frequency__message" aria-live="polite"></p>
+              </form>
+      
+              <!-- form video -->
+              <video class="form__video" src="assets/videos/form/form_video.mp4" autoplay loop muted playsinline
+                preload="none" aria-hidden="true" width="288"></video> 
+            </div>
 
           </div>
       </div>
     </section>
 
-    <!-- / Form  -->
+    <!-- / FREQUENCY  -->
 
   </main>
   <!-- / MAIN -->
 
   <!-- FOOTER -->
-  <footer class="footer">
+  <footer class="section footer">
     <div class="container">
       <div class="footer__grid">
 
@@ -416,7 +450,7 @@
         </nav>
 
         <!-- Social links -->
-        <nav class="footer__item footer__item--social" aria-label="Social links">
+        <nav class="footer__item footer__item--social t-align--end" aria-label="Social links">
           <ul class="footer-nav__list">
             <li>
               <a href="https://github.com/valeriapavlova" class="footer-nav__link t--link-big" target="_blank"
@@ -440,15 +474,15 @@
         </nav>
 
         <!-- Row 2 -->
-        <p class="footer__item footer__item--credit body-text--small">
+        <p class="footer__text footer__text--credit body-text--small">
           Concept website created as a CEI final project.
         </p>
 
-        <p class="footer__item footer__item--credit body-text--small">
+        <p class="footer__text footer__text--credit-end body-text--small">
           Photos by Max Shirko.
         </p>
 
-        <p class="footer__item footer__item--credit body-text--small">
+        <p class="footer__text footer__text--credit-end t-align--end body-text--small">
           All rights reserved Valeriia Pavlova.
         </p>
 
