@@ -913,57 +913,70 @@ a {
 
 /* EVENTS SECTION */
 .events {
+    position: relative;
 
-    & .events__list {
-        display: flex;
-        flex-direction: column;
+    & .wrapper {
 
-        & .event {
-            position: relative;
-
+        & .events__list {
             display: flex;
-            flex-direction: row;
-            gap: var(--space-md);
-            padding: var(--space-md) 0;
-
-            & ::after {
-                content: "";
-                position: absolute;
-                left: 0;
-                bottom: 0;
-                width: 100%;
-                height: 1px;
-                /* Ajusta el grosor del "border" */
-                background: linear-gradient(90deg,
-                        rgba(216, 223, 230, 0.2) 0%,
-                        rgba(25, 16, 38, 0.7) 100%);
-                pointer-events: none;
-            }
-
-            & .event__date {
-                color: var(--c-text--muted);
-            }
-
-            & .event__content {
+            flex-direction: column;
+    
+            & .event {
+                position: relative;
+    
                 display: flex;
                 flex-direction: row;
                 gap: var(--space-md);
-
-                & .event__title {
-                    text-transform: uppercase;
+                padding: var(--space-md) 0;
+    
+                & ::after {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    bottom: 0;
+                    width: 100%;
+                    height: 1px;
+                    /* Ajusta el grosor del "border" */
+                    background: linear-gradient(90deg,
+                            rgba(216, 223, 230, 0.2) 0%,
+                            rgba(25, 16, 38, 0.7) 100%);
+                    pointer-events: none;
                 }
-
-                & .event__text {
-                    color: var(--c-bg--soft);
-                    max-width: 40rem;
+    
+                & .event__date {
+                    color: var(--c-text--muted);
+                }
+    
+                & .event__content {
+                    display: flex;
+                    flex-direction: row;
+                    gap: var(--space-md);
+    
+                    & .event__title {
+                        text-transform: uppercase;
+                    }
+    
+                    & .event__text {
+                        color: var(--c-bg--soft);
+                        max-width: 40rem;
+                    }
                 }
             }
-
+        }
+        & .events__img {
+            position: absolute;
+            bottom: -10%;
+            right: -1%;
+            transform: translateY(-30%);
+            width: 60%;
+            max-width: 28rem;
+            height: auto;
+            z-index: 1;
+            pointer-events: none;
         }
     }
-
 }
-
+/* make padding-left for the section event for 1920px and up */
 
 /* ABOUT SECTION */
 .about {
