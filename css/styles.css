@@ -758,12 +758,16 @@ a {
                             border-radius: var(--r-s);
 
                             & img {
-                                width: 100%;
+                                width: 110%;
                                 height: auto;
+                                max-width: none;
                                 display: block;
                                 object-fit: cover;
+
+                                /* Parallax effect on scroll horizontal */
+                                transform: translateX(50%) translateY(0);
                                 will-change: transform;
-                                §transition: transform var(--transition-normal);
+                                transition: transform var(--transition-slow);
                             }
                         }
                     }
