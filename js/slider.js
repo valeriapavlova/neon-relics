@@ -75,14 +75,17 @@ const relics = [
 
 // ---- helpers capsule / contador ----
 
+// obtener cápsula del localStorage
 function getCapsule() {
     return JSON.parse(localStorage.getItem('capsule')) || [];
 }
 
+// guardar cápsula en el localStorage
 function saveCapsule(capsule) {
     localStorage.setItem('capsule', JSON.stringify(capsule));
 }
 
+// actualizar contador de cápsula en el botón
 function updateCapsuleCounter() {
     const counterBtn = document.querySelector('.wishlist-counter');
     if (!counterBtn) return;
@@ -98,18 +101,17 @@ function updateCapsuleCounter() {
     badge.textContent = count;
     badge.style.display = count > 0 ? 'flex' : 'none';
 }
-
+// agregar producto a la cápsula
 function addToCapsule(relic) {
     let capsule = getCapsule();
 
-    // evitar duplicados por id
     const alreadyIn = capsule.some((item) => item.id === relic.id);
     if (!alreadyIn) {
         capsule.push(relic);
         saveCapsule(capsule);
     }
 
-    updateCapsuleCounter();
+    updateCapsuleCounter(); // actualizar contador
 }
 
 // ---- creación de card ----
@@ -180,21 +182,6 @@ function createRelicCard(relic) {
     return article;
 }
 
-// ---- render + listeners ----
-
-export function renderRelics() {
-    const track = document.querySelector('.slider__track');
-    if (!track) return;
-
-    relics.forEach((relic, index) => {
-        const card = createRelicCard(relic);
-        card.classList.add(`relic-card--pos-${index + 1}`);
-        track.appendChild(card);
-    });
-
-    setupRelicActions();
-    updateCapsuleCounter(); // restaurar contador desde localStorage
-}
 
 function setupRelicActions() {
     const track = document.querySelector('.slider__track');
@@ -217,4 +204,71 @@ function setupRelicActions() {
         addToCapsule(relic);
         cartBtn.classList.add('cart-btn--active');
     });
+}
+
+/*
+// ---- scroll lock en slider ----
+function setupSliderScrollLock() {
+    const section = document.querySelector('.relics');
+    const track = document.querySelector('.slider__track');
+    if (!section || !track) return;
+
+    let isActive = false;
+
+    function isSectionInView() {
+        const rect = section.getBoundingClientRect();
+        const vh = window.innerHeight || document.documentElement.clientHeight;
+
+        // activamos cuando la sección está más o menos centrada en el viewport
+        return rect.top < vh * 0.1 && rect.bottom > vh * 0.4;
+    }
+
+    function onWheel(e) {
+        if (!isActive) return;
+
+        const atStart = track.scrollLeft <= 0;
+        const atEnd =
+            Math.ceil(track.scrollLeft + track.clientWidth) >= track.scrollWidth;
+
+        // deltaY > 0 scroll hacia abajo, < 0 hacia arriba
+        if ((e.deltaY > 0 && !atEnd) || (e.deltaY < 0 && !atStart)) {
+            e.preventDefault(); // bloquea scroll vertical
+            track.scrollBy({
+                left: e.deltaY,      // usamos la rueda vertical para mover en X
+                behavior: 'smooth'
+            });
+        } else {
+            // si ya estamos en el extremo y el usuario sigue scroll, liberamos vertical
+            isActive = false;
+        }
+    }
+
+    function onScroll() {
+        if (isSectionInView()) {
+            isActive = true;
+        } else {
+            isActive = false;
+        }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('wheel', onWheel, { passive: false });
+}
+*/
+
+// ---- render + listeners ----
+
+export function renderRelics() {
+    const track = document.querySelector('.slider__track');
+    if (!track) return;
+
+    relics.forEach((relic, index) => {
+        const card = createRelicCard(relic);
+        card.classList.add(`relic-card--pos-${index + 1}`);
+        track.appendChild(card);
+    });
+
+    setupRelicActions();
+    updateCapsuleCounter(); // restaurar contador desde localStorage
+   // setupSliderScrollLock();
 }
