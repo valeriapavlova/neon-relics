@@ -36,8 +36,8 @@ export function renderEvents() {
     today.setHours(0, 0, 0, 0);
 
     events
-        .filter((event) => new Date(event.date) >= today)
-        .sort((a, b) => new Date(a.date) - new Date(b.date))
+        .filter((event) => new Date(event.date) >= today) // Only future events
+        .sort((a, b) => new Date(a.date) - new Date(b.date)) // Sort by date ascending
         .forEach((event) => {
             const li = document.createElement('li');
             li.className = 'events__item';
@@ -46,19 +46,23 @@ export function renderEvents() {
             article.className = 'event';
 
             const date = document.createElement('p');
-            date.className = 'event__date';
+            date.className = 'event__date body-text--small';
             date.textContent = event.displayDate;
 
+            const content = document.createElement('div');
+            content.className = 'event__content';
+
             const title = document.createElement('h3');
-            title.className = 'event__title';
+            title.className = 'event__title t--event';
             title.textContent = event.title;
 
             const text = document.createElement('p');
-            text.className = 'event__text';
+            text.className = 'event__text body-text--small';
             text.textContent = event.text;
 
-            article.append(date, title, text);
-            li.appendChild(article);
-            list.appendChild(li);
+            content.append(title, text); // Wrap title and text in content div
+            article.append(date, content); // Append date and content div to article
+            li.appendChild(article); // Append article to list item
+            list.appendChild(li); // Append list item to the events list
         });
 }
