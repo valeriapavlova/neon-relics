@@ -351,6 +351,25 @@ a {
     }
 }
 
+/* Button style for cards (icon buttons) */
+.btn--card {
+    display: inline-block;
+    font-size: 1.5rem;
+    line-height: 1;
+    padding: 0;
+
+    &:hover,
+    &:focus-visible {
+        color: var(--c-text--muted);
+    }
+}
+
+.favorite-btn {
+    color: var(--c-primary);
+}
+
+
+
 /* Flex utilities */
 .flex-center {
     display: flex;
@@ -437,6 +456,14 @@ a {
     padding-left: var(--space-3xl);
 }
 
+/* Specific padding for certain relic card images */
+.relic-card__media img[src*="03.png"],
+.relic-card__media img[src*="05.png"] {
+    padding-left: var(--space-sm);
+    padding-right: var(--space-sm);
+}
+
+/* Text alignment utilities */
 .t-align--end {
     text-align: end;
 }
@@ -666,30 +693,138 @@ a {
     & .container {
         display: flex;
         flex-direction: column;
-        gap: var(--space-lg);
-        
+        gap: var(--space-2xl);
+
         & .relics__heading-wrapper {
             display: flex;
             flex-direction: column;
             align-items: center;
             gap: var(--space-md);
             width: 100%;
-    
+
             & p {
                 max-width: 26rem;
             }
         }
 
+        /* SLIDER */
         & .slider {
             position: relative;
             width: 100%;
 
+            /* Slider styles */
             & .slider__track {
                 display: flex;
                 flex-direction: row;
+                gap: var(--space-xl);
+
+                overflow-x: auto;
+                scroll-behavior: smooth;
+                scroll-snap-type: x mandatory;
+                /* work with AI */
+
+                scrollbar-width: none;
+
+                &::-webkit-scrollbar {
+                    display: none;
+                }
+
+                /* Cards styles */
+                & .relic-card {
+
+                    scroll-snap-align: start;
+                    /* work with AI */
+                    display: flex;
+                    flex-direction: column;
+                    gap: var(--space-2xs);
+                    flex: 0 0 auto;
+                    width: 20rem;
+
+                    /* Favorite button wrapper */
+                    & .favorite__wrapper {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        width: 100%;
+                    }
+
+                    /* Card link and media */
+                    & .relic-card__link {
+                        & .relic-card__media {
+                            position: relative;
+                            overflow: hidden;
+                            background-color: var(--c-text);
+                            padding-top: var(--space-sm);
+                            border-radius: var(--r-s);
+
+                            & img {
+                                width: 100%;
+                                height: auto;
+                                display: block;
+                                object-fit: cover;
+                            }
+                        }
+                    }
+
+                    /* Card body */
+                    & .relic-card__body {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        align-items: center;
+                        width: 100%;
+
+                        & .relic-card__title {
+                            text-transform: uppercase;
+                            letter-spacing: .0325rem;
+                            max-width: 18rem;
+                        }
+                    }
+
+                    /* offsets verticales por posición */
+                    &.relic-card--pos-1 {
+                        padding-top: 0;
+                    }
+
+                    &.relic-card--pos-2 {
+                        padding-top: var(--space-4xl);
+                    }
+
+                    /* 6rem */
+                    &.relic-card--pos-3 {
+                        padding-top: var(--space-sm);
+                    }
+
+                    /* 2rem */
+                    &.relic-card--pos-4 {
+                        padding-top: var(--space-3xl);
+                    }
+
+                    /* 4rem */
+                    &.relic-card--pos-5 {
+                        padding-top: var(--space-lg);
+                    }
+
+                    &.relic-card--pos-6 {
+                        padding-top: var(--space-4xl);
+                    }
+                    /* 8rem */
+                    &.relic-card--pos-7 {
+                        padding-top: var(--space-lg);
+                    }
+
+                    &.relic-card--pos-8 {
+                        padding-top: 0;
+                    }
+                    &.relic-card--pos-9 {
+                        padding-top: var(--space-2xl);
+                    }
+                }
             }
+        }
     }
 }
+
 
 /*CAPSULE SECTION */
 .capsule {

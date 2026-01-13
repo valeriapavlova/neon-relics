@@ -16,11 +16,11 @@ const relics = [
         link: 'piece-03-lunar-orbit-earrings.html'
     },
     {
-        id: '12',
-        title: 'Interlocked Chain Earrings',
-        image: '../assets/img/relics/12.png',
-        alt: 'Interlocked Chain Earrings - Bronze chain link statement earrings',
-        link: 'piece-12-interlocked-chain-earrings.html'
+        id: '01',
+        title: 'Midnight Constellation Collar',
+        image: '../assets/img/relics/01.png',
+        alt: 'Midnight Constellation Collar - Multi-layered black crystal mesh statement collar',
+        link: 'piece-01-midnight-constellation-collar.html'
     },
     {
         id: '02',
@@ -44,13 +44,6 @@ const relics = [
         link: 'piece-08-void-relic-earrings.html'
     },
     {
-        id: '01',
-        title: 'Midnight Constellation Collar',
-        image: '../assets/img/relics/01.png',
-        alt: 'Midnight Constellation Collar - Multi-layered black crystal mesh statement collar',
-        link: 'piece-01-midnight-constellation-collar.html'
-    },
-    {
         id: '06',
         title: 'Eclipse Stone Ear Cuff',
         image: '../assets/img/relics/06.png',
@@ -70,6 +63,13 @@ const relics = [
         image: '../assets/img/relics/04.png',
         alt: 'Celestial Mask Collar - Multi-material beaded face mask and neck piece with golden halo',
         link: 'piece-04-celestial-mask-collar.html'
+    },
+    {
+        id: '12',
+        title: 'Interlocked Chain Earrings',
+        image: '../assets/img/relics/12.png',
+        alt: 'Interlocked Chain Earrings - Bronze chain link statement earrings',
+        link: 'piece-12-interlocked-chain-earrings.html'
     }
 ];
 
@@ -128,11 +128,11 @@ function createRelicCard(relic) {
     idSpan.textContent = relic.id;
 
     const favBtn = document.createElement('button');
-    favBtn.className = 'btn favorite-btn';
+    favBtn.className = 'btn btn--card favorite-btn';
     favBtn.setAttribute('aria-label', 'Add to wishlist');
 
     const favIcon = document.createElement('i');
-    favIcon.className = 'ri-heart-add-2-line';
+    favIcon.className = 'ri-add-circle-line';
     favIcon.setAttribute('aria-hidden', 'true');
 
     favBtn.appendChild(favIcon);
@@ -163,7 +163,7 @@ function createRelicCard(relic) {
     title.textContent = relic.title;
 
     const cartBtn = document.createElement('button');
-    cartBtn.className = 'btn cart-btn';
+    cartBtn.className = 'btn btn--card cart-btn';
     cartBtn.setAttribute('aria-label', 'Add to cart');
 
     const cartIcon = document.createElement('i');
@@ -186,8 +186,9 @@ export function renderRelics() {
     const track = document.querySelector('.slider__track');
     if (!track) return;
 
-    relics.forEach((relic) => {
+    relics.forEach((relic, index) => {
         const card = createRelicCard(relic);
+        card.classList.add(`relic-card--pos-${index + 1}`);
         track.appendChild(card);
     });
 
