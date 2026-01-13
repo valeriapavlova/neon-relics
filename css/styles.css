@@ -762,6 +762,8 @@ a {
                                 height: auto;
                                 display: block;
                                 object-fit: cover;
+                                will-change: transform;
+                                §transition: transform var(--transition-normal);
                             }
                         }
                     }
