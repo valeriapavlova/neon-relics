@@ -25,6 +25,9 @@
         <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
       </div>
 
+      <!-- header menu responsive button-->
+      <button type="button" class="header__menu-btn t--link">Menu</button>
+
       <!-- header nav-->
       <nav class="header__nav nav">
         <ul class="nav__items">
@@ -37,11 +40,22 @@
 
       <!-- header actions-->
       <div class="header__actions">
-        <button type="button" class="wishlist-counter"><img src="/assets/svg/cart-button.svg"></button>
+        <button type="button" class="wishlist-counter"><img src="assets/svg/cart-button.svg"></button>
       </div>
+    </div>
+    <!-- OVERLAY MENU -->
+    <div class="header__menu-overlay" id="menuOverlay">
+      <button class="header__menu-close" id="menuClose" aria-label="Close menu">✕</button>
+      <nav class="header__menu-nav">
+        <a href="#capsule-info" class="t--link">Capsule</a>
+        <a href="#collection" class="t--link">Collection</a>
+        <a href="#about" class="t--link">About</a>
+        <a href="#contact" class="t--link">Contact</a>
+      </nav>
     </div>
   </header>
   <!-- / HEADER -->
+
 
   <!-- MAIN -->
   <main class="main">
@@ -242,19 +256,15 @@
           <!-- Events list -->
           <ul class="events__list" id="events-list">
             <!-- items inserted by JavaScript -->
-            
+
           </ul>
 
           <picture class="events__img" aria-hidden="true">
-              <source media="(min-width: 1024px)" srcset="assets/img/events/events-img.png" type="image/webp">
-              <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
-              <img 
-            src="assets/img/events/events-img.png" 
-            alt="Abstract image behind the events calendar" 
-            class="relics__bg"
-            loading="lazy"
-            aria-hidden="true">
-          </picture> 
+            <source media="(min-width: 1024px)" srcset="assets/img/events/events-img.png" type="image/webp">
+            <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
+            <img src="assets/img/events/events-img.png" alt="Abstract image behind the events calendar"
+              class="events__img-inner events__img--floating" loading="lazy" aria-hidden="true">
+          </picture>
 
         </div>
       </div>

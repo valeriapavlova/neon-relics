@@ -66,3 +66,26 @@ export function renderEvents() {
             list.appendChild(li); // Append list item to the events list
         });
 }
+
+// Image animation on scroll
+/*
+export function setupEventsImageAnimation() {
+    const img = document.querySelector('.events__img-inner');
+    if (!img || !('IntersectionObserver' in window)) return;
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    img.classList.add('events__img--floating');
+                } else {
+                    img.classList.remove('events__img--floating');
+                }
+            });
+        },
+        { threshold: 0.3 }
+    );
+
+    observer.observe(img);
+}
+*/
