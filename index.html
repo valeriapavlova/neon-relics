@@ -7,8 +7,11 @@
   <title>NEON RELICS — Jewelry for quiet dominion</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Unbounded:wght@200..900&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Unbounded:wght@200..900&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
+  <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
   <script defer src="js/index.js" type="module"></script>
 </head>
 
@@ -16,110 +19,107 @@
 
   <!-- HEADER -->
   <header class="header">
-    <!-- header logo-->
-    <div class="logo header__logo">
-      <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
+    <div class="container header__container">
+      <!-- header logo-->
+      <div class="logo header__logo">
+        <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
+      </div>
+
+      <!-- header menu responsive button-->
+      <button type="button" class="header__menu-btn t--link">Menu</button>
+
+      <!-- header nav-->
+      <nav class="header__nav nav">
+        <ul class="nav__items">
+          <li class="nav__item"><a class="nav__link t--link" href="#collection">Collection</a></li>
+          <li class="nav__item"><a class="nav__link t--link" href="#about">About</a></li>
+          <li class="nav__item"><a class="nav__link t--link" href="#capsule-info">Capsule</a></li>
+          <li class="nav__item"><a class="nav__link t--link" href="#contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- header actions-->
+      <div class="header__actions">
+        <button type="button" class="wishlist-counter"></button>
+      </div>
     </div>
 
-    <!-- header nav-->
-    <nav class="header__nav nav">
-      <ul class="nav__items">
-        <li class="nav__item"><a class="nav__link" href="#collection">Collection</a></li>
-        <li class="nav__item"><a class="nav__link" href="#about">About</a></li>
-        <li class="nav__item"><a class="nav__link" href="#capsule-info">Capsule</a></li>
-        <li class="nav__item"><a class="nav__link" href="#contact">Contact</a></li>
-      </ul>
-    </nav>
-
-    <!-- header actions-->
-    <div class="header__actions">
-      <button type="button" class="wishlist-counter">Wishlist (0)</button>
-      <button type="button" class="capsule-counter">Capsule (0)</button>
+    <!-- OVERLAY MENU -->
+    <div class="header__menu-overlay" id="menuOverlay">
+      <button class="header__menu-close" id="menuClose" aria-label="Close menu">✕</button>
+      <nav class="header__menu-nav">
+        <a href="#capsule-info" class="t--link">Capsule</a>
+        <a href="#collection" class="t--link">Collection</a>
+        <a href="#about" class="t--link">About</a>
+        <a href="#contact" class="t--link">Contact</a>
+      </nav>
     </div>
   </header>
   <!-- / HEADER -->
 
+
   <!-- MAIN -->
-  <main>
+  <main class="main">
 
     <!-- HERO SECTION -->
-    <section class="hero">
-      <!-- Hero section upper -->
-      <div class="hero__images">
-        <div class="relic-card">
-          <span>01</span>
-          <!--hay que adjuntar poster-->
-          <video 
-            class="media-video" 
-            autoplay 
-            muted 
-            loop 
-            playsinline 
-            preload="none" 
-            poster="assets/posters/hero.jpg" 
-            aria-hidden="true">
-            <source src="assets/videos/hero/hero_1.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-        </div>
-        <div class="relic-card">
-          <span>03</span>
-          <video 
-            class="media-video" 
-            autoplay 
-            muted 
-            loop 
-            playsinline 
-            preload="none" 
-            poster="assets/posters/hero.jpg" 
-            aria-hidden="true">
-            <source src="assets/videos/hero/hero_2.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-        </div>
-      </div>
+    <section class="section hero">
+      <div class="container">
+        <!-- Hero section upper -->
+        <div class="hero__images flex-row">
 
-      <!-- Hero section heading -->
-      <div class="hero__content">
-        <div class="hero__heading">
-          <div class="relic-card">
-            <span>04</span>
-            <video 
-              class="media-video" 
-              autoplay 
-              muted 
-              loop 
-              playsinline 
-              preload="none"
-              poster="assets/posters/hero.jpg" 
+          <div class="relic-card relic-card--md">
+            <span class="t--card">01</span>
+            <!--hay que adjuntar poster-->
+            <video class="media-video" autoplay muted loop playsinline preload="none" poster="assets/posters/hero.jpg"
               aria-hidden="true">
-              <source src="assets/videos/hero/hero_3.mp4" type="video/mp4">
+              <source src="assets/videos/hero/hero_1.mp4" type="video/mp4">
               Your browser does not support the video tag.
             </video>
           </div>
-          <div>
-            <h1 class="hero__title t--xxl">Jewelry for quiet dominion</h1>
-            <div class="relic-card">
-              <span>02</span>
-              <video 
-                class="media-video" 
-                autoplay 
-                muted 
-                loop 
-                playsinline 
-                preload="none"
-                poster="assets/posters/hero.jpg" 
+
+          <div class="relic-card relic-card--sm">
+            <span class="t--card">03</span>
+            <video class="media-video" autoplay muted loop playsinline preload="none" poster="assets/posters/hero.jpg"
+              aria-hidden="true">
+              <source src="assets/videos/hero/hero_2.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        </div>
+
+        <!-- Hero section heading -->
+        <div class="hero__content flex-row">
+          <div class="hero__title-block-wrapper">
+
+            <div class="relic-card relic-card--xl hero__title-bg-card">
+              <span class="t--card">04</span>
+              <video class="media-video" autoplay muted loop playsinline preload="none" poster="assets/posters/hero.jpg"
                 aria-hidden="true">
-                <source src="assets/videos/hero/hero_4.mp4" type="video/mp4">
+                <source src="assets/videos/hero/hero_3.mp4" type="video/mp4">
                 Your browser does not support the video tag.
               </video>
+            </div>
+
+            <div class="hero__title-block">
+              <h1 class="hero__title t--md">Jewelry for quiet dominion</h1>
+
+              <div class="relic-card relic-card--xs">
+                <span class="t--card">02</span>
+                <video class="media-video" autoplay muted loop playsinline preload="none"
+                  poster="assets/posters/hero.jpg" aria-hidden="true">
+                  <source src="assets/videos/hero/hero_4.mp4" type="video/mp4">
+                  Your browser does not support the video tag.
+                </video>
+              </div>
+
             </div>
           </div>
         </div>
 
         <!-- Hero section text -->
-        <div class="hero__text">
-          <p class="body-text body-text--big">NEON RELICS crafts jewelry that empowers the wearer with a sense of quiet
+        <div class="hero__text-wrapper">
+          <p class="body-text body-text--big">NEON RELICS crafts jewelry that empowers the wearer with a sense of
+            quiet
             dominion,
             blending futuristic aesthetics with timeless elegance.</p>
           <div class="hero__buttons">
@@ -131,369 +131,349 @@
     </section>
     <!-- / HERO SECTION -->
 
-    <!-- Manifest section -->
-    <section class="manifest">
-      <div class="manifest__bg" aria-hidden="true"></div>
-      <div class="manifest__content">
-        <div class="heading-block">
-          <span class="subtitle">no noise. just presence.</span>
-          <h2 class="manifest__title t--xl">A private ritual of adornment</h2>
-        </div>
-        <p class="body-text">Each relic is created as if it were a rite:
-          slow, precise, wrapped in silence. It does not follow seasons or trends; it simply waits for the wearer
-          capable
-          of holding it.</p>
-      </div>
-    </section>
-    <!-- / Manifest section -->
-
-    <!-- Relics section -->
-    <section id="collection" class="relics">
-      <!-- <picture>
-        <source media="(min-width: 1024px)" srcset="assets/images/relics_bg_desktop.jpg">
-        <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
-        <img 
-        src="assets/images/relics_bg_mobile.jpg" 
-        alt="Background image for the relics section" 
-        class="relics__bg"
-        loading="lazy"
-        aria-hidden="true">
-      </picture> -->
-      <div class="heading-block">
-        <span class="subtitle">explore the collection</span>
-        <h2 class="t--xxl">Featured relics</h2>
-      </div>
-      <p class="body-text">Twelve pieces, three entry portals. Start here and let the collection speak for itself.</p>
-
-      <!-- Slider block -->
-      <div class="slider slider--relics" id="slider">
-        <div class="slider__track" aria-label="Featured relics" tabindex="0">
-          <!-- Relic cards will be dynamically inserted here -->
-        </div>
-
-        <!-- Slider navigation buttons -->
-        <button class="slider__nav slider__nav--prev" id="slider-prev" type="button" aria-label="Previous relic">
-          <span class="slider__arrow slider__arrow--left" aria-hidden="true"></span>
-        </button>
-
-        <button class="slider__nav slider__nav--next" id="slider-next" type="button" aria-label="Next relic">
-          <span class="slider__arrow slider__arrow--right" aria-hidden="true"></span>
-        </button>
-      </div>
-    </section>
-    <!-- / Relics section -->
-
-    <!-- Capsule section -->
-    <section class="capsule" id="capsule-info">
-
-      <div class="capsule__container">
-
-        <!-- it will be a background video -->
-        <div class="capsule__bg" aria-hidden="true">
-          <!--
-          <video 
-            class="media-video" 
-            autoplay 
-            muted 
-            loop 
-            playsinline 
-            preload="none"
-            aria-hidden="true">
-            <source src="assets/videos/capsule/capsule_bg.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-          -->
-        </div>
-
-        <div class="heading-block">
-          <span class="subtitle">a private ritual of adornment</span>
-          <h2 class="t--xxl">Your personal capsule</h2>
-        </div>
-
-        <div class="capsule__content">
-          <div class="capsule__text">
-            <p class="body-text">Instead of a classic cart, each selection is kept in your capsule: an intimate
-              inventory of
-              pieces that resonate with you.</p>
-            <p class="body-text">Add, remove, reorder. You are not buying impulses; you are curating a small archive of
-              power.</p>
-          </div>
-
-          <a href="capsule.html" class="btn btn--secondary">Enter the capsule</a>
-        </div>
-
-      </div>
-    </section>
-    <!-- / Capsule section -->
-
-    <!-- Events section -->
-    <section class="events" id="events">
-
-      <div class="heading-block">
-        <span class="subtitle">calendar of quiet power</span>
-        <h2 class="t--xxl">Upcoming drops &amp; rites</h2>
-      </div>
-      <p class="body-text">
-        NEON RELICS doesn't release collections, it summons chapters. Some are public; others only open by invitation.
-      </p>
-
-      <!-- Events list -->
-      <ul class="events__list" id="events-list">
-        <!-- items inserted by JavaScript -->
-      </ul>
-
-      <!-- <picture>
-        <source media="(min-width: 1024px)" srcset="assets/images/relics_bg_desktop.jpg">
-        <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
-        <img 
-        src="assets/images/relics_bg_mobile.jpg" 
-        alt="Abstract image behind the events calendar" 
-        class="relics__bg"
-        loading="lazy"
-        aria-hidden="true">
-      </picture> -->
-
-    </section>
-    <!-- / Events section -->
-
-    <!-- About teaser section -->
-    <section class="about" id="about">
-
-      <div class="about__title-block">
-        <div class="heading-block">
-          <span class="subtitle">the ritual of creation</span>
-          <h2 class="t--xxl">Born between fashion and signal</h2>
-        </div>
-        <div class="relic-card">
-          <span>07</span>
-          <picture>
-            <source srcset="assets/img/about/about_1.webp" type="image/webp">
-            <img src="assets/img/about/about_1.jpg" 
-            alt="About NEON RELICS" 
-            class="about__image" 
-            loading="lazy">
-          </picture>
-        </div>
-        <!-- About teaser content -->
-        <div class="about__content">
-          <div class="relic-card">
-            <span>03</span>
+    <!-- MANIFEST section -->
+    <section class="section manifest">
+      <div class="container">
+        <div class="manifest__wrapper flex-row">
+          <div class="manifest__bg" aria-hidden="true">
             <picture>
-              <source srcset="assets/img/about/about_2.webp" type="image/webp">
-              <img 
-              src="assets/img/about/about_2.jpg" 
-              alt="About NEON RELICS" 
-              class="about__image" 
-              loading="lazy">
+              <source srcset="assets/img/manifest/man_red.webp" type="image/webp">
+              <img src="assets/img/manifest/man_red.png" alt="Abstract background image for the manifest section"
+                class="manifest__image" loading="lazy">
             </picture>
           </div>
-          <video
-            class="about__video"
-            src="assets/videos/about/about_video.mp4"
-            autoplay
-            loop
-            muted
-            playsinline
-            preload="none"
-            aria-hidden="true"
-            width="288px"
-          ></video>
-
-          <div class="relic-card">
-            <span>06</span>
-            <picture>
-              <source srcset="assets/img/about/about_3.webp" type="image/webp">
-              <img 
-              src="assets/img/about/about_3.jpg" 
-              alt="About NEON RELICS" 
-              class="about__image" 
-              loading="lazy">
-            </picture>
-          </div>
-          <!-- About teaser text block -->
-          <div class="about__text-block">
-            <div class="about__text">
-              <p class="body-text">NEON RELICS is born where haute couture crosses paths with the interface.</p>
-              <p class="body-text">Each piece is a silent signal: it declares something without saying it, it occupies space
-                without asking permission.</p>
+          <div class="manifest__content flex-column">
+            <div class="heading-block flex-column">
+              <span class="subtitle">no noise. just presence.</span>
+              <h2 class="manifest__title t--md">A private ritual of adornment</h2>
             </div>
-            <!-- About teaser button -->
-            <a href="about.html" class="btn btn--secondary">Read the full story</a>
+            <p class="body-text">Each relic is created as if it were a rite:
+              slow, precise, wrapped in silence. It does not follow seasons or trends; it simply waits for the wearer
+              capable
+              of holding it.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- / MANIFEST section -->
+
+    <!-- RELICS section -->
+    <section id="collection" class="section relics">
+      <div class="container">
+        <div class="relics__heading-wrapper padding--l-3xl">
+          <div class="heading-block flex-column">
+            <span class="subtitle">explore the collection</span>
+            <h2 class="t--md">Featured relics</h2>
+          </div>
+          <p class="body-text">Twelve pieces, three entry portals. Start here and let the collection speak for itself.
+          </p>
+        </div>
+
+        <!-- Slider block -->
+        <div class="slider slider--relics" id="slider">
+          <div class="slider__track" aria-label="Featured relics" tabindex="0">
+            <!-- Relic cards will be dynamically inserted here -->
+
+          </div>
+
+          <!-- Slider navigation buttons -->
+          <button class="slider__nav slider__nav--prev" id="slider-prev" type="button" aria-label="Previous relic">
+            <span class="slider__arrow slider__arrow--left" aria-hidden="true"></span>
+          </button>
+
+          <button class="slider__nav slider__nav--next" id="slider-next" type="button" aria-label="Next relic">
+            <span class="slider__arrow slider__arrow--right" aria-hidden="true"></span>
+          </button>
+        </div>
+      </div>
+    </section>
+    <!-- / RELICS section -->
+
+    <!-- CAPSULE section -->
+    <section class="section capsule" id="capsule-info">
+      <div class="container">
+
+        <div class="capsule__wrapper flex-column">
+
+          <!-- background video -->
+          <div class="capsule__bg" aria-hidden="true">
+            <video class="media-video" autoplay muted loop playsinline preload="none" aria-hidden="true">
+              <source src="assets/videos/capsule/capsule_bg.mp4" type="video/mp4">
+              Your browser does not support the video tag.
+            </video>
+          </div>
+
+          <!-- Capsule content -->
+          <div class="capsule__content">
+            <!-- Capsule heading -->
+            <div class="heading-block flex-column">
+              <span class="subtitle">a private ritual of adornment</span>
+              <h2 class="t--md">Your personal capsule</h2>
+            </div>
+
+            <!-- Capsule text block -->
+            <div class="capsule__text-block">
+              <div class="capsule__text flex-column">
+                <p class="body-text">Instead of a classic cart, each selection is kept in your capsule: an intimate
+                  inventory of
+                  pieces that resonate with you.</p>
+                <p class="body-text">Add, remove, reorder. You are not buying impulses; you are curating a small archive
+                  of
+                  power.</p>
+              </div>
+              <!-- Capsule button -->
+
+              <div class="capsule__button-wrapper">
+                <a href="capsule.html" class="btn btn--secondary">Enter the capsule</a>
+              </div>
+            </div>
           </div>
 
         </div>
       </div>
     </section>
-    <!-- / About teaser section -->
+    <!-- / CAPSULE section -->
 
-    <!-- Form / Newsletter section -->
-    <section class="frequency" id="contact">
-      <div class="frequency__heading-wrapper">
-        <div class="heading-block">
-          <span class="subtitle">stay in the orbit</span>
-          <h2 class="t--xxl">Join the inner frequency</h2>
+    <!-- EVENTS section -->
+    <section class="section events" id="events">
+      <div class="container">
+        <div class="wrapper wrapper--dark">
+
+          <!-- Events heading -->
+          <div class="heading-wrapper flex-column">
+            <div class="heading-block flex-column padding--l-3xl">
+              <span class="subtitle">calendar of quiet power</span>
+              <h2 class="t--md">Upcoming drops &amp; rites</h2>
+            </div>
+            <!-- Events text block -->
+            <div class="wrapper__text-block">
+              <p class="body-text">
+                NEON RELICS doesn't release collections, it summons chapters. Some are public; others only open by
+                invitation.
+              </p>
+            </div>
+          </div>
+
+          <!-- Events list -->
+          <ul class="events__list" id="events-list">
+            <!-- items inserted by JavaScript -->
+
+          </ul>
+
+          <picture class="events__img" aria-hidden="true">
+            <source media="(min-width: 1024px)" srcset="assets/img/events/events-img.png" type="image/webp">
+            <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
+            <img src="assets/img/events/events-img.png" alt="Abstract image behind the events calendar"
+              class="events__img-inner events__img--floating" loading="lazy" aria-hidden="true">
+          </picture>
+
         </div>
-  
-        <p class="body-text">
-          No spam, no algorithms. Just a notice when a new chapter of the collection opens.
-        </p>
       </div>
-
-      <!-- <picture>
-        <source media="(min-width: 1024px)" srcset="assets/images/relics_bg_desktop.jpg">
-        <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
-        <img 
-        src="assets/images/relics_bg_mobile.jpg" 
-        alt="Abstract background behind the newsletter form" 
-        class="relics__bg"
-        loading="lazy"
-        aria-hidden="true">
-      </picture> -->
-
-      <!-- Form -->
-      <form
-        class="frequency__form"
-        action="#"
-        method="post"
-        novalidate
-      >
-        <div class="frequency__field">
-          <label for="name" class="frequency__label">Name</label>
-          <input
-            id="name"
-            name="name"
-            type="text"
-            class="frequency__input"
-            placeholder="Enter your name"
-            autocomplete="name"
-            required
-          >
-        </div>
-
-        <div class="frequency__field">
-          <label for="email" class="frequency__label">Email</label>
-          <input
-            id="email"
-            name="email"
-            type="email"
-            class="frequency__input"
-            placeholder="Enter your transmission point"
-            autocomplete="email"
-            required
-          >
-        </div>
-
-        <!-- Checkbox de consentimiento -->
-        <div class="frequency__field frequency__field--checkbox">
-          <input
-            type="checkbox"
-            id="consent"
-            name="consent"
-            class="frequency__checkbox"
-            required
-          >
-          <label for="consent" class="frequency__checkbox-label">
-            I agree to receive transmissions about NEON RELICS chapters.
-          </label>
-        </div>
-
-        <button type="submit" class="btn btn--primary">
-          Notify me
-        </button>
-
-        <!-- Success / error message (in JS) -->
-        <p class="frequency__message" aria-live="polite"></p>
-      </form>
-
-
-          <video
-            class="about__video"
-            src="assets/videos/about/about_video.mp4" 
-            autoplay
-            loop
-            muted
-            playsinline
-            preload="none"
-            aria-hidden="true"
-            width="288"
-          ></video> <!-- Change a video file -->
-
     </section>
-    <!-- / Form  -->
+    <!-- / EVENTS section -->
+
+
+    <!-- ABOUT teaser section -->
+    <section class="section about" id="about">
+      <div class="container">
+        <div class="about__wrapper">
+
+          <!-- About teaser heading and content -->
+          <div class="about__title-block">
+            <div class="heading-block flex-column">
+              <span class="subtitle">the ritual of creation</span>
+              <h2 class="t--md">Born between fashion and signal</h2>
+            </div>
+            <div class="relic-card relic-card--md">
+              <span class="t--card">07</span>
+              <picture>
+                <source srcset="assets/img/about/about_1.webp" type="image/webp">
+                <img src="assets/img/about/about_1.jpg" alt="About NEON RELICS" class="about__image" loading="lazy">
+              </picture>
+            </div>
+          </div>
+          <!-- About teaser content -->
+          <div class="about__content">
+
+            <div class="relic-card relic-card--lg padding--t-2xl">
+              <span class="t--card">03</span>
+              <picture>
+                <source srcset="assets/img/about/about_2.webp" type="image/webp">
+                <img src="assets/img/about/about_2.jpg" alt="About NEON RELICS" class="about__image" loading="lazy">
+              </picture>
+            </div>
+
+            <video class="about__video relic-card--sm padding--t-5xl" src="assets/videos/about/about_video.mp4" autoplay
+              loop muted playsinline preload="none" aria-hidden="true" width="288px"></video>
+
+            <div class="relic-card relic-card--sm">
+              <span class="t--card">06</span>
+              <picture>
+                <source srcset="assets/img/about/about_3.webp" type="image/webp">
+                <img src="assets/img/about/about_3.jpg" alt="About NEON RELICS" class="about__image" loading="lazy">
+              </picture>
+            </div>
+            <!-- About teaser text block -->
+            <div class="about__text-block">
+              <div class="about__text flex-column">
+                <p class="body-text">NEON RELICS is born where haute couture crosses paths with the interface.</p>
+                <p class="body-text">Each piece is a silent signal: it declares something without saying it, it occupies
+                  space without asking permission.</p>
+              </div>
+              <!-- About teaser button -->
+              <a href="about.html" class="btn btn--secondary">Read the full story</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+    <!-- / ABOUT teaser section -->
+
+    <!-- FORM / Newsletter section -->
+
+    <section class="section frequency" id="contact">
+      <div class="container">
+
+        <!-- Newsletter form wrapper -->
+        <div class="wrapper wrapper--red">
+
+          <!-- Newsletter heading wrapper -->
+          <div class="heading-wrapper flex-row">
+            <div class="heading-block flex-column padding--l-3xl">
+              <span class="subtitle">stay in the orbit</span>
+              <h2 class="t--md title-light">Join the inner frequency</h2>
+            </div>
+            <!-- Newsletter text -->
+            <div class="wrapper__text-block">
+              <p class="body-text">
+                No spam, no algorithms. Just a notice when a new chapter of the collection opens.
+              </p>
+            </div>
+          </div>
+
+
+          <div class="frequency__form-block">
+
+            <picture class="form-img" aria-hidden="true">
+              <source media="(min-width: 1024px)" srcset="../assets/img/form/form_img.webp" type="image/webp">
+              <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
+              <img src="assets/img/form/form_img.png" alt="Abstract background behind the newsletter form"
+                class="relics__bg" loading="lazy" aria-hidden="true">
+            </picture>
+
+            <!-- Form -->
+            <form class="form" action="#" method="post" novalidate>
+              <div class="input-wrapper">
+
+                <div class="form__field">
+                  <label for="name" class="form__label"></label>
+                  <input id="name" name="name" type="text" class="form__input" placeholder="Enter your name"
+                    autocomplete="name" required>
+                </div>
+
+                <div class="form__field">
+                  <label for="email" class="form__label"></label>
+                  <input id="email" name="email" type="email" class="form__input"
+                    placeholder="Enter your transmission point" autocomplete="email" required>
+                </div>
+
+                <!-- Checkbox de consentimiento -->
+                <div class="form__field-checkbox">
+                  <input type="checkbox" id="consent" name="consent" class="form__checkbox" required>
+                  <label for="consent" class="form__checkbox-label">
+                    I agree to receive transmissions about NEON RELICS chapters.
+                  </label>
+                </div>
+              </div>
+
+              <div class="form__btn-wrapper">
+                <button type="submit" class="btn btn--light">
+                  Notify me
+                </button>
+              </div>
+
+              <!-- Success / error message (in JS) -->
+              <p class="frequency__message" aria-live="polite"></p>
+            </form>
+
+            <!-- form video -->
+            <video class="form__video" src="assets/videos/form/form_video.mp4" autoplay loop muted playsinline
+              preload="none" aria-hidden="true" width="288"></video>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- / FREQUENCY  -->
 
   </main>
   <!-- / MAIN -->
 
   <!-- FOOTER -->
-  <footer class="footer">
-    <div class="footer__grid">
+  <footer class="section footer">
+    <div class="container">
+      <div class="footer__grid">
 
-      <!-- Row 1 -->
+        <!-- Row 1 -->
 
-      <!-- Logo -->
-      <div class="footer__item footer__item--brand">
-        <div class="logo footer__logo">
-          <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
+        <!-- Logo -->
+        <div class="footer__item footer__item--brand">
+          <div class="logo footer__logo">
+            <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
+          </div>
+          <p class="footer__claim">Limited relics for unlimited futures.</p>
         </div>
-        <p class="footer__claim">Limited relics for unlimited futures.</p>
-      </div>
 
-      <!-- Navigation -->
-      <nav class="footer__item footer__item--nav" aria-label="Footer navigation">
-        <ul class="footer-nav__list">
-          <li><a href="capsule.html" class="footer-nav__link">Capsule</a></li>
-          <li><a href="about.html" class="footer-nav__link">About</a></li>
-          <li><a href="#collection" class="footer-nav__link">Collection</a></li>
-          <li><a href="#contact" class="footer-nav__link">Contact</a></li>
-        </ul>
-      </nav>
+        <!-- Navigation -->
+        <nav class="footer__item footer__item--nav" aria-label="Footer navigation">
+          <ul class="footer-nav__list">
+            <li><a href="capsule.html" class="footer-nav__link t--link-big">Capsule</a></li>
+            <li><a href="about.html" class="footer-nav__link t--link-big">About</a></li>
+            <li><a href="#collection" class="footer-nav__link t--link-big">Collection</a></li>
+            <li><a href="#contact" class="footer-nav__link t--link-big">Contact</a></li>
+          </ul>
+        </nav>
 
-      <!-- Social links -->
-      <nav class="footer__item footer__item--social" aria-label="Social links">
-        <ul class="footer-nav__list">
-          <li>
-            <a href="https://github.com/valeriapavlova"
-                class="footer-nav__link"
-                target="_blank"
-                rel="noreferrer"
-                title="GitHub">
-              GitHub
-            </a>
-          </li>
-          <li>
-            <a href="https://www.instagram.com/"
-                class="footer-nav__link"
-                target="_blank"
-                rel="noreferrer"
+        <!-- Social links -->
+        <nav class="footer__item footer__item--social t-align--end" aria-label="Social links">
+          <ul class="footer-nav__list">
+            <li>
+              <a href="https://github.com/valeriapavlova" class="footer-nav__link t--link-big" target="_blank"
+                rel="noreferrer" title="GitHub">
+                GitHub
+              </a>
+            </li>
+            <li>
+              <a href="https://www.instagram.com/" class="footer-nav__link t--link-big" target="_blank" rel="noreferrer"
                 title="Instagram">
-              Instagram
-            </a>
-          </li>
-          <li>
-            <a href="https://www.linkedin.com/"
-                class="footer-nav__link"
-                target="_blank"
-                rel="noreferrer"
+                Instagram
+              </a>
+            </li>
+            <li>
+              <a href="https://www.linkedin.com/" class="footer-nav__link t--link-big" target="_blank" rel="noreferrer"
                 title="LinkedIn">
-              LinkedIn
-            </a>
-          </li>
-        </ul>
-      </nav>
+                LinkedIn
+              </a>
+            </li>
+          </ul>
+        </nav>
 
-      <!-- Row 2 -->
-      <p class="footer__item footer__item--credit">
-        Concept website created as a CEI final project.
-      </p>
+        <!-- Row 2 -->
+        <p class="footer__text footer__text--credit body-text--small">
+          Concept website created as a CEI final project.
+        </p>
 
-      <p class="footer__item footer__item--credit">
-        Photos by Max Shirko.
-      </p>
+        <p class="footer__text footer__text--credit-end body-text--small">
+          Photos by Max Shirko.
+        </p>
 
-      <p class="footer__item footer__item--credit">
-        All rights reserved Valeriia Pavlova.
-      </p>
+        <p class="footer__text footer__text--credit-end t-align--end body-text--small">
+          All rights reserved Valeriia Pavlova.
+        </p>
 
+      </div>
     </div>
   </footer>
   <!-- / FOOTER -->
