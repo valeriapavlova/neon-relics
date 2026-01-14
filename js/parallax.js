@@ -18,6 +18,8 @@ window.addEventListener('scroll', function() {
 
 // js/parallax.js
 
+// js/parallax.js
+
 export function setupRelicsParallax() {
     const track = document.querySelector('.slider__track');
     if (!track) return;
@@ -25,21 +27,19 @@ export function setupRelicsParallax() {
     const cards = Array.from(track.querySelectorAll('.relic-card'));
 
     function updateParallax() {
-        const trackRect = track.getBoundingClientRect();
-        const trackCenter = trackRect.left + trackRect.width / 2;
+        const scrollLeft = track.scrollLeft;
+        const maxShift = 40; // más fuerte que antes
 
         cards.forEach((card) => {
             const img = card.querySelector('.relic-card__media img');
             if (!img) return;
 
-            const cardRect = card.getBoundingClientRect();
-            const cardCenter = cardRect.left + cardRect.width / 2;
+            // desplazamiento según posición horizontal de la card
+            const cardOffset = card.offsetLeft - scrollLeft;
+            const factor = cardOffset / track.clientWidth; // ~ -1..1
 
-            const normalized = (cardCenter - trackCenter) / trackRect.width;
-            const maxShift = 24; // px, ajusta a gusto
-            const translateY = normalized * maxShift;
-
-            img.style.transform = `translateY(${translateY}px)`;
+            const translateY = factor * maxShift;
+            img.style.transform = `translateX(-5%) translateY(${translateY}px)`;
         });
     }
 
@@ -51,6 +51,6 @@ export function setupRelicsParallax() {
         window.requestAnimationFrame(updateParallax);
     });
 
-    // primera posición una vez renderizadas las cards
+    // primer posicionamiento
     updateParallax();
 }
