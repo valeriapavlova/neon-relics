@@ -6,70 +6,70 @@ const relics = [
         title: 'Scarlet Veil Choker',
         image: '../assets/img/relics/11.png',
         alt: 'Scarlet Veil Choker - Metallic chain choker with cascading fringe',
-        link: 'piece-11-scarlet-veil-choker.html'
+        link: 'product-card.html?id=11'
     },
     {
         id: '03',
         title: 'Lunar Orbit Earrings',
         image: '../assets/img/relics/03.png',
         alt: 'Lunar Orbit Earrings - Pearl-encrusted oval statement earrings',
-        link: 'piece-03-lunar-orbit-earrings.html'
+        link: 'product-card.html?id=03'
     },
     {
         id: '01',
         title: 'Midnight Constellation Collar',
         image: '../assets/img/relics/01.png',
         alt: 'Midnight Constellation Collar - Multi-layered black crystal mesh statement collar',
-        link: 'piece-01-midnight-constellation-collar.html'
+        link: 'product-card.html?id=01'
     },
     {
         id: '02',
         title: 'Dominion Chain Collar',
         image: '../assets/img/relics/02.png',
         alt: 'Dominion Chain Collar - Thick gold Cuban link chain necklace',
-        link: 'piece-02-dominion-chain-collar.html'
+        link: 'product-card.html?id=02'
     },
     {
         id: '05',
         title: 'Obsidian Coil Collar',
         image: '../assets/img/relics/05.png',
         alt: 'Obsidian Coil Collar - Multi-layered black beaded statement collar necklace',
-        link: 'piece-05-obsidian-coil-collar.html'
+        link: 'product-card.html?id=05'
     },
     {
         id: '08',
         title: 'Void Relic Earrings',
         image: '../assets/img/relics/08.png',
         alt: 'Void Relic Earrings - Ornate black pearl and gold drop earrings',
-        link: 'piece-08-void-relic-earrings.html'
+        link: 'product-card.html?id=08'
     },
     {
         id: '06',
         title: 'Eclipse Stone Ear Cuff',
         image: '../assets/img/relics/06.png',
         alt: 'Eclipse Stone Ear Cuff - Dark crystal ear cuff in gunmetal setting',
-        link: 'piece-06-eclipse-stone-ear-cuff.html'
+        link: 'product-card.html?id=06'
     },
     {
         id: '07',
         title: 'Signal Bar Earrings',
         image: '../assets/img/relics/07.png',
         alt: 'Signal Bar Earrings - Minimalist gold vertical bar drop earrings',
-        link: 'piece-07-signal-bar-earrings.html'
+        link: 'product-card.html?id=07'
     },
     {
         id: '04',
         title: 'Celestial Mask Collar',
         image: '../assets/img/relics/04.png',
         alt: 'Celestial Mask Collar - Multi-material beaded face mask and neck piece with golden halo',
-        link: 'piece-04-celestial-mask-collar.html'
+        link: 'product-card.html?id=04'
     },
     {
         id: '12',
         title: 'Interlocked Chain Earrings',
         image: '../assets/img/relics/12.png',
         alt: 'Interlocked Chain Earrings - Bronze chain link statement earrings',
-        link: 'piece-12-interlocked-chain-earrings.html'
+        link: 'product-card.html?id=12'
     }
 ];
 

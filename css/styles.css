@@ -1409,7 +1409,8 @@ a {
 				& .product-card__wrapper {
 					display: flex;
 					flex-direction: column;
-					justify-content: space-between;
+					justify-content: flex-start;
+					gap: var(--space-lg);
 					background-color: var(--c-bg);
 					padding: var(--space-md);
 					height: 100%;
@@ -1533,7 +1534,7 @@ a {
 
 								&:hover,
 								&:active {
-									background: rgba(0, 0, 0, 0.1);
+									color: var(--c-text--muted);
 								}
 							}
 
@@ -1633,20 +1634,20 @@ a {
 							font-size: 0.875rem;
 							font-weight: 400;
 							line-height: 1.6;
-							& .tab-panel--active {
-								display: block;
-								animation: fadeIn 0.3s ease;
-								
-								@keyframes fadeIn {
-									from {
-										opacity: 0;
-										transform: translateY(10px);
-									}
-								
-									to {
-										opacity: 1;
-										transform: translateY(0);
-									}
+						}
+						& .tab-panel--active {
+							display: block;
+							animation: fadeIn 0.3s ease;
+							
+							@keyframes fadeIn {
+								from {
+									opacity: 0;
+									transform: translateY(10px);
+								}
+							
+								to {
+									opacity: 1;
+									transform: translateY(0);
 								}
 							}
 						}
