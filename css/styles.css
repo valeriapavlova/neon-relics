@@ -1484,7 +1484,7 @@ a {
 						}
 
 						/* ----------------
-						   Product Title & Description
+						Product Title & Description
 						   ---------------- */
 						& .product-info {
 							display: flex;
@@ -1515,7 +1515,7 @@ a {
 						flex-direction: column;
 						gap: var(--space-xs);
 						/* ----------------
-						   Quantity Selector
+						Quantity Selector
 						   ---------------- */
 
 						& .product-quantity {
@@ -1564,7 +1564,7 @@ a {
 						}
 
 						/* ----------------
-						   Add to Capsule Button
+						Add to Capsule Button
 						   ---------------- */
 
 						& .btn-add-capsule {
@@ -1626,7 +1626,7 @@ a {
 						}
 					}
 					/* ----------------
-					   Tab Content
+					Tab Content
 					   ---------------- */
 					
 					& .product-tabs-content {
@@ -1668,7 +1668,7 @@ a {
 
 
 /* ----------------
-   Responsive
+Responsive
    ---------------- */
 
 @media (max-width: 1024px) {
@@ -1746,5 +1746,57 @@ a {
 
 	.product-tab--active {
 		background: rgba(211, 47, 47, 0.05);
+	}
+}
+
+/* ==============================================
+   END PRODUCT PAGE
+   ============================================== */
+
+
+
+   /* =============================================
+   CAPSULE PAGE
+   ============================================== */
+.capsule {
+	& .capsule__header {
+		gap: var(--space-md);
+		align-content: flex-end;
+	}
+	& .capsule__list {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(16rem, 1fr));
+		gap: 2rem;
+
+		@media (max-width: 1024px) {
+			grid-template-columns: repeat(3, minmax(16rem, 1fr));
+		}
+
+		@media (max-width: 768px) {
+			grid-template-columns: repeat(2, minmax(16rem, 1fr));
+		}
+
+		@media (max-width: 480px) {
+			grid-template-columns: 1fr;
+		}
+		& .relic-card__link {
+			background-color: var(--c-text) ;
+			width: 100%;
+		}
+		& .relic-card__body {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			width: 100%;
+			text-transform: uppercase;
+		}
+	}
+	& .btn--secondary {
+		width: fit-content;
+
+		@media (max-width: 63rem) {
+			width: 100%;
+		}
 	}
 }

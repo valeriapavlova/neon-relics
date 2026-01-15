@@ -145,6 +145,26 @@ function createRelicCard(relic) {
     return article;
 }
 
+function addToCapsule(relic) {
+    let capsule = getCapsule();
+
+    // Verificar si ya existe el producto
+    const existingIndex = capsule.findIndex(item => item.id === relic.id);
+
+    if (existingIndex !== -1) {
+        capsule[existingIndex].quantity = (capsule[existingIndex].quantity || 1) + 1;
+    } else {
+        capsule.push({
+            ...relic,
+            quantity: 1
+        });
+    }
+
+    saveCapsule(capsule);
+    updateCapsuleCounter();
+}
+
+
 
 function setupRelicActions() {
     const track = document.querySelector('.slider__track');
