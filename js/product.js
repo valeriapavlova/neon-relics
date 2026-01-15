@@ -1,5 +1,9 @@
 // js/product.js
 
+// con ayuda de AI (perplexity)
+
+import { getCapsule, saveCapsule, updateCapsuleCounter } from './capsule.js';
+
 // =============================================
 // 1. ARRAY DE RELICS (extendido con más datos)
 
@@ -34,37 +38,10 @@ const relicsData = [
 ];
 
 // =============================================
-// 2. HELPERS - localStorage & URL
+// 2. FUNCIONES AUXILIARES
 // =============================================
-
-// Obtener cápsula del localStorage
-function getCapsule() {
-    return JSON.parse(localStorage.getItem('capsule')) || [];
-}
-
-// Guardar cápsula en el localStorage
-function saveCapsule(capsule) {
-    localStorage.setItem('capsule', JSON.stringify(capsule));
-}
-
-// Actualizar contador de cápsula en el header
-function updateCapsuleCounter() {
-    const counterBtn = document.querySelector('.wishlist-counter');
-    if (!counterBtn) return;
-
-    let badge = counterBtn.querySelector('.wishlist-count__badge');
-    if (!badge) {
-        badge = document.createElement('span');
-        badge.className = 'wishlist-count__badge';
-        counterBtn.appendChild(badge);
-    }
-
-    const count = getCapsule().length;
-    badge.textContent = count;
-    badge.style.display = count > 0 ? 'flex' : 'none';
-}
-
 // Obtener parámetro de la URL
+
 function getUrlParameter(name) {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(name);
@@ -213,30 +190,6 @@ function setupQuantitySelector() {
 
 // =============================================
 // 6. THUMBNAILS GALLERY
-/*
-function setupThumbnails() {
-    const thumbnails = document.querySelectorAll('.thumbnail-item');
-    const mainImage = document.getElementById('product-image-1'); // 👈 Cambiar selector
-
-    if (!mainImage) return;
-
-    thumbnails.forEach((thumb, index) => {
-        thumb.addEventListener('click', () => {
-            // Remove active class from all thumbnails
-            thumbnails.forEach(t => t.classList.remove('thumbnail-item--active'));
-            
-            // Add active class to clicked thumbnail
-            thumb.classList.add('thumbnail-item--active');
-
-            // Get the thumbnail image src
-            const thumbImg = thumb.querySelector('img');
-            if (thumbImg) {
-                mainImage.src = thumbImg.src;
-            }
-        });
-    });
-}
-*/
 
 
 // =============================================
@@ -255,7 +208,7 @@ function setupAddToCapsule(relic) {
             id: relic.id,
             title: relic.title,
             price: relic.price,
-            image: relic.images.main,
+            image: relic.images.image1,
             quantity: quantity
         };
 
@@ -266,20 +219,15 @@ function setupAddToCapsule(relic) {
         const existingIndex = capsule.findIndex(item => item.id === relic.id);
 
         if (existingIndex !== -1) {
-            // Ya existe: actualizar cantidad
             capsule[existingIndex].quantity += quantity;
         } else {
-            // No existe: añadir nuevo
             capsule.push(capsuleItem);
         }
 
-        // Guardar cápsula actualizada
         saveCapsule(capsule);
-
-        // Actualizar contador
         updateCapsuleCounter();
 
-        // Feedback visual (opcional)
+        // Feedback visual
         addBtn.classList.add('btn-add-capsule--added');
         const originalText = addBtn.querySelector('.btn-text').textContent;
         addBtn.querySelector('.btn-text').textContent = 'added to capsule';
@@ -303,7 +251,7 @@ export function initProductPage() {
     const productId = getUrlParameter('id');
     
     if (!productId) {
-        console.error('❌ No product ID found in URL');
+        console.error('No product ID found in URL');
         return;
     }
 
@@ -311,7 +259,7 @@ export function initProductPage() {
     const relic = relicsData.find(r => r.id === productId);
     
     if (!relic) {
-        console.error(`❌ Product with ID ${productId} not found`);
+        console.error(`Product with ID ${productId} not found`);
         return;
     }
 
@@ -323,7 +271,6 @@ export function initProductPage() {
     // 4. Setup interactividad
     setupTabs();
     setupQuantitySelector();
-    setupThumbnails();
     setupAddToCapsule(relic);
     
     // 5. Actualizar contador inicial

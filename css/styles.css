@@ -1184,6 +1184,10 @@ a {
 
 /* FOOTER */
 .footer {
+
+	& .container {
+		padding-bottom: var(--space-sm);
+	}
 	& .footer__grid {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(220px, 1fr));

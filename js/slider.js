@@ -1,5 +1,7 @@
 // slider.js
 
+import { getCapsule, saveCapsule, updateCapsuleCounter } from './capsule.js';
+
 const relics = [
     {
         id: '11',
@@ -73,46 +75,7 @@ const relics = [
     }
 ];
 
-// ---- helpers capsule / contador ----
 
-// obtener cápsula del localStorage
-function getCapsule() {
-    return JSON.parse(localStorage.getItem('capsule')) || [];
-}
-
-// guardar cápsula en el localStorage
-function saveCapsule(capsule) {
-    localStorage.setItem('capsule', JSON.stringify(capsule));
-}
-
-// actualizar contador de cápsula en el botón
-function updateCapsuleCounter() {
-    const counterBtn = document.querySelector('.wishlist-counter');
-    if (!counterBtn) return;
-
-    let badge = counterBtn.querySelector('.wishlist-counter__badge');
-    if (!badge) {
-        badge = document.createElement('span');
-        badge.className = 'wishlist-counter__badge';
-        counterBtn.appendChild(badge);
-    }
-
-    const count = getCapsule().length;
-    badge.textContent = count;
-    badge.style.display = count > 0 ? 'flex' : 'none';
-}
-// agregar producto a la cápsula
-function addToCapsule(relic) {
-    let capsule = getCapsule();
-
-    const alreadyIn = capsule.some((item) => item.id === relic.id);
-    if (!alreadyIn) {
-        capsule.push(relic);
-        saveCapsule(capsule);
-    }
-
-    updateCapsuleCounter(); // actualizar contador
-}
 
 // ---- creación de card ----
 
