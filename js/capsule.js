@@ -53,17 +53,17 @@ function renderCapsuleList() {
         card.dataset.id = item.id;
 
         card.innerHTML = `
-      <a href="${item.link || `product-card.html?id=${item.id}`}" class="relic-card__link">
+    <a href="${item.link || `product-card.html?id=${item.id}`}" class="relic-card__link">
         <figure class="relic-card__media">
-          <img src="${item.image}" alt="${item.alt || item.title}" loading="lazy">
+            <img src="${item.image}" alt="${item.alt || item.title}" loading="lazy">
         </figure>
-      </a>
-      <div class="relic-card__body">
+    </a>
+    <div class="relic-card__body">
         <h3 class="relic-card__title t--card">${item.title}</h3>
         <button type="button" class="btn btn--card capsule-remove-btn" aria-label="Remove from capsule">
-          <i class="ri-close-circle-line" aria-hidden="true"></i>
+            <i class="ri-close-circle-line" aria-hidden="true"></i>
         </button>
-      </div>
+    </div>
     `;
 
         listEl.appendChild(card);
