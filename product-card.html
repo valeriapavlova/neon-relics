@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>NEON RELICS — Jewelry for quiet dominion</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Unbounded:wght@200..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script defer src="js/index.js" type="module"></script>
+</head>
+
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container header__container">
+            <!-- header logo-->
+            <div class="logo header__logo">
+                <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
+            </div>
+
+            <!-- header menu responsive button-->
+            <button type="button" class="header__menu-btn t--link">Menu</button>
+
+            <!-- header nav-->
+            <nav class="header__nav nav">
+                <ul class="nav__items">
+                    <li class="nav__item"><a class="nav__link t--link" href="#collection">Collection</a></li>
+                    <li class="nav__item"><a class="nav__link t--link" href="#about">About</a></li>
+                    <li class="nav__item"><a class="nav__link t--link" href="#capsule-info">Capsule</a></li>
+                    <li class="nav__item"><a class="nav__link t--link" href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+
+            <!-- header actions-->
+            <div class="header__actions">
+                <button type="button" class="wishlist-counter"></button>
+            </div>
+        </div>
+
+        <!-- OVERLAY MENU -->
+        <div class="header__menu-overlay" id="menuOverlay">
+            <button class="header__menu-close" id="menuClose" aria-label="Close menu">✕</button>
+            <nav class="header__menu-nav">
+                <a href="#capsule-info" class="t--link">Capsule</a>
+                <a href="#collection" class="t--link">Collection</a>
+                <a href="#about" class="t--link">About</a>
+                <a href="#contact" class="t--link">Contact</a>
+            </nav>
+        </div>
+    </header>
+    <!-- / HEADER -->
+
+    <main class="main">
+
+        <!-- Heading Section -->
+
+        <section class="section heading">
+            <div class="container">
+                <div class="heading__wrapper">
+                    <h1 class="heading__title t--md">GILDED SIGNAL CHAPTER<!-- Contenido dinámico desde JS --></h1>
+                    <div class="heading__content">
+                        <div class="tags__wrapper">
+                            <span class="tag body-text--small"
+                                id="product-mood-tag">ksdkkdk<!-- Contenido dinámico desde JS --></span>
+                            <span class="tag body-text--small"
+                                id="product-collection-tag"><!-- Contenido dinámico desde JS --></span>
+                            <span class="tag body-text--small"
+                                id="product-type-tag"><!-- Contenido dinámico desde JS --></span>
+                        </div>
+                        <p class="heading__description body-text">Gilded Signal is a power statement wrapped in gold and
+                            crimson.
+                            This chapter brings together three relics designed to function as armor for those who
+                            command attention without asking for it: a chain collar that speaks before you do,
+                            sunglasses that filter the world through your own wavelength, and a lacquered coat that
+                            turns movement into ceremony. Wear them together or alone—either way, you're impossible to
+                            ignore.<!-- Contenido dinámico desde JS --></p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Products Section -->
+
+        <section class="section products">
+            <div class="container">
+
+                <div class="products__wrapper" id="products-wrapper">
+                    <!-- Tarjetas de productos generadas dinámicamente desde JS -->
+                    <!-- Example of a product card structure: -->
+                    <div class="grid-2col-4row">
+                        <!-- elements from first column -->
+                        <div class="gallery-image" data-product-image="1"> <!-- first row -->
+                            <img src="" alt="" id="product-image-1">
+                        </div>
+                        <div class="gallery-image" data-product-image="2"> <!-- first row -->
+                            <video src="" alt="" id=""></video>
+                        </div> <!-- video element if needed -->
+                        <div class="gallery-image" data-product-image="3"> <!-- second row -->
+                            <img src="" alt="" id="product-image-2">
+                        </div>
+
+                        <!--PRODUCT INFO CARD -->
+                        <aside class="product-card"> <!-- position sticky -->
+                            <div class="product-card__wrapper">
+
+                                <!-- Product Info Section -->
+                                <div class="product__card-info">
+
+                                    <!-- Breadcrumb Navigation -->
+                                    <nav class="product-breadcrumb body-text--small" aria-label="breadcrumb">
+                                        <a href="collection.html" class="breadcrumb-link">collection</a>
+                                        <span class="breadcrumb-separator">›</span>
+                                        <span class="breadcrumb-item"
+                                            id="product-collection"><!-- Contenido dinámico desde JS --></span>
+                                        <span class="breadcrumb-separator">›</span>
+                                        <span class="breadcrumb-item"
+                                            id="product-type"><!-- Contenido dinámico desde JS --></span>
+                                    </nav>
+    
+                                    <!-- Product Thumbnails -->
+                                    <div class="product-thumbnails">
+                                        <button class="thumbnail-item thumbnail-item--active" data-thumbnail="1">
+                                            <img src="" alt="" id="thumbnail-1">
+                                        </button>
+                                        <button class="thumbnail-item" data-thumbnail="2">
+                                            <img src="" alt="" id="thumbnail-2">
+                                        </button>
+                                        <button class="thumbnail-item" data-thumbnail="3">
+                                            <img src="" alt="" id="thumbnail-3">
+                                        </button>
+                                    </div>
+    
+                                    <!-- Product Title & Description -->
+                                    <div class="product-info">
+                                        <h2 class="product-title t--event" id="product-title">GILDED SIGNAL CHAin<!-- Contenido dinámico desde JS -->
+                                        </h2>
+                                        <p class="product-tagline body-text--small" id="product-tagline">
+                                            Layers of gold that broadcast power in every direction.<!-- Contenido dinámico desde JS -->
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <!-- Product Action Buttons -->
+                                <div class="product-card__buttons">
+                                    <div class="products-card__buttons-block">
+
+                                        <!-- Quantity Selector -->
+                                        <div class="product-quantity">
+                                            <button class="quantity-btn quantity-btn--minus" aria-label="Decrease quantity">
+                                                <span>−</span>
+                                            </button>
+                                            <input type="number" class="quantity-input" value="1" min="1" max="99"
+                                                aria-label="Product quantity" id="quantity-input">
+                                            <button class="quantity-btn quantity-btn--plus" aria-label="Increase quantity">
+                                                <span>+</span>
+                                            </button>
+                                        </div>
+        
+                                        <!-- Add to Capsule CTA -->
+                                        <button class="btn-add-capsule" id="add-to-capsule">
+                                            <span class="btn-text">add to capsule</span>
+                                            <span class="btn-price"
+                                                id="product-price">hhhh<!-- Contenido dinámico desde JS --></span>
+                                        </button>
+                                    </div>
+    
+                                    <!-- Product Tabs Navigation -->
+                                    <nav class="product-tabs" role="tablist">
+                                        <button class="product-tab product-tab--active" role="tab" aria-selected="true"
+                                            aria-controls="tab-description" data-tab="description">
+                                            description
+                                        </button>
+                                        <button class="product-tab" role="tab" aria-selected="false"
+                                            aria-controls="tab-ritual" data-tab="ritual">
+                                            ritual notes
+                                        </button>
+                                        <button class="product-tab" role="tab" aria-selected="false"
+                                            aria-controls="tab-shipping" data-tab="shipping">
+                                            shipping
+                                        </button>
+                                    </nav>
+                                </div>
+                            </div>
+                        </aside>
+
+                        <div class="gallery-image" data-product-image="4"> <!-- third row -->
+                            <img src="" alt="" id="product-image-3">
+                        </div>
+                        <div class="gallery-image" data-product-image="5"> <!-- fourth row -->
+                            <img src="" alt="" id="product-image-3">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- FOOTER -->
+    <footer class="section footer">
+        <div class="container">
+            <div class="footer__grid">
+
+                <!-- Row 1 -->
+
+                <!-- Logo -->
+                <div class="footer__item footer__item--brand">
+                    <div class="logo footer__logo">
+                        <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
+                    </div>
+                    <p class="footer__claim">Limited relics for unlimited futures.</p>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="footer__item footer__item--nav" aria-label="Footer navigation">
+                    <ul class="footer-nav__list">
+                        <li><a href="capsule.html" class="footer-nav__link t--link-big">Capsule</a></li>
+                        <li><a href="about.html" class="footer-nav__link t--link-big">About</a></li>
+                        <li><a href="#collection" class="footer-nav__link t--link-big">Collection</a></li>
+                        <li><a href="#contact" class="footer-nav__link t--link-big">Contact</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Social links -->
+                <nav class="footer__item footer__item--social t-align--end" aria-label="Social links">
+                    <ul class="footer-nav__list">
+                        <li>
+                            <a href="https://github.com/valeriapavlova" class="footer-nav__link t--link-big"
+                                target="_blank" rel="noreferrer" title="GitHub">
+                                GitHub
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.instagram.com/" class="footer-nav__link t--link-big" target="_blank"
+                                rel="noreferrer" title="Instagram">
+                                Instagram
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/" class="footer-nav__link t--link-big" target="_blank"
+                                rel="noreferrer" title="LinkedIn">
+                                LinkedIn
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Row 2 -->
+                <p class="footer__text footer__text--credit body-text--small">
+                    Concept website created as a CEI final project.
+                </p>
+
+                <p class="footer__text footer__text--credit-end body-text--small">
+                    Photos by Max Shirko.
+                </p>
+
+                <p class="footer__text footer__text--credit-end t-align--end body-text--small">
+                    All rights reserved Valeriia Pavlova.
+                </p>
+
+            </div>
+        </div>
+    </footer>
+    <!-- / FOOTER -->
+
+</body>
