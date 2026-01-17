@@ -135,7 +135,7 @@ body {
 	color: var(--c-text);
 	background-color: var(--c-bg);
 	line-height: 1.3;
-	overflow-x: hidden; /* ← Añade esto si no está */
+	overflow-x: hidden;
 }
 
 /* Headings */
@@ -260,6 +260,7 @@ a {
 }
 
 @media (max-width: 30rem) {
+
 	.t--lg,
 	.t--md {
 		font-size: 2em;
@@ -361,6 +362,7 @@ a {
 /* Section and container */
 .section {
 	padding: 0 var(--space-md);
+
 	@media (max-width: 40rem) {
 		padding: 0 var(--space-xs);
 	}
@@ -498,6 +500,7 @@ a {
 	& .container {
 		padding: 0 var(--space-md);
 		max-width: 100vw;
+
 		@media (max-width: 40rem) {
 			padding: 0 var(--space-sm);
 		}
@@ -779,6 +782,7 @@ a {
 
 .manifest {
 	overflow: hidden;
+
 	& .container {
 		@media (max-width: 48rem) {
 			padding: var(--space-3xl) 0 var(--space-lg);
@@ -823,6 +827,7 @@ a {
 			display: flex;
 			justify-content: flex-end;
 			gap: var(--space-md);
+
 			@media (max-width: 40rem) {
 				align-items: center;
 				justify-content: space-between;
@@ -832,8 +837,8 @@ a {
 			& p {
 				color: var(--c-bg);
 				align-self: flex-end;
-				@media (max-width: 40rem) {
-				}
+
+				@media (max-width: 40rem) {}
 			}
 
 			& .manifest__title {
@@ -1175,6 +1180,7 @@ a {
 					display: flex;
 					flex-direction: row;
 					gap: var(--space-md);
+
 					@media (max-width: 38rem) {
 						flex-direction: column;
 						gap: var(--space-sm);
@@ -1317,6 +1323,7 @@ a {
 				@media (max-width: 32rem) {
 					margin-left: 12rem;
 				}
+
 				@media (max-width: 28rem) {
 					margin-left: 8rem;
 				}
