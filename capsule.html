@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>NEON RELICS — Capsule</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Unbounded:wght@200..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <script defer src="js/index.js" type="module"></script>
+    <script defer src="js/capsule.js" type="module"></script>
+</head>
+
+<body data-page="capsule">
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container header__container">
+            <!-- header logo-->
+            <div class="logo header__logo">
+                <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
+            </div>
+
+            <!-- header menu responsive button-->
+            <button type="button" class="header__menu-btn t--link">Menu</button>
+
+            <!-- header nav-->
+            <nav class="header__nav nav">
+                <ul class="nav__items">
+                    <li class="nav__item"><a class="nav__link t--link" href="index.html#collection">Collection</a></li>
+                    <li class="nav__item"><a class="nav__link t--link" href="index.html#abou">About</a></li>
+                    <li class="nav__item"><a class="nav__link t--link" href="capsule.html">Capsule</a></li>
+                    <li class="nav__item"><a class="nav__link t--link" href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+
+            <!-- header actions-->
+            <div class="header__actions">
+                <button type="button" class="wishlist-counter"></button>
+            </div>
+        </div>
+
+        <!-- OVERLAY MENU -->
+        <div class="header__menu-overlay" id="menuOverlay">
+            <button class="header__menu-close" id="menuClose" aria-label="Close menu">✕</button>
+            <nav class="header__menu-nav">
+                <a href="capsule.html" class="t--link">Capsule</a>
+                <a href="#collection" class="t--link">Collection</a>
+                <a href="#about" class="t--link">About</a>
+                <a href="#contact" class="t--link">Contact</a>
+            </nav>
+        </div>
+    </header>
+    <!-- / HEADER -->
+
+    <main class="main">
+        <section class="section capsule">
+            <div class="container">
+                <div class="capsule__wrapper flex-column">
+                    <div class="capsule__header flex-column">
+                        <div class="heading-block flex-column">
+                            <span class="subtitle">a private ritual of adornment</span>
+                            <h1 class="t--md">Your capsule</h1>
+                        </div>
+    
+                        <p id="capsule-empty" class="body-text">
+                            Your capsule is empty. Start by adding relics from the collection.
+                        </p>
+                    </div>
+
+                    <div id="capsule-list" class="capsule__list">
+                        <!-- items desde JS -->
+                    </div>
+
+                    <button id="capsule-clear" class="btn btn--secondary">
+                        Clear capsule
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- FOOTER -->
+    <footer class="section footer">
+        <div class="container">
+            <div class="footer__grid">
+
+                <!-- Row 1 -->
+
+                <!-- Logo -->
+                <div class="footer__item footer__item--brand">
+                    <div class="logo footer__logo">
+                        <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
+                    </div>
+                    <p class="footer__claim">Limited relics for unlimited futures.</p>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="footer__item footer__item--nav" aria-label="Footer navigation">
+                    <ul class="footer-nav__list">
+                        <li><a href="capsule.html" class="footer-nav__link t--link-big">Capsule</a></li>
+                        <li><a href="index.html#about" class="footer-nav__link t--link-big">About</a></li>
+                        <li><a href="index.html#collection" class="footer-nav__link t--link-big">Collection</a></li>
+                        <li><a href="index.html#contact" class="footer-nav__link t--link-big">Contact</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Social links -->
+                <nav class="footer__item footer__item--social t-align--end" aria-label="Social links">
+                    <ul class="footer-nav__list">
+                        <li>
+                            <a href="https://github.com/valeriapavlova" class="footer-nav__link t--link-big"
+                                target="_blank" rel="noreferrer" title="GitHub">
+                                GitHub
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.instagram.com/" class="footer-nav__link t--link-big" target="_blank"
+                                rel="noreferrer" title="Instagram">
+                                Instagram
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/" class="footer-nav__link t--link-big" target="_blank"
+                                rel="noreferrer" title="LinkedIn">
+                                LinkedIn
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Row 2 -->
+                <p class="footer__text footer__text--credit body-text--small">
+                    Concept website created as a CEI final project.
+                </p>
+
+                <p class="footer__text footer__text--credit-end body-text--small">
+                    Photos by Max Shirko.
+                </p>
+
+                <p class="footer__text footer__text--credit-end t-align--end body-text--small">
+                    All rights reserved Valeriia Pavlova.
+                </p>
+
+            </div>
+        </div>
+    </footer>
+    <!-- / FOOTER -->
+</body>
+
+</html>

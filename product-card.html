@@ -31,10 +31,10 @@
             <!-- header nav-->
             <nav class="header__nav nav">
                 <ul class="nav__items">
-                    <li class="nav__item"><a class="nav__link t--link" href="#collection">Collection</a></li>
-                    <li class="nav__item"><a class="nav__link t--link" href="#about">About</a></li>
-                    <li class="nav__item"><a class="nav__link t--link" href="#capsule-info">Capsule</a></li>
-                    <li class="nav__item"><a class="nav__link t--link" href="#contact">Contact</a></li>
+                    <li class="nav__item"><a class="nav__link t--link" href="index.html#collection">Collection</a></li>
+                    <li class="nav__item"><a class="nav__link t--link" href="index.html#about">About</a></li>
+                    <li class="nav__item"><a class="nav__link t--link" href="capsule.html">Capsule</a></li>
+                    <li class="nav__item"><a class="nav__link t--link" href="index.html">Contact</a></li>
                 </ul>
             </nav>
 
@@ -48,9 +48,9 @@
         <div class="header__menu-overlay" id="menuOverlay">
             <button class="header__menu-close" id="menuClose" aria-label="Close menu">✕</button>
             <nav class="header__menu-nav">
-                <a href="#capsule-info" class="t--link">Capsule</a>
-                <a href="#collection" class="t--link">Collection</a>
-                <a href="#about" class="t--link">About</a>
+                <a href="capsule.html" class="t--link">Capsule</a>
+                <a href="index.html#collection" class="t--link">Collection</a>
+                <a href="index.html#about" class="t--link">About</a>
                 <a href="#contact" class="t--link">Contact</a>
             </nav>
         </div>
@@ -64,23 +64,17 @@
         <section class="section heading">
             <div class="container">
                 <div class="heading__wrapper">
-                    <h1 class="heading__title t--md">GILDED SIGNAL CHAPTER<!-- Contenido dinámico desde JS --></h1>
+                    <h1 class="heading__title t--md"><!-- Contenido dinámico desde JS --></h1>
                     <div class="heading__content">
                         <div class="tags__wrapper">
                             <span class="tag body-text--small"
-                                id="product-mood-tag">ksdkkdk<!-- Contenido dinámico desde JS --></span>
+                                id="product-mood-tag"><!-- Contenido dinámico desde JS --></span>
                             <span class="tag body-text--small"
                                 id="product-collection-tag"><!-- Contenido dinámico desde JS --></span>
                             <span class="tag body-text--small"
                                 id="product-type-tag"><!-- Contenido dinámico desde JS --></span>
                         </div>
-                        <p class="heading__description body-text">Gilded Signal is a power statement wrapped in gold and
-                            crimson.
-                            This chapter brings together three relics designed to function as armor for those who
-                            command attention without asking for it: a chain collar that speaks before you do,
-                            sunglasses that filter the world through your own wavelength, and a lacquered coat that
-                            turns movement into ceremony. Wear them together or alone—either way, you're impossible to
-                            ignore.<!-- Contenido dinámico desde JS --></p>
+                        <p class="heading__description body-text"><!-- Contenido dinámico desde JS --></p>
                     </div>
                 </div>
             </div>
@@ -99,10 +93,10 @@
                         <div class="gallery-image" data-product-image="1"> <!-- first row -->
                             <img src="" alt="" id="product-image-1">
                         </div>
-                        <div class="gallery-image" data-product-image="2"> <!-- first row -->
-                            <video src="" alt="" id=""></video>
-                        </div> <!-- video element if needed -->
-                        <div class="gallery-image" data-product-image="3"> <!-- second row -->
+                        <div class="gallery-image" data-product-video="1"> <!-- first row -->
+                            <video id="product-video-1" autoplay loop muted playsinline></video>
+                        </div> 
+                        <div class="gallery-image" data-product-image="2"> <!-- second row -->
                             <img src="" alt="" id="product-image-2">
                         </div>
 
@@ -123,7 +117,7 @@
                                         <span class="breadcrumb-item"
                                             id="product-type"><!-- Contenido dinámico desde JS --></span>
                                     </nav>
-    
+
                                     <!-- Product Thumbnails -->
                                     <div class="product-thumbnails">
                                         <button class="thumbnail-item thumbnail-item--active" data-thumbnail="1">
@@ -136,13 +130,13 @@
                                             <img src="" alt="" id="thumbnail-3">
                                         </button>
                                     </div>
-    
+
                                     <!-- Product Title & Description -->
                                     <div class="product-info">
-                                        <h2 class="product-title t--event" id="product-title">GILDED SIGNAL CHAin<!-- Contenido dinámico desde JS -->
+                                        <h2 class="product-title t--event" id="product-title"><!-- Contenido dinámico desde JS -->
                                         </h2>
                                         <p class="product-tagline body-text--small" id="product-tagline">
-                                            Layers of gold that broadcast power in every direction.<!-- Contenido dinámico desde JS -->
+                                            <!-- Contenido dinámico desde JS -->
                                         </p>
                                     </div>
                                 </div>
@@ -153,24 +147,26 @@
 
                                         <!-- Quantity Selector -->
                                         <div class="product-quantity">
-                                            <button class="quantity-btn quantity-btn--minus" aria-label="Decrease quantity">
+                                            <button class="quantity-btn quantity-btn--minus"
+                                                aria-label="Decrease quantity">
                                                 <span>−</span>
                                             </button>
                                             <input type="number" class="quantity-input" value="1" min="1" max="99"
                                                 aria-label="Product quantity" id="quantity-input">
-                                            <button class="quantity-btn quantity-btn--plus" aria-label="Increase quantity">
+                                            <button class="quantity-btn quantity-btn--plus"
+                                                aria-label="Increase quantity">
                                                 <span>+</span>
                                             </button>
                                         </div>
-        
+
                                         <!-- Add to Capsule CTA -->
                                         <button class="btn-add-capsule" id="add-to-capsule">
                                             <span class="btn-text">add to capsule</span>
                                             <span class="btn-price"
-                                                id="product-price">hhhh<!-- Contenido dinámico desde JS --></span>
+                                                id="product-price"><!-- Contenido dinámico desde JS --></span>
                                         </button>
                                     </div>
-    
+
                                     <!-- Product Tabs Navigation -->
                                     <nav class="product-tabs" role="tablist">
                                         <button class="product-tab product-tab--active" role="tab" aria-selected="true"
@@ -186,15 +182,33 @@
                                             shipping
                                         </button>
                                     </nav>
+                                    <div class="product-tabs-content">
+                                        <div class="tab-panel tab-panel--active" id="tab-description" role="tabpanel">
+                                            <p id="tab-description-content"></p>
+                                        </div>
+                                        <div class="tab-panel" id="tab-ritual" role="tabpanel">
+                                            <p id="tab-ritual-content">
+                                                <!-- Contenido dinámico desde JS -->
+                                            </p>
+                                        </div>
+                                        <div class="tab-panel" id="tab-shipping" role="tabpanel">
+                                            <p id="tab-shipping-content">
+                                                <!-- Contenido dinámico desde JS -->
+                                            </p>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </aside>
 
-                        <div class="gallery-image" data-product-image="4"> <!-- third row -->
+                        <div class="gallery-image" data-product-image="3"> <!-- third row -->
                             <img src="" alt="" id="product-image-3">
                         </div>
-                        <div class="gallery-image" data-product-image="5"> <!-- fourth row -->
-                            <img src="" alt="" id="product-image-3">
+                        <div class="gallery-image" data-product-video="5"> <!-- first row -->
+                            <video id="product-video" autoplay loop muted playsinline></video>
+                        </div> 
+                        <div class="gallery-image" data-product-image="4"> <!-- fourth row -->
+                            <img src="" alt="" id="product-image-4">
                         </div>
 
                     </div>
@@ -224,9 +238,9 @@
                 <nav class="footer__item footer__item--nav" aria-label="Footer navigation">
                     <ul class="footer-nav__list">
                         <li><a href="capsule.html" class="footer-nav__link t--link-big">Capsule</a></li>
-                        <li><a href="about.html" class="footer-nav__link t--link-big">About</a></li>
-                        <li><a href="#collection" class="footer-nav__link t--link-big">Collection</a></li>
-                        <li><a href="#contact" class="footer-nav__link t--link-big">Contact</a></li>
+                        <li><a href="index.html#about" class="footer-nav__link t--link-big">About</a></li>
+                        <li><a href="index.html#collection" class="footer-nav__link t--link-big">Collection</a></li>
+                        <li><a href="index.html#contact" class="footer-nav__link t--link-big">Contact</a></li>
                     </ul>
                 </nav>
 

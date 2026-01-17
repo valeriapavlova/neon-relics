@@ -22,7 +22,7 @@
     <div class="container header__container">
       <!-- header logo-->
       <div class="logo header__logo">
-        <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
+        <a href="index.html" title="Go to homepage"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
       </div>
 
       <!-- header menu responsive button-->
@@ -31,10 +31,14 @@
       <!-- header nav-->
       <nav class="header__nav nav">
         <ul class="nav__items">
-          <li class="nav__item"><a class="nav__link t--link" href="#collection">Collection</a></li>
-          <li class="nav__item"><a class="nav__link t--link" href="#about">About</a></li>
-          <li class="nav__item"><a class="nav__link t--link" href="#capsule-info">Capsule</a></li>
-          <li class="nav__item"><a class="nav__link t--link" href="#contact">Contact</a></li>
+          <li class="nav__item"><a class="nav__link t--link" href="#collection"
+              title="Go to Collection section">Collection</a>
+          </li>
+          <li class="nav__item"><a class="nav__link t--link" href="#about" title="Go to About section">About</a></li>
+          <li class="nav__item"><a class="nav__link t--link" href="capsule.html" title="Go to Capsule page">Capsule</a>
+          </li>
+          <li class="nav__item"><a class="nav__link t--link" href="#contact" title="Go to Contact section">Contact</a>
+          </li>
         </ul>
       </nav>
 
@@ -48,10 +52,10 @@
     <div class="header__menu-overlay" id="menuOverlay">
       <button class="header__menu-close" id="menuClose" aria-label="Close menu">✕</button>
       <nav class="header__menu-nav">
-        <a href="#capsule-info" class="t--link">Capsule</a>
-        <a href="#collection" class="t--link">Collection</a>
-        <a href="#about" class="t--link">About</a>
-        <a href="#contact" class="t--link">Contact</a>
+        <a href="capsule.html" class="t--link" title="Go to Capsule page">Capsule</a>
+        <a href="#collection" class="t--link" title="Go to Collection section">Collection</a>
+        <a href="#about" class="t--link" title="Go to About section">About</a>
+        <a href="#contact" class="t--link" title="Go to Contact section">Contact</a>
       </nav>
     </div>
   </header>
@@ -123,8 +127,8 @@
             dominion,
             blending futuristic aesthetics with timeless elegance.</p>
           <div class="hero__buttons">
-            <a href="#collection" class="btn btn--primary">Explore collection</a>
-            <a href="capsule.html" class="btn btn--secondary">Enter capsule</a>
+            <a href="#collection" class="btn btn--primary" title="Explore the collection">Explore collection</a>
+            <a href="capsule.html" class="btn btn--secondary" title="Enter the capsule">Enter capsule</a>
           </div>
         </div>
       </div>
@@ -224,7 +228,7 @@
               <!-- Capsule button -->
 
               <div class="capsule__button-wrapper">
-                <a href="capsule.html" class="btn btn--secondary">Enter the capsule</a>
+                <a href="capsule.html" class="btn btn--secondary" title="Enter the capsule">Enter the capsule</a>
               </div>
             </div>
           </div>
@@ -261,8 +265,8 @@
           </ul>
 
           <picture class="events__img" aria-hidden="true">
-            <source media="(min-width: 1024px)" srcset="assets/img/events/events-img.png" type="image/webp">
-            <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
+            <source srcset="assets/img/events/events-img.png" type="image/webp">
+            <source srcset="assets/images/relics_bg_tablet.jpg">
             <img src="assets/img/events/events-img.png" alt="Abstract image behind the events calendar"
               class="events__img-inner events__img--floating" loading="lazy" aria-hidden="true">
           </picture>
@@ -306,7 +310,7 @@
             <video class="about__video relic-card--sm padding--t-5xl" src="assets/videos/about/about_video.mp4" autoplay
               loop muted playsinline preload="none" aria-hidden="true" width="288px"></video>
 
-            <div class="relic-card relic-card--sm">
+            <div class="relic-card relic-card--sm relic-card-six">
               <span class="t--card">06</span>
               <picture>
                 <source srcset="assets/img/about/about_3.webp" type="image/webp">
@@ -321,7 +325,7 @@
                   space without asking permission.</p>
               </div>
               <!-- About teaser button -->
-              <a href="about.html" class="btn btn--secondary">Read the full story</a>
+              <a href="about.html" class="btn btn--secondary" title="Read the full story">Read the full story</a>
             </div>
           </div>
 
@@ -356,8 +360,8 @@
           <div class="frequency__form-block">
 
             <picture class="form-img" aria-hidden="true">
-              <source media="(min-width: 1024px)" srcset="../assets/img/form/form_img.webp" type="image/webp">
-              <source media="(min-width: 600px)" srcset="assets/images/relics_bg_tablet.jpg">
+              <source srcset="../assets/img/form/form_img.webp" type="image/webp">
+              <source srcset="assets/images/relics_bg_tablet.jpg">
               <img src="assets/img/form/form_img.png" alt="Abstract background behind the newsletter form"
                 class="relics__bg" loading="lazy" aria-hidden="true">
             </picture>
@@ -421,7 +425,7 @@
         <!-- Logo -->
         <div class="footer__item footer__item--brand">
           <div class="logo footer__logo">
-            <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
+            <a href="index.html" title="Go to homepage"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
           </div>
           <p class="footer__claim">Limited relics for unlimited futures.</p>
         </div>
@@ -429,10 +433,12 @@
         <!-- Navigation -->
         <nav class="footer__item footer__item--nav" aria-label="Footer navigation">
           <ul class="footer-nav__list">
-            <li><a href="capsule.html" class="footer-nav__link t--link-big">Capsule</a></li>
-            <li><a href="about.html" class="footer-nav__link t--link-big">About</a></li>
-            <li><a href="#collection" class="footer-nav__link t--link-big">Collection</a></li>
-            <li><a href="#contact" class="footer-nav__link t--link-big">Contact</a></li>
+            <li><a href="capsule.html" class="footer-nav__link t--link-big" title="Go to Capsule page">Capsule</a></li>
+            <li><a href="#about" class="footer-nav__link t--link-big" title="Go to About section">About</a></li>
+            <li><a href="#collection" class="footer-nav__link t--link-big"
+                title="Go to Collection section">Collection</a>
+            </li>
+            <li><a href="#contact" class="footer-nav__link t--link-big" title="Go to Contact section">Contact</a></li>
           </ul>
         </nav>
 
@@ -441,19 +447,19 @@
           <ul class="footer-nav__list">
             <li>
               <a href="https://github.com/valeriapavlova" class="footer-nav__link t--link-big" target="_blank"
-                rel="noreferrer" title="GitHub">
+                rel="noreferrer" title="Visit GitHub profile">
                 GitHub
               </a>
             </li>
             <li>
               <a href="https://www.instagram.com/" class="footer-nav__link t--link-big" target="_blank" rel="noreferrer"
-                title="Instagram">
+                title="Visit Instagram profile">
                 Instagram
               </a>
             </li>
             <li>
               <a href="https://www.linkedin.com/" class="footer-nav__link t--link-big" target="_blank" rel="noreferrer"
-                title="LinkedIn">
+                title="Visit LinkedIn profile">
                 LinkedIn
               </a>
             </li>
@@ -470,7 +476,7 @@
         </p>
 
         <p class="footer__text footer__text--credit-end t-align--end body-text--small">
-          All rights reserved Valeriia Pavlova.
+          Made by Valeriia Pavlova.
         </p>
 
       </div>
