@@ -167,7 +167,12 @@ function addToCapsule(relic) {
 // ---- Favorites management ----
 
 function getFavorites() {
-    return JSON.parse(localStorage.getItem('favorites')) || [];
+    try {
+        return JSON.parse(localStorage.getItem('favorites')) || [];
+    } catch (error) {
+        console.warn('Failed to parse favorites from localStorage:', error);
+        return [];
+    }
 }
 
 function saveFavorites(favorites) {
@@ -193,7 +198,10 @@ function toggleFavorite(relicId, button) {
 
 function updateFavoriteButton(button, isFavorite) {
     const icon = button.querySelector('i');
-    if (!icon) return;
+    if (!icon) {
+        console.warn('Favorite button icon not found');
+        return;
+    }
 
     if (isFavorite) {
         icon.className = 'ri-checkbox-circle-fill';
