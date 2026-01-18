@@ -1,58 +1,3 @@
-/*
-
-:root{
-	--spacing: 1rem;
-}
-
-}
-
-.logo{
-	display:flex;
-	align-items:center;
-}
-
-.site-logo{
-	height:48px;
-	width:auto;
-	display:block;
-	filter: drop-shadow(0 6px 18px rgba(138,43,255,0.14));
-}
-
-@media (max-width:600px){
-	.site-logo{ height:40px; }
-}
-
-/* Manifest section background that overflows its container */
-/*.manifest{
-	position:relative;
-	overflow:visible; /* allow background element to escape */
-/*padding:4rem 2rem;
-}
-
-
-.manifest__bg {
-    position: absolute;
-    inset: 0;
-    background: url('assets/img/manifest/manifest-bg.png') center/cover no-repeat;
-    z-index: 0;
-    opacity: 0.85;
-    pointer-events: none;
-}
-	background-size: cover;
-	background-position: center center;
-	pointer-events: none;
-	z-index:0;
-	transform: translateZ(0);
-}
-
-.manifest__content{ position:relative; z-index:1; }
-
-@media (max-width:900px){
-	.manifest__bg{ right:-18%; top:-8%; width:80%; }
-} 
-*/
-
-
 /* 1. Reset / Normalize */
 /* 2. Variables (custom properties) */
 /* 3. Global (body, headings, links, imágenes) */
@@ -102,18 +47,18 @@
 
 	/* Fonts (shorthand) - Jost/Unbounded */
 
-	--f-heading-xl: 600 6em/1.05 "Unbounded", sans-serif;
+	--f-heading-xl: 600 clamp(3rem, 6vw + 1rem, 6em)/1.05 "Unbounded", sans-serif;
 	/* .t--xxl */
 	/* .t--xl  */
-	--f-heading-lg: 600 3em/1.05 "Unbounded", sans-serif;
-	--f-heading-md: 500 1em/1.05 "Unbounded", sans-serif;
+	--f-heading-lg: 600 clamp(2rem, 4vw + 1rem, 3em)/1.05 "Unbounded", sans-serif;
+	--f-heading-md: 500 clamp(1.25rem, 2vw + 0.5rem, 1.5em)/1.05 "Unbounded", sans-serif;
 	/*heading card h3 */
 
-	--f-body-big: 400 1.25em/1.3 "Jost", sans-serif;
+	--f-body-big: 400 clamp(1rem, 1.5vw + 0.5rem, 1.25em)/1.3 "Jost", sans-serif;
 	/* .body-text--big */
-	--f-body-md: 400 1em/1.3 "Jost", sans-serif;
+	--f-body-md: 400 clamp(0.95rem, 1vw + 0.5rem, 1em)/1.3 "Jost", sans-serif;
 	/* .body-text */
-	/* subtitle? */
+	/* subtitle */
 	--f-body-sm: 400 0.75em/1.3 "Jost", sans-serif;
 	/* footer */
 
@@ -495,7 +440,7 @@ a {
 
 
 	& .container {
-		padding: var(--space-xs) 0;
+		padding: 0;
 	}
 
 	& .header__container {
@@ -627,7 +572,7 @@ a {
 				width: 100%;
 				height: 100%;
 				object-fit: cover;
-				position: static !important;
+				position: static;
 				opacity: 0.95;
 				pointer-events: none;
 			}
@@ -720,7 +665,7 @@ a {
 			}
 
 			& p {
-				max-width: 20rem !important;
+				max-width: 20rem;
 			}
 		}
 	}
@@ -1184,6 +1129,10 @@ a {
 
 /* FOOTER */
 .footer {
+
+	& .container {
+		padding-bottom: var(--space-sm);
+	}
 	& .footer__grid {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(220px, 1fr));
@@ -1409,7 +1358,8 @@ a {
 				& .product-card__wrapper {
 					display: flex;
 					flex-direction: column;
-					justify-content: space-between;
+					justify-content: flex-start;
+					gap: var(--space-lg);
 					background-color: var(--c-bg);
 					padding: var(--space-md);
 					height: 100%;
@@ -1479,7 +1429,7 @@ a {
 						}
 
 						/* ----------------
-						   Product Title & Description
+						Product Title & Description
 						   ---------------- */
 						& .product-info {
 							display: flex;
@@ -1510,7 +1460,7 @@ a {
 						flex-direction: column;
 						gap: var(--space-xs);
 						/* ----------------
-						   Quantity Selector
+						Quantity Selector
 						   ---------------- */
 
 						& .product-quantity {
@@ -1533,7 +1483,7 @@ a {
 
 								&:hover,
 								&:active {
-									background: rgba(0, 0, 0, 0.1);
+									color: var(--c-text--muted);
 								}
 							}
 
@@ -1559,7 +1509,7 @@ a {
 						}
 
 						/* ----------------
-						   Add to Capsule Button
+						Add to Capsule Button
 						   ---------------- */
 
 						& .btn-add-capsule {
@@ -1620,6 +1570,37 @@ a {
 							}
 						}
 					}
+					/* ----------------
+					Tab Content
+					   ---------------- */
+					
+					& .product-tabs-content {
+						position: relative;
+						min-height: 8rem;
+						
+						& .tab-panel {
+							display: none;
+							font-size: 0.875rem;
+							font-weight: 400;
+							line-height: 1.6;
+						}
+						& .tab-panel--active {
+							display: block;
+							animation: fadeIn 0.3s ease;
+							
+							@keyframes fadeIn {
+								from {
+									opacity: 0;
+									transform: translateY(10px);
+								}
+							
+								to {
+									opacity: 1;
+									transform: translateY(0);
+								}
+							}
+						}
+					}
 				}
 			}
 		}
@@ -1627,43 +1608,12 @@ a {
 }
 
 
-/* ----------------
-   Tab Content
-   ---------------- */
 
-.product-tabs-content {
-	position: relative;
-	min-height: 120px;
-}
 
-.tab-panel {
-	display: none;
-	font-family: 'Jost', sans-serif;
-	font-size: 0.875rem;
-	font-weight: 400;
-	line-height: 1.6;
-	color: var(--line-dark, #333);
-}
 
-.tab-panel--active {
-	display: block;
-	animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-	from {
-		opacity: 0;
-		transform: translateY(10px);
-	}
-
-	to {
-		opacity: 1;
-		transform: translateY(0);
-	}
-}
 
 /* ----------------
-   Responsive
+Responsive
    ---------------- */
 
 @media (max-width: 1024px) {
@@ -1741,5 +1691,57 @@ a {
 
 	.product-tab--active {
 		background: rgba(211, 47, 47, 0.05);
+	}
+}
+
+/* ==============================================
+   END PRODUCT PAGE
+   ============================================== */
+
+
+
+   /* =============================================
+   CAPSULE PAGE
+   ============================================== */
+.capsule {
+	& .capsule__header {
+		gap: var(--space-md);
+		align-content: flex-end;
+	}
+	& .capsule__list {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(16rem, 1fr));
+		gap: 2rem;
+
+		@media (max-width: 1024px) {
+			grid-template-columns: repeat(3, minmax(16rem, 1fr));
+		}
+
+		@media (max-width: 768px) {
+			grid-template-columns: repeat(2, minmax(16rem, 1fr));
+		}
+
+		@media (max-width: 480px) {
+			grid-template-columns: 1fr;
+		}
+		& .relic-card__link {
+			background-color: var(--c-text) ;
+			width: 100%;
+		}
+		& .relic-card__body {
+			display: flex;
+			flex-direction: row;
+			justify-content: space-between;
+			align-items: center;
+			width: 100%;
+			text-transform: uppercase;
+		}
+	}
+	& .btn--secondary {
+		width: fit-content;
+
+		@media (max-width: 63rem) {
+			width: 100%;
+		}
 	}
 }
