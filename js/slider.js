@@ -189,56 +189,6 @@ function setupRelicActions() {
     });
 }
 
-/*
-// ---- scroll lock en slider ----
-function setupSliderScrollLock() {
-    const section = document.querySelector('.relics');
-    const track = document.querySelector('.slider__track');
-    if (!section || !track) return;
-
-    let isActive = false;
-
-    function isSectionInView() {
-        const rect = section.getBoundingClientRect();
-        const vh = window.innerHeight || document.documentElement.clientHeight;
-
-        // activamos cuando la sección está más o menos centrada en el viewport
-        return rect.top < vh * 0.1 && rect.bottom > vh * 0.4;
-    }
-
-    function onWheel(e) {
-        if (!isActive) return;
-
-        const atStart = track.scrollLeft <= 0;
-        const atEnd =
-            Math.ceil(track.scrollLeft + track.clientWidth) >= track.scrollWidth;
-
-        // deltaY > 0 scroll hacia abajo, < 0 hacia arriba
-        if ((e.deltaY > 0 && !atEnd) || (e.deltaY < 0 && !atStart)) {
-            e.preventDefault(); // bloquea scroll vertical
-            track.scrollBy({
-                left: e.deltaY,      // usamos la rueda vertical para mover en X
-                behavior: 'smooth'
-            });
-        } else {
-            // si ya estamos en el extremo y el usuario sigue scroll, liberamos vertical
-            isActive = false;
-        }
-    }
-
-    function onScroll() {
-        if (isSectionInView()) {
-            isActive = true;
-        } else {
-            isActive = false;
-        }
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('wheel', onWheel, { passive: false });
-}
-*/
-
 // ---- render + listeners ----
 
 export function renderRelics() {
