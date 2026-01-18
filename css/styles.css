@@ -326,6 +326,15 @@ a {
 
 .favorite-btn {
 	color: var(--c-primary);
+	transition: transform 0.2s ease;
+}
+
+.favorite-btn--active {
+	transform: scale(1.1);
+}
+
+.favorite-btn:hover {
+	transform: scale(1.15);
 }
 
 /* Tag style */
