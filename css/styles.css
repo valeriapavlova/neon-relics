@@ -2233,3 +2233,28 @@ Responsive
 		width: 100%;
 	}
 }
+
+/* HERO: video/poster responsive sin !important */
+.media-video-poster {
+	display: none;
+}
+
+@media (max-width: 600px) {
+	.media-video {
+		display: none;
+	}
+
+	.media-video-poster {
+		display: block;
+	}
+}
+
+@media (min-width: 601px) {
+	.media-video {
+		display: block;
+	}
+
+	.media-video-poster {
+		display: none;
+	}
+}
