@@ -1756,6 +1756,26 @@ a {
 	}
 }
 
+/* hero */
+/* Móvil: hero sin vídeo, solo pósters */
+@media (max-width: 48rem) {
+	.hero--with-video .media-video {
+		display: block;
+		object-fit: cover;
+	}
+
+	/* Forzamos a que no se descargue el vídeo autoplay en móviles */
+	.hero--with-video .media-video source {
+		display: none;
+	}
+
+	.hero--with-video .media-video {
+		background-size: cover;
+		background-position: center;
+	}
+}
+
+
 /* ----------------
    Product Gallery
    ---------------- */
