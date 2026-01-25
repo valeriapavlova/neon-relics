@@ -35,6 +35,39 @@ const relicsData = [
         shipping: 'Delivered in signature black packaging with gold foil details. Ships within 2-4 business days. International shipping available with full insurance coverage.'
     },
 
+    {
+    id: '03',
+    title: 'Sapphire Clarity Hoops',
+    tagline: 'Geometric brilliance that speaks without words.',
+    price: '€480',
+    mood: 'Sapphire',
+    collection: 'Sapphire Clarity',
+    type: 'Earrings',
+    chapterTitle: 'SAPPHIRE CLARITY CHAPTER',
+    chapterDescription: 'The Sapphire Clarity chapter is for those who believe in transparent power. These relics celebrate the beauty of seeing clearly and being seen—without apology, without shadow. Crystal-cut geometry meets quiet confidence. Wear them when you want the world to understand your depth.',
+    
+    images: {
+        image1: 'assets/img/product/product-3/model_03.webp',  // La foto del headwrap azul con aros
+        video: 'assets/videos/product/3.webm',
+        image2: 'assets/img/product/product-3/earings_03_01.webp',
+        image3: 'assets/img/product/product-3/earings_03_02.webp',
+        image4: 'assets/img/product/product-3/hoodie_03.webp',
+    },
+    
+    thumbnails: [
+        'assets/img/product/product-3/model_03.webp',
+        'assets/img/product/product-3/earings_03_01.webp',
+        'assets/img/product/product-3/hoodie_03.webp',
+    ],
+    
+    description: 'A pair of substantial oval hoop earrings completely encrusted with hand-cut cubic zirconia that mimics the clarity and brilliance of diamonds. Each stone is individually set in polished silver, creating a luminous surface that refracts light from every angle. The hoops are weightless despite their architectural presence—engineered for comfort but designed for impact. When light hits them, they create a subtle halo effect around the face, drawing attention upward and inward.',
+    
+    ritualNotes: 'Wear these when you need to be crystal clear about your intentions. The geometric precision of the stones mirrors the clarity of your thoughts. Put them on before important conversations, negotiations, or moments when you refuse to be misunderstood. The light they catch serves as a reminder: your clarity is your power.',
+    
+    shipping: 'Each relic is packaged in a minimal black box with sapphire-blue interior lining. Ships within 3-5 business days. Worldwide delivery available. Customs fees may apply for international orders.'
+}
+
+
 ];
 
 // =============================================
