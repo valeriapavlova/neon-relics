@@ -164,7 +164,53 @@ function addToCapsule(relic) {
     updateCapsuleCounter();
 }
 
+// ---- Favorites management ----
 
+function getFavorites() {
+    try {
+        return JSON.parse(localStorage.getItem('favorites')) || [];
+    } catch (error) {
+        console.warn('Failed to parse favorites from localStorage:', error);
+        return [];
+    }
+}
+
+function saveFavorites(favorites) {
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+}
+
+function toggleFavorite(relicId, button) {
+    let favorites = getFavorites();
+    const isFavorite = favorites.includes(relicId);
+
+    if (isFavorite) {
+        // Remove from favorites
+        favorites = favorites.filter(id => id !== relicId);
+        updateFavoriteButton(button, false);
+    } else {
+        // Add to favorites
+        favorites.push(relicId);
+        updateFavoriteButton(button, true);
+    }
+
+    saveFavorites(favorites);
+}
+
+function updateFavoriteButton(button, isFavorite) {
+    const icon = button.querySelector('i');
+    if (!icon) {
+        console.warn('Favorite button icon not found');
+        return;
+    }
+
+    if (isFavorite) {
+        icon.className = 'ri-checkbox-circle-fill';
+        button.classList.add('favorite-btn--active');
+    } else {
+        icon.className = 'ri-add-circle-line';
+        button.classList.remove('favorite-btn--active');
+    }
+}
 
 function setupRelicActions() {
     const track = document.querySelector('.slider__track');
@@ -172,20 +218,34 @@ function setupRelicActions() {
 
     // delegación de eventos para todos los botones de las cards
     track.addEventListener('click', (event) => {
+        // Handle cart button
         const cartBtn = event.target.closest('.cart-btn');
-        if (!cartBtn) return;
+        if (cartBtn) {
+            event.preventDefault();
 
-        event.preventDefault();
+            const card = event.target.closest('.relic-card');
+            if (!card) return;
 
-        const card = event.target.closest('.relic-card');
-        if (!card) return;
+            const relicId = card.dataset.id;
+            const relic = relics.find((r) => r.id === relicId);
+            if (!relic) return;
 
-        const relicId = card.dataset.id;
-        const relic = relics.find((r) => r.id === relicId);
-        if (!relic) return;
+            addToCapsule(relic);
+            cartBtn.classList.add('cart-btn--active');
+            return;
+        }
 
-        addToCapsule(relic);
-        cartBtn.classList.add('cart-btn--active');
+        // Handle favorite button
+        const favBtn = event.target.closest('.favorite-btn');
+        if (favBtn) {
+            event.preventDefault();
+
+            const card = event.target.closest('.relic-card');
+            if (!card) return;
+
+            const relicId = card.dataset.id;
+            toggleFavorite(relicId, favBtn);
+        }
     });
 }
 
@@ -195,9 +255,20 @@ export function renderRelics() {
     const track = document.querySelector('.slider__track');
     if (!track) return;
 
+    const favorites = getFavorites();
+
     relics.forEach((relic, index) => {
         const card = createRelicCard(relic);
         card.classList.add(`relic-card--pos-${index + 1}`);
+        
+        // Restore favorite state
+        if (favorites.includes(relic.id)) {
+            const favBtn = card.querySelector('.favorite-btn');
+            if (favBtn) {
+                updateFavoriteButton(favBtn, true);
+            }
+        }
+        
         track.appendChild(card);
     });
 
