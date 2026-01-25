@@ -9,6 +9,38 @@ import { getCapsule, saveCapsule, updateCapsuleCounter } from './capsule.js';
 
 const relicsData = [
     {
+    id: '01',
+    title: 'Midnight Constellation Collar',
+    tagline: 'Multi-layered black crystal mesh that commands the room.',
+    price: '€890',
+    mood: 'Obsidian',
+    collection: 'Midnight Constellation',
+    type: 'Collar',
+    chapterTitle: 'MIDNIGHT CONSTELLATION CHAPTER',
+    chapterDescription: 'The Midnight Constellation chapter brings together pieces that evoke the mystery of a starlit sky. Each relic is designed for those who thrive in the shadows, turning silence into their most powerful statement. Darkness is not absence—it is depth.',
+    
+    images: {
+        image1: 'assets/img/product/product-1/modelo_01.webp', 
+        video: 'assets/videos/product/14.webm',
+        image2: 'assets/img/product/product-1/chaleco_01.webp', 
+        image3: 'assets/img/product/product-1/chaleco_02.webp',
+        image4: 'assets/img/product/product-1/modelo_01_02.webp',
+    },
+    
+    thumbnails: [
+        'assets/img/product/product-1/chaleco_01.webp',
+        'assets/img/product/product-1/chaleco_02.webp',
+        'assets/img/product/product-1/modelo_01_02.webp'
+    ],
+    
+    description: 'A statement collar constructed from thousands of hand-set black crystals arranged in a cascading mesh formation that covers the shoulders and chest. The Midnight Constellation Collar is architectural armor—each crystal catches and refracts light to create the illusion of a starlit night sky mapped across your body. The piece is both rigid and flexible, maintaining its dramatic silhouette while allowing natural movement. Handcrafted on a lightweight mesh base with gunmetal findings, it transforms the wearer into a living constellation.',
+    
+    ritualNotes: 'Wear when you need to embody mystery without explanation. This collar is not decoration—it is transformation. Put it on slowly, feeling the weight settle across your shoulders like a mantle. The crystals absorb ambient light and reflect it back, creating a halo effect that makes you both approachable and untouchable. Reserve for moments when your presence alone should communicate everything.',
+    
+    shipping: 'Each relic is packaged in a minimal black box with obsidian-black interior lining. Due to the delicate nature of the crystals, this piece ships with extra protective wrapping. Delivery within 5-7 business days. Worldwide shipping available with full insurance coverage. Customs fees may apply for international orders.'
+}
+,
+    {
         id: '02',
         title: 'Dominion Chain Collar',
         tagline: 'Thick gold cuban links that broadcast authority.',
@@ -47,7 +79,7 @@ const relicsData = [
     chapterDescription: 'The Sapphire Clarity chapter is for those who believe in transparent power. These relics celebrate the beauty of seeing clearly and being seen—without apology, without shadow. Crystal-cut geometry meets quiet confidence. Wear them when you want the world to understand your depth.',
     
     images: {
-        image1: 'assets/img/product/product-3/model_03.webp',  // La foto del headwrap azul con aros
+        image1: 'assets/img/product/product-3/model_03.webp', 
         video: 'assets/videos/product/3.webm',
         image2: 'assets/img/product/product-3/earings_03_01.webp',
         image3: 'assets/img/product/product-3/earings_03_02.webp',
@@ -65,7 +97,73 @@ const relicsData = [
     ritualNotes: 'Wear these when you need to be crystal clear about your intentions. The geometric precision of the stones mirrors the clarity of your thoughts. Put them on before important conversations, negotiations, or moments when you refuse to be misunderstood. The light they catch serves as a reminder: your clarity is your power.',
     
     shipping: 'Each relic is packaged in a minimal black box with sapphire-blue interior lining. Ships within 3-5 business days. Worldwide delivery available. Customs fees may apply for international orders.'
+},
+{
+    id: '05',
+    title: 'Obsidian Sequin Blazer',
+    tagline: 'Structured darkness that catches light only when you move.',
+    price: '€1,650',
+    mood: 'Obsidian',
+    collection: 'Obsidian Coil',
+    type: 'Blazer',
+    chapterTitle: 'OBSIDIAN COIL CHAPTER',
+    chapterDescription: 'The Obsidian Coil chapter is for those who understand that darkness is not absence—it is depth. These relics are crafted from black materials that absorb light and reflect mystery. Wear them when you want to be a question mark, not an answer. Power does not always shine; sometimes it absorbs.',
+    
+    images: {
+        image1: 'assets/img/product/product-5/modelo_05.webp', 
+        video: 'assets/videos/product/5.webm',
+        image2: 'assets/img/product/product-5/jacket_front.webp',
+        image3: 'assets/img/product/product-5/jacket_back.webp',
+        image4: 'assets/img/product/product-5/collar_05.webp'
+    },
+    
+    thumbnails: [
+        'assets/img/product/product-5/modelo_05.webp',
+        'assets/img/product/product-5/jacket_front.webp',
+        'assets/img/product/product-5/collar_05.webp'
+    ],
+    
+    description: 'A tailored blazer featuring black sequin-embellished shoulders and sleeves paired with matte black vinyl lapels and body. The Obsidian Sequin Blazer balances structured masculinity with subtle glam—the sequins create a constellation effect across the upper body, catching light only when you move. The vinyl sections provide sharp, clean lines that contrast with the textured sequins. This piece is designed for those who refuse to choose between power and beauty.',
+    
+    ritualNotes: 'Wear when you need to command a room without raising your voice. The sequins shimmer with movement, ensuring you\'re never truly still—even in silence, you create visual rhythm. The structured shoulders remind you to stand tall; the darkness reminds you that not everything needs to be explained. Perfect for evening events, important meetings, or any moment where you want people to remember you left.',
+    
+    shipping: 'Due to the delicate sequin work, this piece ships in a reinforced garment bag with tissue paper protection. Delivery within 5-7 business days. International shipping available with climate-controlled transport. Dry clean only care instructions included.'
+},
+{
+    id: '11',
+    title: 'Scarlet Veil Choker',
+    tagline: 'Cascading silver chains that shield and signal simultaneously.',
+    price: '€680',
+    mood: 'Crimson',
+    collection: 'Scarlet Veil',
+    type: 'Choker',
+    chapterTitle: 'SCARLET VEIL CHAPTER',
+    chapterDescription: 'The Scarlet Veil chapter is for those who understand that concealment is power. These relics blur the line between hiding and displaying, between mystery and magnetism. Wear them when you want the world to wonder what lies beneath.',
+    
+        images: {
+        image1: 'assets/img/product/product-11/modelo_11.webp', 
+        video: 'assets/videos/product/11.webm',
+        image2: 'assets/img/product/product-11/choker_front.webp',
+        image3: 'assets/img/product/product-11/choker_back.webp',
+        image4: 'assets/img/product/product-11/collar_11.webp'
+    },
+    
+    thumbnails: [
+        'assets/img/product/product-11/modelo_11.webp',
+        'assets/img/product/product-11/choker_front.webp',
+        'assets/img/product/product-11/collar_11.webp'
+    ],
+
+    description: 'A statement choker of interlocking silver chain fringe that cascades from a sculptural collar base. The Scarlet Veil Choker sits between armor and ornament—a piece that frames the body while simultaneously obscuring it. Each link catches light and movement, creating an effect of controlled chaos. Handcrafted in polished silver with precision-cut chain segments that move independently, allowing for subtle shifts in shape and presence.',
+    
+    ritualNotes: 'Wear when you need to disappear while being seen. The weight of the chains grounds you; the fringe reminds you of your edges. Perfect for moments when silence is your loudest statement—meetings where you observe more than you speak, spaces where your presence speaks before your voice.',
+    
+    shipping: 'Each relic is packaged in a minimal black box with crimson interior lining. Ships within 3-5 business days. Worldwide delivery available. Customs fees may apply for international orders.'
 }
+
+
+
+
 
 
 ];

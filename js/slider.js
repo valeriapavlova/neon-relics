@@ -4,25 +4,11 @@ import { getCapsule, saveCapsule, updateCapsuleCounter } from './capsule.js';
 
 const relics = [
     {
-        id: '11',
-        title: 'Scarlet Veil Choker',
-        image: 'assets/img/relics/11.webp',
-        alt: 'Scarlet Veil Choker - Metallic chain choker with cascading fringe',
-        link: 'product-card.html?id=11'
-    },
-    {
-        id: '03',
-        title: 'Lunar Orbit Earrings',
-        image: 'assets/img/relics/03.webp',
-        alt: 'Lunar Orbit Earrings - Pearl-encrusted oval statement earrings',
-        link: 'product-card.html?id=03'
-    },
-    {
-        id: '01',
-        title: 'Midnight Constellation Collar',
-        image: 'assets/img/relics/01.webp',
-        alt: 'Midnight Constellation Collar - Multi-layered black crystal mesh statement collar',
-        link: 'product-card.html?id=01'
+        id: '05',
+        title: 'Obsidian Coil Collar',
+        image: 'assets/img/relics/05.webp',
+        alt: 'Obsidian Coil Collar - Multi-layered black beaded statement collar necklace',
+        link: 'product-card.html?id=05'
     },
     {
         id: '02',
@@ -32,11 +18,25 @@ const relics = [
         link: 'product-card.html?id=02'
     },
     {
-        id: '05',
-        title: 'Obsidian Coil Collar',
-        image: 'assets/img/relics/05.webp',
-        alt: 'Obsidian Coil Collar - Multi-layered black beaded statement collar necklace',
-        link: 'product-card.html?id=05'
+        id: '01',
+        title: 'Midnight Constellation Collar',
+        image: 'assets/img/relics/01.webp',
+        alt: 'Midnight Constellation Collar - Multi-layered black crystal mesh statement collar',
+        link: 'product-card.html?id=01'
+    },
+    {
+        id: '03',
+        title: 'Lunar Orbit Earrings',
+        image: 'assets/img/relics/03.webp',
+        alt: 'Lunar Orbit Earrings - Pearl-encrusted oval statement earrings',
+        link: 'product-card.html?id=03'
+    },
+    {
+        id: '11',
+        title: 'Scarlet Veil Choker',
+        image: 'assets/img/relics/11.webp',
+        alt: 'Scarlet Veil Choker - Metallic chain choker with cascading fringe',
+        link: 'product-card.html?id=11'
     },
     {
         id: '08',
