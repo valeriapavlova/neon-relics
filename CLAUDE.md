@@ -56,3 +56,40 @@
 
 ## Перевірка перед комітом
 Відкрити `index.html`, `product-card.html?look=...` для всіх образів і `capsule.html` на 1440 і 375 px. У консолі не має бути помилок, у Network не має бути 404.
+
+## Git: гілки, коміти, PR
+Валерія вчиться працювати з Git, тому дотримуйся цих правил завжди й коротко пояснюй, що робиш.
+
+### Гілки
+- **Ніколи не комітити й не пушити прямо в `main`.** Кожна задача — окрема гілка від свіжого `main`:
+  `git checkout main && git pull && git checkout -b <тип>/<коротка-назва>`
+- Назва гілки: англійською, kebab-case, з префіксом типу: `feat/look-page`, `fix/capsule-counter`, `style/featured-grid`, `docs/readme`, `chore/compress-images`.
+
+### Коміти — Conventional Commits, іспанською
+Формат: `<тип>(<область>): <що зроблено>`
+- **Типи:** `feat` нова функція · `fix` виправлення бага · `style` тільки CSS/вигляд · `refactor` переписаний код без зміни поведінки · `perf` швидкість/вага · `docs` документація · `chore` службове (файли, налаштування) · `a11y` доступність
+- **Область (необов'язково):** `capsule`, `look`, `featured`, `header`, `footer`, `events`, `about`, `data`, `assets`
+- **Опис:** іспанською, з малої літери, в інфінітиві, без крапки в кінці, до ~70 символів. Пояснює *що* змінилось, а не *як*.
+- Якщо потрібно, після порожнього рядка тіло коміту зі списком змін (`- ...`).
+
+Приклади:
+```
+feat(capsule): añadir reordenación con drag & drop y botones ↑↓
+fix(look): redirigir a la colección si el id no existe
+style(featured): ajustar la cuadrícula escalonada en tablet
+refactor(data): mover LOOKS y PIECES a js/data.js
+a11y(capsule): añadir aria-pressed a los botones de la cápsula
+perf(assets): convertir retratos a WebP 1200×1600
+```
+
+### Як комітити
+- **Маленькі логічні коміти:** один коміт = одна зміна, яку можна описати одним рядком. Не змішувати в одному коміті дані, стилі й нову функцію.
+- Перед комітом: пройти «Перевірку перед комітом» (вище), подивитися `git status` і `git diff --stat`, не додавати зайве (`.DS_Store`, тимчасові файли, скріншоти).
+- Додавати файли поіменно (`git add js/capsule.js css/styles.css`), а не `git add .` наосліп.
+- **Перед кожним комітом показати Валерії список змін і запропонований меседж**, і комітити після її «ок».
+
+### PR
+- Після завершення задачі: `git push -u origin <гілка>`, потім дати Валерії посилання на створення PR:
+  `https://github.com/valeriapavlova/neon-relics/pull/new/<гілка>`
+- Назва PR як у головного коміту. В описі: що зроблено (список), як перевірити (які сторінки відкрити), скріншот до/після, якщо змінився вигляд.
+- PR зливає сама Валерія на GitHub. Після злиття: `git checkout main && git pull` і видалити локальну гілку (`git branch -d <гілка>`).
