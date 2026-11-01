@@ -6,27 +6,42 @@ import { LOOKS, PIECES } from './data.js';
 
 // ---- helpers capsule / contador ----
 
-// Formato en localStorage: [{ id, note }]
-// El formato antiguo ({ id, title, image, quantity... }) usaba ids de los
-// 12 productos viejos que ya no existen en PIECES, así que se descarta.
+// Formato en localStorage: [{ id, note }]  (el orden = orden de elección)
 const STORAGE_KEY = 'capsule';
+
+// Formato antiguo: [{ id: '02', title, image, quantity, ... }]
+// Los ids viejos que tienen equivalente en la colección cápsula se migran;
+// el resto se descarta. La cantidad se ignora: cada reliquia es única.
+const LEGACY_IDS = {
+    '01': 'constellation-gorget', // Midnight Constellation Collar
+    '02': 'dominion-collar',      // Dominion Chain Collar
+    '03': 'halo-hoop',            // Sapphire Clarity Hoops
+    '05': 'obsidian-choker',      // Obsidian Coil Collar
+};
 
 function normalize(list) {
     if (!Array.isArray(list)) return [];
     const seen = new Set();
-    return list
-        .filter((item) => item && PIECES[item.id] && !seen.has(item.id) && seen.add(item.id))
-        .map((item) => ({ id: item.id, note: typeof item.note === 'string' ? item.note : '' }));
+    const clean = [];
+
+    list.forEach((item) => {
+        if (!item) return;
+        const id = PIECES[item.id] ? item.id : LEGACY_IDS[item.id];
+        if (!id || seen.has(id)) return;
+        seen.add(id);
+        clean.push({ id, note: typeof item.note === 'string' ? item.note : '' });
+    });
+
+    return clean;
 }
 
 export function getCapsule() {
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) return [];
-        const list = JSON.parse(raw);
-        const clean = normalize(list);
-        // si había datos del formato antiguo, guardar ya limpio
-        if (clean.length !== list.length) saveCapsule(clean);
+        const clean = normalize(JSON.parse(raw));
+        // si venía en formato antiguo, guardarlo ya migrado
+        if (JSON.stringify(clean) !== raw) saveCapsule(clean);
         return clean;
     } catch (e) {
         return [];
@@ -45,7 +60,7 @@ export function isInCapsule(id) {
     return getCapsule().some((item) => item.id === id);
 }
 
-// Añade piezas al final (el orden = orden de elección)
+// Añade piezas al final
 export function addToCapsule(...ids) {
     const capsule = getCapsule();
     ids.forEach((id) => {
@@ -60,6 +75,7 @@ export function removeFromCapsule(id) {
     updateCapsuleCounter();
 }
 
+// Contador del header: número de reliquias
 export function updateCapsuleCounter() {
     const counterBtn = document.querySelector('.wishlist-counter');
     if (!counterBtn) return;
