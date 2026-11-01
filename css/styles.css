@@ -2598,7 +2598,8 @@ a {
 		overflow: hidden;
 		aspect-ratio: var(--crop-ratio, 3 / 4);
 
-		& img {
+		& img,
+		& video {
 			position: absolute;
 			left: var(--crop-x, 0%);
 			top: var(--crop-y, 0%);
