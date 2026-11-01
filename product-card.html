@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>NEON RELICS — Jewelry for quiet dominion</title>
+    <title>Look — NEON RELICS</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -58,164 +58,17 @@
     <!-- / HEADER -->
 
     <main class="main">
-
-        <!-- Heading Section -->
-
-        <section class="section heading">
+        <section class="section look-page">
             <div class="container">
-                <div class="heading__wrapper">
-                    <h1 class="heading__title t--md"><!-- Contenido dinámico desde JS --></h1>
-                    <div class="heading__content">
-                        <div class="tags__wrapper">
-                            <span class="tag body-text--small"
-                                id="product-mood-tag"><!-- Contenido dinámico desde JS --></span>
-                            <span class="tag body-text--small"
-                                id="product-collection-tag"><!-- Contenido dinámico desde JS --></span>
-                            <span class="tag body-text--small"
-                                id="product-type-tag"><!-- Contenido dinámico desde JS --></span>
-                        </div>
-                        <p class="heading__description body-text"><!-- Contenido dinámico desde JS --></p>
-                    </div>
-                </div>
+                <a class="look-page__back t--link" href="index.html#collection">← All looks</a>
+
+                <!-- Contenido del look generado desde js/product.js (datos en js/data.js) -->
+                <article class="look" id="look"></article>
             </div>
         </section>
 
-        <!-- Products Section -->
-
-        <section class="section products">
-            <div class="container">
-
-                <div class="products__wrapper" id="products-wrapper">
-                    <!-- Tarjetas de productos generadas dinámicamente desde JS -->
-                    <!-- Example of a product card structure: -->
-                    <div class="grid-2col-4row">
-                        <!-- elements from first column -->
-                        <div class="gallery-image" data-product-image="1"> <!-- first row -->
-                            <img src="" alt="" id="product-image-1">
-                        </div>
-                        <div class="gallery-image" data-product-video="1"> <!-- first row -->
-                            <video id="product-video-1" autoplay loop muted playsinline></video>
-                        </div> 
-                        <div class="gallery-image" data-product-image="2"> <!-- second row -->
-                            <img src="" alt="" id="product-image-2">
-                        </div>
-
-                        <!--PRODUCT INFO CARD -->
-                        <aside class="product-card"> <!-- position sticky -->
-                            <div class="product-card__wrapper">
-
-                                <!-- Product Info Section -->
-                                <div class="product__card-info">
-
-                                    <!-- Breadcrumb Navigation -->
-                                    <nav class="product-breadcrumb body-text--small" aria-label="breadcrumb">
-                                        <a href="collection.html" class="breadcrumb-link">collection</a>
-                                        <span class="breadcrumb-separator">›</span>
-                                        <span class="breadcrumb-item"
-                                            id="product-collection"><!-- Contenido dinámico desde JS --></span>
-                                        <span class="breadcrumb-separator">›</span>
-                                        <span class="breadcrumb-item"
-                                            id="product-type"><!-- Contenido dinámico desde JS --></span>
-                                    </nav>
-
-                                    <!-- Product Thumbnails -->
-                                    <div class="product-thumbnails">
-                                        <button class="thumbnail-item thumbnail-item--active" data-thumbnail="1">
-                                            <img src="" alt="" id="thumbnail-1">
-                                        </button>
-                                        <button class="thumbnail-item" data-thumbnail="2">
-                                            <img src="" alt="" id="thumbnail-2">
-                                        </button>
-                                        <button class="thumbnail-item" data-thumbnail="3">
-                                            <img src="" alt="" id="thumbnail-3">
-                                        </button>
-                                    </div>
-
-                                    <!-- Product Title & Description -->
-                                    <div class="product-info">
-                                        <h2 class="product-title t--event" id="product-title"><!-- Contenido dinámico desde JS -->
-                                        </h2>
-                                        <p class="product-tagline body-text--small" id="product-tagline">
-                                            <!-- Contenido dinámico desde JS -->
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <!-- Product Action Buttons -->
-                                <div class="product-card__buttons">
-                                    <div class="products-card__buttons-block">
-
-                                        <!-- Quantity Selector -->
-                                        <div class="product-quantity">
-                                            <button class="quantity-btn quantity-btn--minus"
-                                                aria-label="Decrease quantity">
-                                                <span>−</span>
-                                            </button>
-                                            <input type="number" class="quantity-input" value="1" min="1" max="99"
-                                                aria-label="Product quantity" id="quantity-input">
-                                            <button class="quantity-btn quantity-btn--plus"
-                                                aria-label="Increase quantity">
-                                                <span>+</span>
-                                            </button>
-                                        </div>
-
-                                        <!-- Add to Capsule CTA -->
-                                        <button class="btn-add-capsule" id="add-to-capsule">
-                                            <span class="btn-text">add to capsule</span>
-                                            <span class="btn-price"
-                                                id="product-price"><!-- Contenido dinámico desde JS --></span>
-                                        </button>
-                                    </div>
-
-                                    <!-- Product Tabs Navigation -->
-                                    <nav class="product-tabs" role="tablist">
-                                        <button class="product-tab product-tab--active" role="tab" aria-selected="true"
-                                            aria-controls="tab-description" data-tab="description">
-                                            description
-                                        </button>
-                                        <button class="product-tab" role="tab" aria-selected="false"
-                                            aria-controls="tab-ritual" data-tab="ritual">
-                                            ritual notes
-                                        </button>
-                                        <button class="product-tab" role="tab" aria-selected="false"
-                                            aria-controls="tab-shipping" data-tab="shipping">
-                                            shipping
-                                        </button>
-                                    </nav>
-                                    <div class="product-tabs-content">
-                                        <div class="tab-panel tab-panel--active" id="tab-description" role="tabpanel">
-                                            <p id="tab-description-content"></p>
-                                        </div>
-                                        <div class="tab-panel" id="tab-ritual" role="tabpanel">
-                                            <p id="tab-ritual-content">
-                                                <!-- Contenido dinámico desde JS -->
-                                            </p>
-                                        </div>
-                                        <div class="tab-panel" id="tab-shipping" role="tabpanel">
-                                            <p id="tab-shipping-content">
-                                                <!-- Contenido dinámico desde JS -->
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </aside>
-
-                        <div class="gallery-image" data-product-image="3"> <!-- third row -->
-                            <img src="" alt="" id="product-image-3">
-                        </div>
-                        <div class="gallery-image" data-product-video="5"> <!-- first row -->
-                            <video id="product-video" autoplay loop muted playsinline></video>
-                        </div> 
-                        <div class="gallery-image" data-product-image="4"> <!-- fourth row -->
-                            <img src="" alt="" id="product-image-4">
-                        </div>
-
-                    </div>
-                </div>
-            </div>
-        </section>
-
+        <!-- Aviso al añadir / quitar piezas -->
+        <div class="toast" id="toast" role="status" aria-live="polite"></div>
     </main>
 
 
