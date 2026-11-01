@@ -53,9 +53,9 @@ const relicsData = [
         images: {
             image1: 'assets/img/relics/02.webp',
             video: 'assets/videos/product/product-video-2.mp4',
-            image2: 'assets/img/product/product-2/collar-2.png',
-            image3: 'assets/img/product/product-2/gafas-2.png',
-            image4: 'assets/img/product/product-2/jacket-2.png'
+            image2: 'assets/img/product/product-2/collar-2.webp',
+            image3: 'assets/img/product/product-2/gafas-2.webp',
+            image4: 'assets/img/product/product-2/jacket-2.webp'
         },
         thumbnails: [
             'assets/img/product/product-2/collar-2-small.jpg',
@@ -203,7 +203,16 @@ function renderProductData(relic) {
     const image3 = document.getElementById('product-image-3');
     const image4 = document.getElementById('product-image-4');
 
-    if (image1) image1.src = relic.images.image1;
+    // Alt-text para accesibilidad; si falta un archivo, ocultamos la imagen rota
+    const setImage = (img, src, alt) => {
+        if (!img) return;
+        img.hidden = false;
+        img.onerror = () => { img.hidden = true; };
+        img.src = src;
+        img.alt = alt;
+    };
+
+    setImage(image1, relic.images.image1, `${relic.title} — model wearing the relic`);
     if (videoElement) {
         videoElement.src = relic.images.video;
         videoElement.setAttribute('autoplay', '');
@@ -212,9 +221,9 @@ function renderProductData(relic) {
         videoElement.setAttribute('playsinline', '');
         videoElement.load();
     }
-    if (image2) image2.src = relic.images.image2;
-    if (image3) image3.src = relic.images.image3;
-    if (image4) image4.src = relic.images.image4;
+    setImage(image2, relic.images.image2, `${relic.title} — detail view`);
+    setImage(image3, relic.images.image3, `${relic.title} — second detail view`);
+    setImage(image4, relic.images.image4, `${relic.title} — styling view`);
 
     // Product card - Breadcrumb
     const productCollection = document.getElementById('product-collection');
@@ -225,7 +234,7 @@ function renderProductData(relic) {
     // Thumbnails
     relic.thumbnails.forEach((thumb, index) => {
         const thumbImg = document.getElementById(`thumbnail-${index + 1}`);
-        if (thumbImg) thumbImg.src = thumb;
+        setImage(thumbImg, thumb, `${relic.title} — thumbnail ${index + 1}`);
     });
 
     // Product info
@@ -242,9 +251,7 @@ function renderProductData(relic) {
     const ritualContent = document.getElementById('tab-ritual-content');
     const shippingContent = document.getElementById('tab-shipping-content');
 
-    if (descriptionContent) 
-        console.log('Asignando descripción:', relic.description);
-    descriptionContent.textContent = relic.description;
+    if (descriptionContent) descriptionContent.textContent = relic.description;
     if (ritualContent) ritualContent.textContent = relic.ritualNotes;
     if (shippingContent) shippingContent.textContent = relic.shipping;
 }
