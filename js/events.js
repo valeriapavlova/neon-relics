@@ -1,26 +1,26 @@
 // js/events.js
 const events = [
     {
-        date: '2026-02-14',
-        displayDate: '2026 02 14',
+        date: '2026-12-12',
+        displayDate: '2026 12 12',
         title: 'Coded Skin',
         text: 'Intimate presentation of new polished black pieces, designed for the night and the screen.',
     },
     {
-        date: '2026-03-21',
-        displayDate: '2026 03 21',
+        date: '2027-02-14',
+        displayDate: '2027 02 14',
         title: 'Sapphire Static',
         text: 'Portraits in deep blue; an experimental session where the jewel dictates the posture.',
     },
     {
-        date: '2026-05-19',
-        displayDate: '2026 05 19',
+        date: '2027-04-03',
+        displayDate: '2027 04 03',
         title: 'Halo Archive',
         text: 'Private viewing of collars and halos that will never reach open sale.',
     },
     {
-        date: '2026-09-13',
-        displayDate: '2026 09 13',
+        date: '2027-06-21',
+        displayDate: '2027 06 21',
         title: 'Orbit Ceremony',
         text: 'A single set of circular pieces, designed for those who spin off-center.',
     },
@@ -35,10 +35,13 @@ export function renderEvents() {
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    events
-        .filter((event) => new Date(event.date) >= today) // Only future events
-        .sort((a, b) => new Date(a.date) - new Date(b.date)) // Sort by date ascending
-        .forEach((event) => {
+    // Solo eventos futuros; si ya pasaron todos, mostramos los últimos 4
+    // para que la sección nunca se quede vacía
+    const sorted = [...events].sort((a, b) => new Date(a.date) - new Date(b.date));
+    const upcoming = sorted.filter((event) => new Date(event.date) >= today);
+    const visible = upcoming.length ? upcoming : sorted.slice(-4);
+
+    visible.forEach((event) => {
             const li = document.createElement('li');
             li.className = 'events__item';
 
