@@ -2558,3 +2558,474 @@ a {
 		width: 100%;
 	}
 }
+
+/* =============================================
+   ABOUT PAGE (about.html)
+   ============================================== */
+
+/* Tarjeta con número + panel oscuro (hero y manifesto) */
+.about-card {
+	display: flex;
+	flex-direction: column;
+	gap: var(--space-2xs);
+	margin: 0;
+
+	& .about-card__num {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		color: var(--c-text);
+	}
+
+	& .about-card__icon {
+		font-size: var(--fs-lg);
+		line-height: 1;
+		color: var(--c-primary);
+	}
+
+	& .about-card__frame {
+		padding: 10%;
+		background-color: var(--c-text);
+	}
+
+	& .about-card__frame--bleed {
+		padding: 0;
+	}
+
+	/* Recorte: cada tarjeta define su encuadre con variables */
+	& .about-card__crop {
+		position: relative;
+		overflow: hidden;
+		aspect-ratio: var(--crop-ratio, 3 / 4);
+
+		& img {
+			position: absolute;
+			left: var(--crop-x, 0%);
+			top: var(--crop-y, 0%);
+			width: var(--crop-w, 100%);
+			height: var(--crop-h, 100%);
+			max-width: none;
+			object-fit: cover;
+		}
+	}
+
+	& .about-card__crop--contain img {
+		object-fit: contain;
+	}
+}
+
+/* HERO: escenario con máscara, tarjetas flotantes y título */
+.about-hero {
+	& .container {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-md);
+		padding: var(--space-md) 0 var(--space-4xl);
+
+		@media (max-width: 48rem) {
+			padding-bottom: var(--space-2xl);
+		}
+	}
+
+	& .about-hero__stage {
+		position: relative;
+		width: 100%;
+		aspect-ratio: 1376 / 1232;
+
+		@media (max-width: 48rem) {
+			aspect-ratio: 3 / 4;
+		}
+	}
+
+	& .about-hero__mask {
+		position: absolute;
+		top: 0;
+		left: 50%;
+		width: 67.44%;
+		height: 100%;
+		object-fit: contain;
+		transform: translateX(-50%);
+
+		@media (max-width: 48rem) {
+			width: 80%;
+		}
+	}
+
+	/* Posiciones relativas al escenario (medidas del frame de 1376 × 1232) */
+	& .about-hero__card {
+		position: absolute;
+		left: var(--x);
+		top: var(--y);
+		width: var(--w);
+		min-width: 3.5rem;
+
+		@media (max-width: 48rem) {
+			& .about-card__num {
+				display: none;
+			}
+		}
+	}
+
+	& .about-hero__card--03 {
+		--x: 2.29%;
+		--y: 11.43%;
+		--w: 11.63%;
+		--crop-ratio: 127 / 169;
+	}
+
+	& .about-hero__card--04 {
+		--x: 88.59%;
+		--y: 3.25%;
+		--w: 11.41%;
+		--crop-ratio: 125 / 142;
+		--crop-w: 214.26%;
+		--crop-h: 214.2%;
+		--crop-x: -23.57%;
+		--crop-y: -114.11%;
+	}
+
+	& .about-hero__card--05 {
+		--x: 75.47%;
+		--y: 36.05%;
+		--w: 9.3%;
+		--crop-ratio: 102 / 122;
+		--crop-w: 311.62%;
+		--crop-h: 218.22%;
+		--crop-x: -95.35%;
+		--crop-y: -65.66%;
+	}
+
+	& .about-hero__card--006 {
+		--x: 14.53%;
+		--y: 41.47%;
+		--w: 11.63%;
+		--crop-ratio: 160 / 169;
+	}
+
+	& .about-hero__card--07 {
+		--x: 0%;
+		--y: 65.26%;
+		--w: 13.95%;
+		--crop-ratio: 160 / 200;
+		--crop-w: 210.15%;
+		--crop-h: 175.81%;
+		--crop-x: -54.59%;
+		--crop-y: -38.05%;
+	}
+
+	& .about-hero__card--008 {
+		--x: 85.17%;
+		--y: 61.93%;
+		--w: 11.63%;
+		--crop-ratio: 160 / 169;
+	}
+
+	/* En móvil las tarjetas de los bordes se recolocan para no salirse */
+	@media (max-width: 48rem) {
+		& .about-hero__card--04 {
+			--x: calc(100% - 3.5rem);
+		}
+
+		& .about-hero__card--008 {
+			--x: calc(100% - 3.5rem);
+			--y: 82%;
+		}
+
+		& .about-hero__card--07 {
+			--y: 84%;
+		}
+	}
+
+	& .about-hero__title {
+		position: absolute;
+		top: 62.09%;
+		left: 24.42%;
+		width: 51.16%;
+		line-height: 1;
+
+		@media (max-width: 64rem) {
+			left: 18%;
+			width: 64%;
+		}
+
+		@media (max-width: 48rem) {
+			top: 58%;
+			left: 10%;
+			width: 80%;
+		}
+	}
+
+	& .about-hero__tagline {
+		align-self: flex-end;
+		max-width: 25rem;
+		text-align: right;
+	}
+}
+
+/* MANIFESTO */
+.about-manifesto {
+	& .container {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-xl);
+		padding: var(--space-md) 0 var(--space-4xl);
+
+		@media (max-width: 48rem) {
+			gap: var(--space-lg);
+			padding-bottom: var(--space-2xl);
+		}
+	}
+
+	& h2 {
+		max-width: 72rem;
+	}
+
+	& .about-manifesto__list {
+		display: flex;
+		justify-content: space-between;
+		align-items: flex-start;
+		gap: var(--space-md);
+
+		@media (max-width: 64rem) {
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			row-gap: var(--space-lg);
+		}
+
+		@media (max-width: 40rem) {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+
+	& .about-manifesto__item {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2xs);
+
+		& .about-card {
+			flex: 0 0 auto;
+			width: 10rem;
+			--crop-ratio: 125 / 150;
+		}
+	}
+
+	/* Tarjeta con el texto al lado */
+	& .about-manifesto__item--row {
+		flex-direction: row;
+		align-items: flex-end;
+	}
+
+	/* Escalones y anchos de texto del diseño */
+	& .about-manifesto__item--01 {
+		padding-top: var(--space-md);
+
+		& .about-manifesto__text {
+			max-width: 10rem;
+			text-align: right;
+		}
+	}
+
+	& .about-manifesto__item--02 {
+		padding-top: calc(var(--space-2xl) + var(--space-sm));
+
+		& .about-manifesto__text {
+			max-width: 12.25rem;
+		}
+	}
+
+	& .about-manifesto__item--03 .about-manifesto__text {
+		max-width: 15rem;
+	}
+
+	& .about-manifesto__item--04 {
+		padding-top: var(--space-lg);
+
+		& .about-manifesto__text {
+			max-width: 10rem;
+			text-align: right;
+		}
+	}
+
+	@media (max-width: 64rem) {
+		& .about-manifesto__item:nth-child(odd) {
+			padding-top: 0;
+		}
+
+		& .about-manifesto__item:nth-child(even) {
+			padding-top: var(--space-2xl);
+		}
+	}
+
+	@media (max-width: 40rem) {
+		& .about-manifesto__item:nth-child(n) {
+			flex-direction: row;
+			align-items: flex-end;
+			padding-top: 0;
+		}
+
+		& .about-manifesto__text {
+			text-align: left;
+		}
+	}
+}
+
+/* PHILOSOPHY: panel con fondo, figura que sobresale y texto */
+.about-philosophy {
+	& .container {
+		padding: var(--space-4xl) 0 0;
+
+		@media (max-width: 48rem) {
+			padding-top: var(--space-2xl);
+		}
+	}
+
+	& .about-philosophy__panel {
+		position: relative;
+		display: flex;
+		align-items: flex-end;
+		min-height: 48rem;
+		padding: var(--space-md);
+		border-radius: var(--r-s);
+		/* la figura puede salir por arriba, pero se recorta abajo y a los lados */
+		clip-path: inset(-25% 0 0 0 round var(--r-s));
+
+		@media (max-width: 48rem) {
+			min-height: 32rem;
+			padding: var(--space-sm);
+		}
+	}
+
+	& .about-philosophy__bg {
+		position: absolute;
+		inset: 0;
+		overflow: hidden;
+		border-radius: var(--r-s);
+
+		& img {
+			position: absolute;
+			left: -11.48%;
+			top: -39.96%;
+			width: 119.62%;
+			height: 193.2%;
+			max-width: none;
+			object-fit: cover;
+		}
+	}
+
+	& .about-philosophy__figure {
+		position: absolute;
+		top: -13.54%;
+		left: 50%;
+		width: 60.54%;
+		height: auto;
+		transform: translateX(-50%);
+
+		@media (max-width: 48rem) {
+			top: -6%;
+			width: 90%;
+		}
+	}
+
+	& .about-philosophy__heading {
+		position: relative;
+		padding-left: var(--space-4xl);
+
+		@media (max-width: 64rem) {
+			padding-left: 0;
+		}
+
+		& .subtitle {
+			color: var(--c-bg);
+		}
+
+		& h2 {
+			max-width: 72rem;
+		}
+	}
+
+	& .about-philosophy__text {
+		display: flex;
+		gap: var(--space-md);
+		padding: var(--space-4xl) 0 0 var(--space-4xl);
+
+		& p:first-child {
+			max-width: 36rem;
+		}
+
+		& p:last-child {
+			max-width: 32.25rem;
+		}
+
+		@media (max-width: 64rem) {
+			padding-left: 0;
+		}
+
+		@media (max-width: 48rem) {
+			flex-direction: column;
+			padding-top: var(--space-2xl);
+		}
+	}
+}
+
+/* CÁPSULA: título, texto + botón y forma flotante */
+.about-capsule {
+	overflow-x: clip;
+
+	& .container {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-lg);
+		padding: var(--space-4xl) 0 var(--space-4xl) var(--space-4xl);
+
+		@media (max-width: 64rem) {
+			padding-left: 0;
+		}
+
+		@media (max-width: 48rem) {
+			gap: var(--space-md);
+			padding-block: var(--space-2xl);
+		}
+	}
+
+	& .about-capsule__blob {
+		position: absolute;
+		top: -1rem;
+		left: 79.07%;
+		width: 32.56%;
+		height: auto;
+		transform: rotate(98.31deg);
+		pointer-events: none;
+
+		@media (max-width: 48rem) {
+			top: 0;
+			left: 66%;
+			width: 34%;
+		}
+	}
+
+	& .heading-block {
+		position: relative;
+	}
+
+	& .about-capsule__row {
+		position: relative;
+		display: flex;
+		align-items: flex-end;
+		gap: var(--space-lg);
+
+		& p {
+			max-width: 37.5rem;
+		}
+
+		& .btn {
+			flex: 0 0 auto;
+		}
+
+		@media (max-width: 48rem) {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: var(--space-md);
+		}
+	}
+}
