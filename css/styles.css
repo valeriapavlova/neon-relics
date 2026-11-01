@@ -127,6 +127,11 @@ html {
 	scroll-behavior: smooth;
 }
 
+/* Evita el scroll horizontal en móvil (overflow-x en body no basta en iOS/Chrome) */
+html {
+	overflow-x: clip;
+}
+
 body {
 	min-height: 100vh;
 	font-family: var(--font-base);
@@ -1027,7 +1032,7 @@ a {
 			& .capsule__bg {
 				position: absolute;
 				inset: 0;
-				background: url('assets/img/capsule/capsule_bg.webp') center/cover no-repeat;
+				background: url('../assets/img/capsule/capsule_bg.webp') center/cover no-repeat;
 				z-index: 0;
 				opacity: 0.95;
 				pointer-events: none;
