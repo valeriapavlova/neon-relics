@@ -180,28 +180,16 @@
         <div class="relics__heading-wrapper padding--l-3xl">
           <div class="heading-block flex-column">
             <span class="subtitle">explore the collection</span>
-            <h2 class="t--md">Featured relics</h2>
+            <h2 class="t--md"><span data-looks-count>Four</span> looks,<br> <span data-relics-count>six</span> relics</h2>
           </div>
-          <p class="body-text">Twelve pieces, three entry portals. Start here and let the collection speak for itself.
-          </p>
+          <p class="body-text">Each look is a character. Each character wears one to three pieces. Choose who you are
+            tonight, then keep only what resonates.</p>
         </div>
 
-        <!-- Slider block -->
-        <div class="slider slider--relics" id="slider">
-          <div class="slider__track" aria-label="Featured relics" tabindex="0">
-            <!-- Relic cards will be dynamically inserted here -->
-
-          </div>
-
-          <!-- Slider navigation buttons -->
-          <button class="slider__nav slider__nav--prev" id="slider-prev" type="button" aria-label="Previous relic">
-            <span class="slider__arrow slider__arrow--left" aria-hidden="true"></span>
-          </button>
-
-          <button class="slider__nav slider__nav--next" id="slider-next" type="button" aria-label="Next relic">
-            <span class="slider__arrow slider__arrow--right" aria-hidden="true"></span>
-          </button>
-        </div>
+        <!-- Looks grid -->
+        <ul class="looks" aria-label="The four looks">
+          <!-- Las tarjetas de looks se insertan desde js/featured.js -->
+        </ul>
       </div>
     </section>
     <!-- / RELICS section -->
