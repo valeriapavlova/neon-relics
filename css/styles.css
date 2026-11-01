@@ -2598,7 +2598,8 @@ a {
 		overflow: hidden;
 		aspect-ratio: var(--crop-ratio, 3 / 4);
 
-		& img {
+		& img,
+		& video {
 			position: absolute;
 			left: var(--crop-x, 0%);
 			top: var(--crop-y, 0%);
@@ -2895,20 +2896,19 @@ a {
 		}
 	}
 
+	/* Fondo fijo al viewport: al hacer scroll el panel "descubre" otra parte (parallax, como .manifest en la home) */
 	& .about-philosophy__bg {
 		position: absolute;
 		inset: 0;
-		overflow: hidden;
 		border-radius: var(--r-s);
+		background-image: url("../assets/img/about-page/philosophy-bg.webp");
+		background-size: cover;
+		background-position: left top;
+		background-repeat: no-repeat;
+		background-attachment: fixed;
 
-		& img {
-			position: absolute;
-			left: -11.48%;
-			top: -39.96%;
-			width: 119.62%;
-			height: 193.2%;
-			max-width: none;
-			object-fit: cover;
+		@media (prefers-reduced-motion: reduce) {
+			background-attachment: scroll;
 		}
 	}
 

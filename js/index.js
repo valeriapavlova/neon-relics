@@ -4,6 +4,7 @@ import { renderEvents } from './events.js';
 import { setupHeaderMenu } from './header.js';
 import { initProductPage } from './product.js';
 import { updateCapsuleCounter, initCapsulePage } from './capsule.js';
+import { initAboutPage } from './about.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Siempre ejecutar header
@@ -23,6 +24,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Solo en product-card.html
     if (window.location.pathname.includes('product-card')) {
         initProductPage();
+    }
+
+    // Solo en about.html
+    if (document.body.dataset.page === 'about') {
+        initAboutPage();
     }
 
     // Solo en capsule.html
