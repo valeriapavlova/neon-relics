@@ -15,7 +15,6 @@
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
 
     <script defer src="js/index.js" type="module"></script>
-    <script defer src="js/capsule.js" type="module"></script>
 </head>
 
 <body data-page="capsule">
@@ -60,30 +59,25 @@
     <!-- / HEADER -->
 
     <main class="main">
-        <section class="section capsule">
+        <section class="section archive-page">
             <div class="container">
-                <div class="capsule__wrapper flex-column">
-                    <div class="capsule__header flex-column">
-                        <div class="heading-block flex-column">
-                            <span class="subtitle">a private ritual of adornment</span>
-                            <h1 class="t--md">Your capsule</h1>
-                        </div>
-    
-                        <p id="capsule-empty" class="body-text">
-                            Your capsule is empty. Start by adding relics from the collection.
-                        </p>
+                <header class="archive-page__head">
+                    <div class="heading-block flex-column">
+                        <span class="subtitle">a private ritual of adornment</span>
+                        <h1 class="t--md">Your capsule</h1>
                     </div>
+                    <p class="archive-page__intro body-text">Instead of a classic cart, each selection is kept in your
+                        capsule: an intimate inventory of pieces that resonate with you. Add, remove, reorder. You are not
+                        buying impulses; you are curating a small archive of power.</p>
+                </header>
 
-                    <div id="capsule-list" class="capsule__list">
-                        <!-- items desde JS -->
-                    </div>
-
-                    <button id="capsule-clear" class="btn btn--secondary">
-                        Clear capsule
-                    </button>
-                </div>
+                <!-- Lista, resumen y formulario generados desde js/capsule.js -->
+                <div class="archive-page__layout" id="capsule-root"></div>
             </div>
         </section>
+
+        <!-- Aviso al mover, quitar o sellar -->
+        <div class="toast" id="toast" role="status" aria-live="polite"></div>
     </main>
     <!-- FOOTER -->
     <footer class="section footer">

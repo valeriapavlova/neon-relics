@@ -1,32 +1,54 @@
 // js/capsule.js
 
-// con ayuda de AI (perplexity) - pero revisado y adaptado
+// =============================================
+// CÁPSULA
+// 1. Almacenamiento en localStorage + contador del header
+// 2. Página capsule.html: archivo ordenado, notas, release/undo,
+//    resumen "The archive" y formulario "Seal my capsule"
+// =============================================
 
 import { LOOKS, PIECES } from './data.js';
 
-// ---- helpers capsule / contador ----
+// =============================================
+// 1. ALMACENAMIENTO
+// =============================================
 
-// Formato en localStorage: [{ id, note }]
-// El formato antiguo ({ id, title, image, quantity... }) usaba ids de los
-// 12 productos viejos que ya no existen en PIECES, así que se descarta.
+// Formato en localStorage: [{ id, note }]  (el orden = orden de elección)
 const STORAGE_KEY = 'capsule';
+
+// Formato antiguo: [{ id: '02', title, image, quantity, ... }]
+// Los ids viejos que tienen equivalente en la colección cápsula se migran;
+// el resto se descarta. La cantidad se ignora: cada reliquia es única.
+const LEGACY_IDS = {
+    '01': 'constellation-gorget', // Midnight Constellation Collar
+    '02': 'dominion-collar',      // Dominion Chain Collar
+    '03': 'halo-hoop',            // Sapphire Clarity Hoops
+    '05': 'obsidian-choker',      // Obsidian Coil Collar
+};
 
 function normalize(list) {
     if (!Array.isArray(list)) return [];
     const seen = new Set();
-    return list
-        .filter((item) => item && PIECES[item.id] && !seen.has(item.id) && seen.add(item.id))
-        .map((item) => ({ id: item.id, note: typeof item.note === 'string' ? item.note : '' }));
+    const clean = [];
+
+    list.forEach((item) => {
+        if (!item) return;
+        const id = PIECES[item.id] ? item.id : LEGACY_IDS[item.id];
+        if (!id || seen.has(id)) return;
+        seen.add(id);
+        clean.push({ id, note: typeof item.note === 'string' ? item.note : '' });
+    });
+
+    return clean;
 }
 
 export function getCapsule() {
     try {
         const raw = localStorage.getItem(STORAGE_KEY);
         if (!raw) return [];
-        const list = JSON.parse(raw);
-        const clean = normalize(list);
-        // si había datos del formato antiguo, guardar ya limpio
-        if (clean.length !== list.length) saveCapsule(clean);
+        const clean = normalize(JSON.parse(raw));
+        // si venía en formato antiguo, guardarlo ya migrado
+        if (JSON.stringify(clean) !== raw) saveCapsule(clean);
         return clean;
     } catch (e) {
         return [];
@@ -45,7 +67,7 @@ export function isInCapsule(id) {
     return getCapsule().some((item) => item.id === id);
 }
 
-// Añade piezas al final (el orden = orden de elección)
+// Añade piezas al final
 export function addToCapsule(...ids) {
     const capsule = getCapsule();
     ids.forEach((id) => {
@@ -60,6 +82,7 @@ export function removeFromCapsule(id) {
     updateCapsuleCounter();
 }
 
+// Contador del header: número de reliquias
 export function updateCapsuleCounter() {
     const counterBtn = document.querySelector('.wishlist-counter');
     if (!counterBtn) return;
@@ -76,81 +99,308 @@ export function updateCapsuleCounter() {
     badge.style.display = count > 0 ? 'flex' : 'none';
 }
 
-// ---- RENDER CAPSULE PAGE ----
+// =============================================
+// 2. PÁGINA CAPSULE.HTML
+// =============================================
 
-function renderCapsuleList() {
-    const listEl = document.getElementById('capsule-list');
-    const emptyEl = document.getElementById('capsule-empty');
+const eur = (n) => '€' + n.toLocaleString('en-US');
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const pad = (n) => String(n).padStart(2, '0');
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
-    if (!listEl || !emptyEl) return;
+// Estado de la página (solo en memoria)
+let capsule = [];
+let removed = null; // { item, index } para "Undo"
+let sealed = null;  // { name } cuando la cápsula está sellada
+let root = null;
 
-    const capsule = getCapsule();
-    listEl.innerHTML = '';
+// ---- aviso (toast) ----
 
-    if (capsule.length === 0) {
-        emptyEl.style.display = 'block';
-        return;
+let toastTimer;
+
+function showToast(message) {
+    const toast = document.getElementById('toast');
+    if (!toast) return;
+    toast.textContent = message;
+    toast.classList.add('toast--visible');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove('toast--visible'), 2500);
+}
+
+// ---- render ----
+
+function undoTemplate() {
+    if (!removed) return '';
+    return `
+        <div class="archive-undo">
+            <span>${esc(PIECES[removed.item.id].name)} released from your capsule.</span>
+            <button type="button" class="archive-undo__btn" data-undo>Undo</button>
+        </div>`;
+}
+
+function emptyTemplate() {
+    return `
+        ${undoTemplate()}
+        <div class="archive-empty">
+            <h2 class="archive-empty__title">The archive is empty</h2>
+            <p class="archive-empty__text body-text">Open a look and keep the pieces that speak for you. They will wait here, in the order you choose.</p>
+            <a class="btn btn--primary" href="index.html#collection">See the four looks</a>
+        </div>`;
+}
+
+function entryTemplate(item, i) {
+    const piece = PIECES[item.id];
+    const look = LOOKS.find((l) => l.id === piece.look);
+    const last = i === capsule.length - 1;
+
+    return `
+        <li class="archive-entry" draggable="true" data-index="${i}">
+            <span class="archive-entry__handle" aria-hidden="true" title="Drag to reorder">⋮⋮</span>
+            <span class="archive-entry__index">${pad(i + 1)}</span>
+            <a class="archive-entry__media" href="product-card.html?look=${encodeURIComponent(piece.look)}" draggable="false">
+                <img src="${esc(piece.img)}" alt="${esc(piece.name)}" loading="lazy" draggable="false">
+            </a>
+            <div class="archive-entry__text">
+                <h3 class="archive-entry__name">${esc(piece.name)}</h3>
+                <p class="archive-entry__from">From ${esc(look ? look.name : '')} · ${esc(piece.edition)}</p>
+                <textarea class="archive-entry__note" rows="1" data-note="${esc(item.id)}"
+                    aria-label="Why ${esc(piece.name)} resonates with you" placeholder="Why it resonates…">${esc(item.note)}</textarea>
+            </div>
+            <div class="archive-entry__controls">
+                <button type="button" class="archive-entry__move" data-move="${i}" data-dir="-1" ${i === 0 ? 'disabled' : ''}
+                    aria-label="Move ${esc(piece.name)} up">↑</button>
+                <button type="button" class="archive-entry__move" data-move="${i}" data-dir="1" ${last ? 'disabled' : ''}
+                    aria-label="Move ${esc(piece.name)} down">↓</button>
+                <span class="archive-entry__price">${eur(piece.price)}</span>
+                <button type="button" class="archive-entry__release" data-remove="${esc(item.id)}"
+                    aria-label="Release ${esc(piece.name)}">Release</button>
+            </div>
+        </li>`;
+}
+
+function ledgerTemplate() {
+    const total = capsule.reduce((sum, item) => sum + PIECES[item.id].price, 0);
+    const looks = new Set(capsule.map((item) => PIECES[item.id].look)).size;
+
+    const action = sealed
+        ? `
+            <div class="ledger__sealed" role="status" tabindex="-1" data-sealed>
+                <p class="ledger__sealed-title">Capsule sealed</p>
+                <p>${esc(sealed.name)}, your ${capsule.length} ${capsule.length === 1 ? 'relic is' : 'relics are'} set aside under your name. In the real atelier, an invitation to a private viewing would follow.</p>
+            </div>
+            <button type="button" class="vitrine__btn" data-reopen>Open the capsule again</button>`
+        : `
+            <p class="ledger__text">Relics are not sold on impulse. Seal your capsule to request a private viewing, where each piece is fitted in person.</p>
+            <form class="seal-form" id="seal-form" novalidate>
+                <div class="seal-form__field">
+                    <label class="seal-form__label" for="seal-name">Name</label>
+                    <input class="seal-form__input" id="seal-name" name="name" type="text" autocomplete="name" required
+                        aria-describedby="seal-name-error">
+                    <span class="seal-form__error" id="seal-name-error" hidden>Add your name so we know who to expect.</span>
+                </div>
+                <div class="seal-form__field">
+                    <label class="seal-form__label" for="seal-email">Email</label>
+                    <input class="seal-form__input" id="seal-email" name="email" type="email" autocomplete="email" required
+                        aria-describedby="seal-email-error">
+                    <span class="seal-form__error" id="seal-email-error" hidden>Use an email like name@domain.com.</span>
+                </div>
+                <button type="submit" class="vitrine__btn vitrine__btn--filled">Seal my capsule</button>
+            </form>`;
+
+    return `
+        <aside class="vitrine ledger" aria-labelledby="ledger-title">
+            <h2 class="ledger__title" id="ledger-title">The archive</h2>
+            <dl class="ledger__list">
+                <dt>Relics kept</dt><dd>${capsule.length} of ${Object.keys(PIECES).length}</dd>
+                <dt>Looks represented</dt><dd>${looks} of ${LOOKS.length}</dd>
+                <dt class="ledger__total-label">Value of the capsule</dt><dd class="ledger__total">${eur(total)}</dd>
+            </dl>
+            ${action}
+        </aside>`;
+}
+
+// focus: selector del elemento que debe recibir el foco tras pintar
+function render(focus) {
+    if (!root) return;
+
+    if (!capsule.length) {
+        root.innerHTML = emptyTemplate();
+    } else {
+        root.innerHTML = `
+            <div class="archive-page__list">
+                <ol class="archive" aria-label="Capsule, in your order">
+                    ${capsule.map(entryTemplate).join('')}
+                </ol>
+                ${undoTemplate()}
+            </div>
+            ${ledgerTemplate()}`;
     }
 
-    emptyEl.style.display = 'none';
-
-    capsule.forEach((item) => {
-        const piece = PIECES[item.id];
-        const look = LOOKS.find((l) => l.id === piece.look);
-        const card = document.createElement('article');
-        card.className = 'relic-card capsule-card';
-        card.dataset.id = item.id;
-
-        card.innerHTML = `
-    <a href="product-card.html?look=${piece.look}" class="relic-card__link">
-        <figure class="relic-card__media">
-            <img src="${piece.img}" alt="${piece.name}${look ? `, from the ${look.name} look` : ''}" loading="lazy">
-        </figure>
-    </a>
-    <div class="relic-card__body">
-        <h3 class="relic-card__title t--card">${piece.name}</h3>
-        <button type="button" class="btn btn--card capsule-remove-btn" aria-label="Remove from capsule">
-            <i class="ri-close-circle-line" aria-hidden="true"></i>
-        </button>
-    </div>
-    `;
-
-        listEl.appendChild(card);
-    });
-
-    // delegación para eliminar
-    listEl.addEventListener(
-        'click',
-        (event) => {
-            const removeBtn = event.target.closest('.capsule-remove-btn');
-            if (!removeBtn) return;
-
-            const card = removeBtn.closest('.relic-card');
-            if (!card) return;
-
-            const id = card.dataset.id;
-            removeFromCapsule(id);
-            renderCapsuleList();
-        },
-        { once: true }
-    );
+    root.querySelectorAll('[data-note]').forEach(autosize);
+    if (focus) root.querySelector(focus)?.focus();
 }
 
-function setupClearButton() {
-    const clearBtn = document.getElementById('capsule-clear');
-    if (!clearBtn) return;
+// ---- acciones ----
 
-    clearBtn.addEventListener('click', () => {
-        saveCapsule([]);
-        updateCapsuleCounter();
-        renderCapsuleList();
-    });
-}
-
-// init solo cuando estemos en capsule.html
-document.addEventListener('DOMContentLoaded', () => {
-    if (document.body.dataset.page !== 'capsule') return;
-    renderCapsuleList();
+// Guardar, actualizar contador y volver a pintar
+function commit(focus) {
+    saveCapsule(capsule);
     updateCapsuleCounter();
-    setupClearButton();
-});
+    render(focus);
+}
+
+function move(from, to) {
+    if (to < 0 || to >= capsule.length || from === to) return false;
+    const [item] = capsule.splice(from, 1);
+    capsule.splice(to, 0, item);
+    sealed = null;
+    return true;
+}
+
+function release(id) {
+    const index = capsule.findIndex((item) => item.id === id);
+    if (index < 0) return;
+    removed = { item: capsule[index], index };
+    capsule.splice(index, 1);
+    sealed = null;
+    commit('[data-undo]');
+    showToast(`${PIECES[id].name} released`);
+}
+
+function undo() {
+    if (!removed) return;
+    const { item, index } = removed;
+    capsule.splice(Math.min(index, capsule.length), 0, item);
+    removed = null;
+    commit(`[data-remove="${item.id}"]`);
+    showToast('Restored to your capsule');
+}
+
+function autosize(textarea) {
+    textarea.style.height = 'auto';
+    textarea.style.height = `${textarea.scrollHeight}px`;
+}
+
+function handleSubmit(event) {
+    if (event.target.id !== 'seal-form') return;
+    event.preventDefault();
+
+    const name = root.querySelector('#seal-name');
+    const email = root.querySelector('#seal-email');
+    const okName = name.value.trim().length > 1;
+    const okEmail = EMAIL_RE.test(email.value.trim());
+
+    // mostrar / ocultar errores
+    [[name, okName], [email, okEmail]].forEach(([input, ok]) => {
+        input.setAttribute('aria-invalid', String(!ok));
+        document.getElementById(`${input.id}-error`).hidden = ok;
+    });
+
+    if (!okName) return name.focus();
+    if (!okEmail) return email.focus();
+
+    sealed = { name: name.value.trim() };
+    render('[data-sealed]');
+    showToast('Capsule sealed');
+}
+
+function handleClick(event) {
+    const btn = event.target.closest('button');
+    if (!btn || !root.contains(btn)) return;
+
+    if (btn.dataset.move !== undefined) {
+        const from = Number(btn.dataset.move);
+        const dir = Number(btn.dataset.dir);
+        const to = from + dir;
+        if (!move(from, to)) return;
+        // mantener el foco en la misma flecha; si queda desactivada, en la otra
+        const same = `[data-move="${to}"][data-dir="${dir}"]`;
+        const other = `[data-move="${to}"][data-dir="${-dir}"]`;
+        const edge = to === 0 || to === capsule.length - 1;
+        commit(edge ? other : same);
+    } else if (btn.dataset.remove) {
+        release(btn.dataset.remove);
+    } else if (btn.dataset.undo !== undefined) {
+        undo();
+    } else if (btn.dataset.reopen !== undefined) {
+        sealed = null;
+        render('#seal-name');
+    }
+}
+
+function handleInput(event) {
+    const id = event.target.dataset?.note;
+    if (!id) return;
+    const item = capsule.find((x) => x.id === id);
+    if (item) {
+        item.note = event.target.value;
+        saveCapsule(capsule);
+    }
+    autosize(event.target);
+}
+
+// ---- drag & drop (escritorio; en teclado y móvil se usan ↑↓) ----
+
+function setupDragAndDrop() {
+    let from = null;
+    const entry = (event) => event.target.closest?.('.archive-entry');
+
+    root.addEventListener('dragstart', (event) => {
+        const li = entry(event);
+        if (!li) return;
+        from = Number(li.dataset.index);
+        li.classList.add('archive-entry--dragging');
+        event.dataTransfer.effectAllowed = 'move';
+        try {
+            event.dataTransfer.setData('text/plain', String(from));
+        } catch (e) {
+            // algunos navegadores no permiten setData
+        }
+    });
+
+    root.addEventListener('dragover', (event) => {
+        const li = entry(event);
+        if (!li || from === null) return;
+        event.preventDefault();
+        root.querySelectorAll('.archive-entry--over').forEach((x) => x !== li && x.classList.remove('archive-entry--over'));
+        li.classList.add('archive-entry--over');
+    });
+
+    root.addEventListener('drop', (event) => {
+        const li = entry(event);
+        if (!li || from === null) return;
+        event.preventDefault();
+        const to = Number(li.dataset.index);
+        const name = PIECES[capsule[from].id].name;
+        if (move(from, to)) {
+            commit();
+            showToast(`${name} moved to position ${to + 1}`);
+        }
+        from = null;
+    });
+
+    root.addEventListener('dragend', () => {
+        from = null;
+        root.querySelectorAll('.archive-entry--dragging, .archive-entry--over')
+            .forEach((x) => x.classList.remove('archive-entry--dragging', 'archive-entry--over'));
+    });
+}
+
+// ---- init ----
+
+export function initCapsulePage() {
+    root = document.getElementById('capsule-root');
+    if (!root) return;
+
+    capsule = getCapsule();
+    render();
+    updateCapsuleCounter();
+
+    root.addEventListener('click', handleClick);
+    root.addEventListener('input', handleInput);
+    root.addEventListener('submit', handleSubmit);
+    setupDragAndDrop();
+
+    // ajustar alturas de las notas si cambia el ancho
+    window.addEventListener('resize', () => root.querySelectorAll('[data-note]').forEach(autosize));
+}

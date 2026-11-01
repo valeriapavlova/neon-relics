@@ -3,7 +3,7 @@ import { renderFeaturedLooks } from './featured.js';
 import { renderEvents } from './events.js';
 import { setupHeaderMenu } from './header.js';
 import { initProductPage } from './product.js';
-import { updateCapsuleCounter } from './capsule.js';
+import { updateCapsuleCounter, initCapsulePage } from './capsule.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Siempre ejecutar header
@@ -23,5 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Solo en product-card.html
     if (window.location.pathname.includes('product-card')) {
         initProductPage();
+    }
+
+    // Solo en capsule.html
+    if (document.getElementById('capsule-root')) {
+        initCapsulePage();
     }
 });
