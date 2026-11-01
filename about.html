@@ -1,0 +1,380 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>NEON RELICS — About</title>
+    <meta name="description"
+        content="NEON RELICS: jewelry for quiet dominion. A manifesto for those who choose presence over noise.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&family=Unbounded:wght@200..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+
+    <script defer src="js/index.js" type="module"></script>
+</head>
+
+<body data-page="about">
+    <!-- HEADER -->
+    <header class="header">
+        <div class="container header__container">
+            <!-- header logo-->
+            <div class="logo header__logo">
+                <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
+            </div>
+
+            <!-- header menu responsive button-->
+            <button type="button" class="header__menu-btn t--link">Menu</button>
+
+            <!-- header nav-->
+            <nav class="header__nav nav">
+                <ul class="nav__items">
+                    <li class="nav__item"><a class="nav__link t--link" href="index.html#collection">Collection</a></li>
+                    <li class="nav__item"><a class="nav__link t--link" href="about.html" aria-current="page">About</a></li>
+                    <li class="nav__item"><a class="nav__link t--link" href="capsule.html">Capsule</a></li>
+                    <li class="nav__item"><a class="nav__link t--link" href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+
+            <!-- header actions-->
+            <div class="header__actions">
+                <button type="button" class="wishlist-counter"></button>
+            </div>
+        </div>
+
+        <!-- OVERLAY MENU -->
+        <div class="header__menu-overlay" id="menuOverlay">
+            <button class="header__menu-close" id="menuClose" aria-label="Close menu">✕</button>
+            <nav class="header__menu-nav">
+                <a href="capsule.html" class="t--link">Capsule</a>
+                <a href="index.html#collection" class="t--link">Collection</a>
+                <a href="about.html" class="t--link" aria-current="page">About</a>
+                <a href="#contact" class="t--link">Contact</a>
+            </nav>
+        </div>
+    </header>
+    <!-- / HEADER -->
+
+    <main class="main about-page">
+
+        <!-- HERO: máscara central con tarjetas flotantes -->
+        <section class="section about-hero" aria-labelledby="about-title">
+            <div class="container">
+                <div class="about-hero__stage">
+                    <img class="about-hero__mask" src="assets/img/about-page/hero-mask.webp"
+                        alt="A red sculpted mask held between two gold bars" width="928" height="1232">
+
+                    <!-- Tarjetas decorativas (macro de piezas) -->
+                    <figure class="about-card about-hero__card about-hero__card--03" aria-hidden="true">
+                        <figcaption class="about-card__num t--card">03</figcaption>
+                        <div class="about-card__frame">
+                            <div class="about-card__crop">
+                                <img src="assets/img/about-page/card-03.webp" alt="" loading="lazy">
+                            </div>
+                        </div>
+                    </figure>
+                    <figure class="about-card about-hero__card about-hero__card--04" aria-hidden="true">
+                        <figcaption class="about-card__num t--card">04</figcaption>
+                        <div class="about-card__frame">
+                            <div class="about-card__crop">
+                                <img src="assets/img/about-page/card-04.webp" alt="" loading="lazy">
+                            </div>
+                        </div>
+                    </figure>
+                    <figure class="about-card about-hero__card about-hero__card--05" aria-hidden="true">
+                        <figcaption class="about-card__num t--card">05</figcaption>
+                        <div class="about-card__frame">
+                            <div class="about-card__crop">
+                                <img src="assets/img/about-page/card-05.webp" alt="" loading="lazy">
+                            </div>
+                        </div>
+                    </figure>
+                    <figure class="about-card about-hero__card about-hero__card--006" aria-hidden="true">
+                        <figcaption class="about-card__num t--card">006</figcaption>
+                        <div class="about-card__frame about-card__frame--bleed">
+                            <div class="about-card__crop">
+                                <img src="assets/img/about-page/card-006.webp" alt="" loading="lazy">
+                            </div>
+                        </div>
+                    </figure>
+                    <figure class="about-card about-hero__card about-hero__card--07" aria-hidden="true">
+                        <figcaption class="about-card__num t--card">07</figcaption>
+                        <div class="about-card__frame">
+                            <div class="about-card__crop">
+                                <img src="assets/img/about-page/card-07.webp" alt="" loading="lazy">
+                            </div>
+                        </div>
+                    </figure>
+                    <figure class="about-card about-hero__card about-hero__card--008" aria-hidden="true">
+                        <figcaption class="about-card__num t--card">008</figcaption>
+                        <div class="about-card__frame about-card__frame--bleed">
+                            <div class="about-card__crop">
+                                <img src="assets/img/about-page/card-008.webp" alt="" loading="lazy">
+                            </div>
+                        </div>
+                    </figure>
+
+                    <h1 class="about-hero__title t--md" id="about-title">Jewelry for quiet dominion</h1>
+                </div>
+
+                <p class="about-hero__tagline body-text body-text--big">Pieces sculpted for those who command
+                    presence, not attention.</p>
+            </div>
+        </section>
+
+        <!-- MANIFESTO -->
+        <section class="section about-manifesto" aria-labelledby="manifesto-title">
+            <div class="container">
+                <div class="heading-block flex-column">
+                    <span class="subtitle">manifesto</span>
+                    <h2 class="t--md" id="manifesto-title">We design for the ones who…</h2>
+                </div>
+
+                <ul class="about-manifesto__list">
+                    <li class="about-manifesto__item about-manifesto__item--row about-manifesto__item--01">
+                        <figure class="about-card">
+                            <figcaption class="about-card__num t--card">
+                                <span>01</span>
+                                <i class="ri-add-circle-line about-card__icon" aria-hidden="true"></i>
+                            </figcaption>
+                            <div class="about-card__frame">
+                                <div class="about-card__crop about-card__crop--contain">
+                                    <img src="assets/img/relics/08.webp" alt="Portrait with a magenta veil of light across the eyes" loading="lazy">
+                                </div>
+                            </div>
+                        </figure>
+                        <p class="about-manifesto__text body-text body-text--big">→ Choose presence over noise.</p>
+                    </li>
+                    <li class="about-manifesto__item about-manifesto__item--02">
+                        <figure class="about-card">
+                            <figcaption class="about-card__num t--card"><span>02</span></figcaption>
+                            <div class="about-card__frame">
+                                <div class="about-card__crop about-card__crop--contain">
+                                    <img src="assets/img/relics/11.webp" alt="Portrait with a red band painted over the eyes" loading="lazy">
+                                </div>
+                            </div>
+                        </figure>
+                        <p class="about-manifesto__text body-text body-text--big">→ Prefer mystery to explanation.</p>
+                    </li>
+                    <li class="about-manifesto__item about-manifesto__item--row about-manifesto__item--03">
+                        <figure class="about-card">
+                            <figcaption class="about-card__num t--card"><span>03</span></figcaption>
+                            <div class="about-card__frame">
+                                <div class="about-card__crop about-card__crop--contain">
+                                    <img src="assets/img/about-page/manifesto-silhouette.webp" alt="Silver-haired man in profile, high blue satin collar" loading="lazy">
+                                </div>
+                            </div>
+                        </figure>
+                        <p class="about-manifesto__text body-text body-text--big">→ Know that one piece is enough to
+                            shift the entire reading of a silhouette.</p>
+                    </li>
+                    <li class="about-manifesto__item about-manifesto__item--04">
+                        <figure class="about-card">
+                            <figcaption class="about-card__num t--card"><span>04</span></figcaption>
+                            <div class="about-card__frame">
+                                <div class="about-card__crop about-card__crop--contain">
+                                    <img src="assets/img/relics/04.webp" alt="Portrait with a blue face, gold beads and a thin halo" loading="lazy">
+                                </div>
+                            </div>
+                        </figure>
+                        <p class="about-manifesto__text body-text body-text--big">→ Want their style to be a code, not
+                            an algorithm.</p>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- PHILOSOPHY: panel con fondo y figura -->
+        <section class="section about-philosophy" aria-labelledby="philosophy-title">
+            <div class="container">
+                <div class="about-philosophy__panel">
+                    <div class="about-philosophy__bg" aria-hidden="true">
+                        <img src="assets/img/about-page/philosophy-bg.webp" alt="" loading="lazy">
+                    </div>
+                    <img class="about-philosophy__figure" src="assets/img/about-page/philosophy-figure.webp"
+                        alt="Figure in a wide black hat holding red flowers at the collar" loading="lazy" width="1171" height="1300">
+                    <div class="about-philosophy__heading heading-block flex-column">
+                        <span class="subtitle">philosophy</span>
+                        <h2 class="t--md" id="philosophy-title">A private ritual of adornment</h2>
+                    </div>
+                </div>
+
+                <div class="about-philosophy__text">
+                    <p class="body-text body-text--big">NEON RELICS exists in the space where high fashion crosses over
+                        with interface design. Each piece is a silent signal: it states something without saying it,
+                        occupying space without asking permission.</p>
+                    <p class="body-text body-text--big">We don't follow seasons or trends. We create relics—objects that
+                        amplify what already exists inside the wearer.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CÁPSULA -->
+        <section class="section about-capsule" aria-labelledby="about-capsule-title">
+            <div class="container">
+                <img class="about-capsule__blob" src="assets/img/about-page/blob-capsule.webp" alt="" aria-hidden="true"
+                    loading="lazy" width="872" height="900">
+                <div class="heading-block flex-column">
+                    <span class="subtitle">capsule</span>
+                    <h2 class="t--md" id="about-capsule-title">NEON RELICS</h2>
+                </div>
+                <div class="about-capsule__row">
+                    <p class="body-text body-text--big">is an invitation to build your own capsule of personal power.
+                        This is not about accumulating—it's about selecting carefully the few pieces that say exactly
+                        what you need, even if no one else can translate it.</p>
+                    <a class="btn btn--primary" href="index.html#collection">Explore collection</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FORM / Newsletter section -->
+
+        <section class="section frequency" id="contact">
+            <div class="container">
+
+                <!-- Newsletter form wrapper -->
+                <div class="wrapper wrapper--red">
+
+                    <!-- Newsletter heading wrapper -->
+                    <div class="heading-wrapper flex-row">
+                        <div class="heading-block flex-column padding--l-3xl">
+                            <span class="subtitle">stay in the orbit</span>
+                            <h2 class="t--md title-light">Join the inner frequency</h2>
+                        </div>
+                        <!-- Newsletter text -->
+                        <div class="wrapper__text-block">
+                            <p class="body-text">
+                                No spam, no algorithms. Just a notice when a new chapter of the collection opens.
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="frequency__form-block">
+
+                        <picture class="form-img" aria-hidden="true">
+                            <source srcset="assets/img/form/form_img.webp" type="image/webp">
+                            <img src="assets/img/form/form_img.png" alt="Abstract background behind the newsletter form"
+                                class="relics__bg" loading="lazy" aria-hidden="true" width="320" height="400">
+                        </picture>
+
+                        <!-- Form -->
+                        <form class="form" action="#" method="post" novalidate>
+                            <div class="input-wrapper">
+
+                                <div class="form__field">
+                                    <label for="name" class="form__label"></label>
+                                    <input id="name" name="name" type="text" class="form__input" placeholder="Enter your name"
+                                        autocomplete="name" required>
+                                </div>
+
+                                <div class="form__field">
+                                    <label for="email" class="form__label"></label>
+                                    <input id="email" name="email" type="email" class="form__input"
+                                        placeholder="Enter your transmission point" autocomplete="email" required>
+                                </div>
+
+                                <!-- Checkbox de consentimiento -->
+                                <div class="form__field-checkbox">
+                                    <input type="checkbox" id="consent" name="consent" class="form__checkbox" required>
+                                    <label for="consent" class="form__checkbox-label">
+                                        I agree to receive transmissions about NEON RELICS chapters.
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="form__btn-wrapper">
+                                <button type="submit" class="btn btn--light">
+                                    Notify me
+                                </button>
+                            </div>
+
+                            <!-- Success / error message (in JS) -->
+                            <p class="frequency__message" aria-live="polite"></p>
+                        </form>
+
+                        <!-- form video -->
+                        <video class="form__video" src="assets/videos/form/form_video.mp4" autoplay loop muted playsinline
+                            preload="none" aria-hidden="true" width="288"></video>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+
+        <!-- / FREQUENCY  -->
+    </main>
+    <!-- FOOTER -->
+    <footer class="section footer">
+        <div class="container">
+            <div class="footer__grid">
+
+                <!-- Row 1 -->
+
+                <!-- Logo -->
+                <div class="footer__item footer__item--brand">
+                    <div class="logo footer__logo">
+                        <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
+                    </div>
+                    <p class="footer__claim">Limited relics for unlimited futures.</p>
+                </div>
+
+                <!-- Navigation -->
+                <nav class="footer__item footer__item--nav" aria-label="Footer navigation">
+                    <ul class="footer-nav__list">
+                        <li><a href="capsule.html" class="footer-nav__link t--link-big">Capsule</a></li>
+                        <li><a href="about.html" class="footer-nav__link t--link-big">About</a></li>
+                        <li><a href="index.html#collection" class="footer-nav__link t--link-big">Collection</a></li>
+                        <li><a href="index.html#contact" class="footer-nav__link t--link-big">Contact</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Social links -->
+                <nav class="footer__item footer__item--social t-align--end" aria-label="Social links">
+                    <ul class="footer-nav__list">
+                        <li>
+                            <a href="https://github.com/valeriapavlova" class="footer-nav__link t--link-big"
+                                target="_blank" rel="noreferrer" title="GitHub">
+                                GitHub
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.instagram.com/" class="footer-nav__link t--link-big" target="_blank"
+                                rel="noreferrer" title="Instagram">
+                                Instagram
+                            </a>
+                        </li>
+                        <li>
+                            <a href="https://www.linkedin.com/" class="footer-nav__link t--link-big" target="_blank"
+                                rel="noreferrer" title="LinkedIn">
+                                LinkedIn
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+
+                <!-- Row 2 -->
+                <p class="footer__text footer__text--credit body-text--small">
+                    Concept website created as a CEI final project.
+                </p>
+
+                <p class="footer__text footer__text--credit-end body-text--small">
+                    Photos by Max Shirko.
+                </p>
+
+                <p class="footer__text footer__text--credit-end t-align--end body-text--small">
+                    All rights reserved Valeriia Pavlova.
+                </p>
+
+            </div>
+        </div>
+    </footer>
+    <!-- / FOOTER -->
+</body>
+
+</html>
