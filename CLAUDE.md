@@ -46,7 +46,7 @@
 - Дані в `localStorage`, формат `[{ id, note }]`. Читання й запис обгорнути в `try/catch`. Старий формат з `quantity` мігрувати або очистити.
 - Лічильник у хедері (`.wishlist-counter`) показує кількість реліквій.
 
-### 4. About (`about.html` + `js/about.js`)
+### 4. About (`about.html`; відео через `js/motion.js`)
 - За фреймом `about` у Figma. Зображення в `assets/img/about-page/`, відео карток 006 і 008 у `assets/videos/about-page/` (WebM + MP4, відтворюються тільки без `prefers-reduced-motion`).
 - Фон блоку Philosophy з паралаксом (`background-attachment: fixed`), як секція manifest на головній.
 
