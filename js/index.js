@@ -10,11 +10,11 @@ import { initNewsletterForm } from './newsletter.js';
 document.addEventListener('DOMContentLoaded', () => {
     // Siempre ejecutar header
     setupHeaderMenu();
+    updateCapsuleCounter(); // restaurar contador desde localStorage (todas las páginas)
 
     // Solo si estamos en index.html (sección de looks)
     if (document.querySelector('.looks')) {
         renderFeaturedLooks();
-        updateCapsuleCounter(); // restaurar contador desde localStorage
     }
 
     // Solo si hay eventos

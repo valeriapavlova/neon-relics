@@ -37,8 +37,6 @@
               title="Go to Collection section">Collection</a>
           </li>
           <li class="nav__item"><a class="nav__link t--link" href="about.html" title="Go to About page">About</a></li>
-          <li class="nav__item"><a class="nav__link t--link" href="capsule.html" title="Go to Capsule page">Capsule</a>
-          </li>
           <li class="nav__item"><a class="nav__link t--link" href="#contact" title="Go to Contact section">Contact</a>
           </li>
         </ul>
@@ -46,7 +44,10 @@
 
       <!-- header actions-->
       <div class="header__actions">
-        <button type="button" class="wishlist-counter"></button>
+        <a href="capsule.html" class="wishlist-counter" aria-label="Capsule, 0 relics">
+          <span class="wishlist-counter__label t--link">Capsule</span>
+          <span class="wishlist-counter__badge" aria-hidden="true">0</span>
+        </a>
       </div>
     </div>
 
@@ -54,7 +55,6 @@
     <div class="header__menu-overlay" id="menuOverlay">
       <button class="header__menu-close" id="menuClose" aria-label="Close menu">✕</button>
       <nav class="header__menu-nav">
-        <a href="capsule.html" class="t--link" title="Go to Capsule page">Capsule</a>
         <a href="#collection" class="t--link" title="Go to Collection section">Collection</a>
         <a href="about.html" class="t--link" title="Go to About page">About</a>
         <a href="#contact" class="t--link" title="Go to Contact section">Contact</a>
