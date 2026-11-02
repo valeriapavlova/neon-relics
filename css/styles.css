@@ -529,6 +529,8 @@ a {
 		flex-direction: row;
 		justify-content: space-between;
 		align-items: center;
+		/* Altura del header: antes la marcaba el círculo de 5.5rem */
+		padding-block: var(--space-sm);
 
 		& .nav {
 			& ul {
@@ -538,26 +540,9 @@ a {
 			}
 		}
 
-		.header__actions {
-
-			.wishlist-counter {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-				background-image: url(../assets/svg/cart-button.svg);
-				background-size: cover;
-				background-repeat: no-repeat;
-				border-radius: 50%;
-				width: 5.5rem;
-				height: 5.5rem;
-				padding: 0;
-
-				.wishlist-counter__badge {
-					font-size: 1.5em;
-					color: var(--c-text);
-					font-weight: bold;
-				}
-			}
+		& .header__actions {
+			display: flex;
+			align-items: center;
 		}
 	}
 
@@ -567,6 +552,45 @@ a {
 	}
 }
 
+/* Enlace a la cápsula: texto "Capsule" + círculo metálico con el número */
+.wishlist-counter {
+	display: inline-flex;
+	align-items: center;
+	gap: var(--space-2xs);
+	text-decoration: none;
+	border-radius: var(--r-s);
+
+	&:hover .wishlist-counter__label::after,
+	&:focus-visible .wishlist-counter__label::after {
+		transform: scaleX(1);
+	}
+
+	&:focus-visible {
+		outline: 2px solid var(--c-primary);
+		outline-offset: var(--space-3xs);
+	}
+
+	& .wishlist-counter__badge {
+		display: grid;
+		place-items: center;
+		width: var(--space-md);
+		height: var(--space-md);
+		border-radius: 50%;
+		background: url(../assets/svg/cart-button.svg) center / cover no-repeat;
+		box-shadow: 0 0.25rem 0.95rem color-mix(in srgb, var(--c-text) 20%, transparent);
+		color: var(--c-text);
+		font: var(--f-link-sm);
+		font-variant-numeric: tabular-nums;
+		line-height: 1;
+	}
+
+	/* En móvil solo el círculo; el aria-label mantiene el texto completo */
+	@media (max-width: 48rem) {
+		& .wishlist-counter__label {
+			display: none;
+		}
+	}
+}
 
 /* MAIN */
 .main {
