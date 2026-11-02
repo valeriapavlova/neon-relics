@@ -374,24 +374,30 @@
               <div class="input-wrapper">
 
                 <div class="form__field">
-                  <label for="name" class="form__label"></label>
+                  <label for="name" class="form__label visually-hidden">Name</label>
                   <input id="name" name="name" type="text" class="form__input" placeholder="Enter your name"
-                    autocomplete="name" required>
+                    autocomplete="name" required
+                    aria-describedby="name-error">
+                  <span class="form__error" id="name-error" hidden>Add your name, at least 2 letters.</span>
                 </div>
 
                 <div class="form__field">
-                  <label for="email" class="form__label"></label>
+                  <label for="email" class="form__label visually-hidden">Email</label>
                   <input id="email" name="email" type="email" class="form__input"
-                    placeholder="Enter your transmission point" autocomplete="email" required>
+                    placeholder="Enter your transmission point" autocomplete="email" required
+                    aria-describedby="email-error">
+                  <span class="form__error" id="email-error" hidden>Use an email like name@domain.com.</span>
                 </div>
 
                 <!-- Checkbox de consentimiento -->
                 <div class="form__field-checkbox">
-                  <input type="checkbox" id="consent" name="consent" class="form__checkbox" required>
+                  <input type="checkbox" id="consent" name="consent" class="form__checkbox" required
+                    aria-describedby="consent-error">
                   <label for="consent" class="form__checkbox-label">
                     I agree to receive transmissions about NEON RELICS chapters.
                   </label>
                 </div>
+                <span class="form__error" id="consent-error" hidden>Tick the box so we can write to you.</span>
               </div>
 
               <div class="form__btn-wrapper">
@@ -401,7 +407,7 @@
               </div>
 
               <!-- Success / error message (in JS) -->
-              <p class="frequency__message" aria-live="polite"></p>
+              <p class="frequency__message" role="status" aria-live="polite"></p>
             </form>
 
             <!-- form video -->
