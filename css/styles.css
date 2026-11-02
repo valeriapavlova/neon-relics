@@ -196,6 +196,19 @@ a {
 
 /* 4. UTILIDADES (clases helpers) */
 
+/* Oculto visualmente, pero accesible para lectores de pantalla */
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+	border: 0;
+}
+
 /* Text styles */
 
 .t--lg,
@@ -1540,12 +1553,39 @@ a {
 				outline: none;
 				border-bottom: 1px solid var(--c-bg--soft);
 				background-color: transparent;
+				font: var(--f-body-md);
+				color: var(--c-bg);
 
 				&::placeholder {
 					color: var(--c-bg--soft);
-					font: var(--f-body-md);
+					font: inherit;
 					text-transform: uppercase;
 				}
+
+				/* Foco visible: línea inferior más gruesa (sin mover el layout) */
+				&:focus-visible {
+					box-shadow: 0 1px 0 var(--c-bg);
+				}
+
+				&[aria-invalid="true"] {
+					border-bottom-style: dashed;
+				}
+			}
+		}
+
+		/* Error de cada campo (contraste 5,6:1 sobre --c-primary--dark) */
+		& .form__error {
+			display: block;
+			padding-top: var(--space-3xs);
+			font: var(--f-body-sm);
+			color: var(--c-bg);
+
+			&::before {
+				content: "— ";
+			}
+
+			&[hidden] {
+				display: none;
 			}
 		}
 
@@ -1562,6 +1602,11 @@ a {
 				background-color: var(--c-bg--soft);
 				accent-color: var(--c-bg);
 				outline: none;
+
+				&:focus-visible {
+					outline: 2px solid var(--c-bg);
+					outline-offset: 2px;
+				}
 			}
 
 			& .form__checkbox-label {
@@ -1572,6 +1617,9 @@ a {
 		}
 
 		& .form__btn-wrapper {
+			/* Botón alineado al borde derecho de los campos */
+			align-self: flex-end;
+
 			@media (max-width: 78rem) {
 				width: 100%;
 			}
@@ -1583,6 +1631,22 @@ a {
 					align-self: stretch;
 					width: 100%;
 				}
+			}
+		}
+
+		/* Mensaje de error / éxito (lo rellena js/newsletter.js) */
+		& .frequency__message {
+			width: 100%;
+			font: var(--f-body-md);
+			color: var(--c-bg);
+
+			&:empty {
+				display: none;
+			}
+
+			&.frequency__message--success {
+				padding: var(--space-xs);
+				border: 1px solid var(--c-bg);
 			}
 		}
 	}
