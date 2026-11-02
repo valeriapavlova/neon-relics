@@ -843,6 +843,11 @@ a {
 		background-repeat: no-repeat;
 		background-attachment: fixed;
 
+		/* Sin parallax si el usuario pide menos movimiento (como en about) */
+		@media (prefers-reduced-motion: reduce) {
+			background-attachment: scroll;
+		}
+
 		& .manifest__bg {
 			position: absolute;
 			left: 50%;
