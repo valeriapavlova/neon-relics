@@ -1337,8 +1337,12 @@ a {
 }
 
 
-.events__img.events__img--floating {
-	animation: eventsFloat 12s ease-in-out infinite alternate;
+/* Flotación suave de la imagen de eventos; solo si no se pide menos movimiento.
+   La clase está en el <img> (.events__img-inner), no en el <picture> (.events__img) */
+@media (prefers-reduced-motion: no-preference) {
+	.events__img-inner.events__img--floating {
+		animation: eventsFloat 12s ease-in-out infinite alternate;
+	}
 }
 
 @keyframes eventsFloat {
