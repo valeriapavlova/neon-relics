@@ -5,6 +5,7 @@ import { setupHeaderMenu } from './header.js';
 import { initProductPage } from './product.js';
 import { updateCapsuleCounter, initCapsulePage } from './capsule.js';
 import { initAboutPage } from './about.js';
+import { initNewsletterForm } from './newsletter.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Siempre ejecutar header
@@ -24,6 +25,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Solo en product-card.html
     if (window.location.pathname.includes('product-card')) {
         initProductPage();
+    }
+
+    // Formulario "Join the inner frequency" (index.html y about.html)
+    if (document.querySelector('.frequency .form')) {
+        initNewsletterForm();
     }
 
     // Solo en about.html
