@@ -56,18 +56,22 @@
 ## Відомі задачі
 Робити по черзі, кожну в окремій гілці від свіжого `main`.
 
-1. **`feat/newsletter-form`** — форма «Join the inner frequency» на `index.html` і `about.html`.
-   - Валідація в клієнті: ім'я, email і галочка згоди.
-   - Повідомлення про помилку чи успіх у `.frequency__message`, як у «Seal my capsule».
-2. **`a11y/header-counter`** — капсула в хедері.
-   - Прибрати пункт «Capsule» з nav і з мобільного меню.
-   - Праворуч одне посилання на `capsule.html`: слово «Capsule» + металевий кружок з кількістю, `aria-label` «Capsule, N relics». На 375 px тільки кружок.
-   - У `assets/svg/cart-button.svg` коло не по центру (`cx 34.1`, `cy 30.1`, `r 19` у viewBox 69×69, решта — тінь): обрізати viewBox до кола, тінь зробити через `box-shadow`, кружок ~2rem, цифра по центру, вирівняти з меню.
-3. **`a11y/reduced-motion`** — на головній відео й паралакс (секція manifest) з урахуванням `prefers-reduced-motion`, як уже зроблено на about.
-4. **`chore/remove-unused-images`** — 11 невикористаних зображень (~400 КБ) у `assets/img/product/` і `assets/img/relics/12.webp`. **Перед видаленням показати Валерії список.**
-5. **Гілка `copilot/fix-buttons-in-cards`** — перевірити різницю з `main`; якщо там тільки старі картки, запропонувати видалити гілку.
-6. **`style/muted-contrast`** — `--c-text--muted` `#82868B` → `#595E64` (контраст 4,87:1 на `#D8DFE6`, зараз 2,7:1).
-7. Підпис «Photos by Max Shirko» у футері замінити, коли будуть власні AI-зображення.
+1. **`a11y/reduced-motion`** — на головній відео й паралакс (секція manifest) з урахуванням `prefers-reduced-motion`, як уже зроблено на about.
+2. **`chore/remove-unused-images`** — 11 невикористаних зображень (~400 КБ) у `assets/img/product/` і `assets/img/relics/12.webp`. **Перед видаленням показати Валерії список.**
+3. **Гілка `copilot/fix-buttons-in-cards`** — перевірити різницю з `main`; якщо там тільки старі картки, запропонувати видалити гілку.
+4. **`style/muted-contrast`** — `--c-text--muted` `#82868B` → `#595E64` (контраст 4,87:1 на `#D8DFE6`, зараз 2,7:1).
+5. **`feat/motion`** — тихий motion, робити після задачі `a11y/reduced-motion` (на тій самій основі `prefers-reduced-motion`).
+   - **Токени** (додати в `:root`, наявні `--transition-*` не чіпати):
+     `--ease-reveal: cubic-bezier(.2,.7,.2,1)` · `--dur-reveal: 700ms` · `--dur-morph: 650ms` · `--dur-draw: 900ms`.
+   - **Правила:** анімувати тільки `opacity` і `transform`; зсув 12–24 px; кожна анімація один раз (без повтору при скролі назад); на кожному hero рухається щось одне головне; без бібліотек; при `prefers-reduced-motion: reduce` усе видно одразу, без руху.
+   - **Заголовки рядками:** кожен рядок у `overflow:hidden`, текст виїжджає з `translateY(105%)` → 0, `--dur-reveal`, затримка 90 мс на рядок. Де: h1 на головній і about (після плавної появи відео, fade 400 мс), назва образу на картці образу, «Your capsule».
+   - **Лінії-роздільники:** `transform: scaleX(0)` → 1 від лівого краю, `--dur-draw`, через IntersectionObserver (threshold 0.4), між сусідніми лініями +120 мс. Де: лінії під заголовками секцій, лінії між прикрасами в «Worn in this look», лінії в панелі «The archive».
+   - **Featured:** картки-сходинки з'являються по черзі: opacity 0 + `translateY(24px)` → на місці, затримка 200 мс + 80 мс на картку. Hover: фото `scale(1.03)` за `--dur-reveal`, стрілка в назві зсувається на 4 px.
+   - **Картка → портрет:** cross-document View Transitions (`@view-transition { navigation: auto; }`). Фото картки в Featured і портрет на `product-card.html` мають однакове `view-transition-name: look-<id>` (унікальне для кожного образу). Тривалість `--dur-morph`, решта сторінки — crossfade 300 мс. У Firefox без анімації (це нормально).
+   - **Капсула:** рядки списку з'являються по черзі (80 мс), при ↑↓ рядки плавно міняються місцями (FLIP, 200 мс), Release згортає рядок. Кружок у хедері ледь «пульсує» (scale 1 → 1.15 → 1, 300 мс), коли додаєш реліквію.
+   - **Не робити:** нових паралаксів, кастомного курсора, scroll-jacking, безкінечних анімацій.
+   - **Перевірка:** усі сторінки на 1440 і 375 px з увімкненим і вимкненим «зменшити рух».
+6. Підпис «Photos by Max Shirko» у футері замінити, коли будуть власні AI-зображення.
 
 ## Перевірка перед комітом
 Відкрити `index.html`, `about.html`, `product-card.html?look=...` для всіх образів і `capsule.html` на 1440 і 375 px. У консолі не має бути помилок, у Network не має бути 404.
