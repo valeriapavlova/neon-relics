@@ -99,7 +99,7 @@
                         <figcaption class="about-card__num t--card">006</figcaption>
                         <div class="about-card__frame about-card__frame--bleed">
                             <div class="about-card__crop">
-                                <!-- Vídeo en bucle; js/about.js lo reproduce si no hay prefers-reduced-motion -->
+                                <!-- Vídeo en bucle; js/motion.js lo reproduce si no hay prefers-reduced-motion -->
                                 <video muted loop playsinline preload="metadata" data-motion-video
                                     poster="assets/img/about-page/card-006.webp" width="480" height="480">
                                     <source src="assets/videos/about-page/card-006.webm" type="video/webm">
@@ -120,7 +120,7 @@
                         <figcaption class="about-card__num t--card">008</figcaption>
                         <div class="about-card__frame about-card__frame--bleed">
                             <div class="about-card__crop">
-                                <!-- Vídeo en bucle; js/about.js lo reproduce si no hay prefers-reduced-motion -->
+                                <!-- Vídeo en bucle; js/motion.js lo reproduce si no hay prefers-reduced-motion -->
                                 <video muted loop playsinline preload="metadata" data-motion-video
                                     poster="assets/img/about-page/card-008.webp" width="480" height="480">
                                     <source src="assets/videos/about-page/card-008.webm" type="video/webm">
@@ -315,8 +315,9 @@
                         </form>
 
                         <!-- form video -->
-                        <video class="form__video" src="assets/videos/form/form_video.mp4" autoplay loop muted playsinline
-                            preload="none" aria-hidden="true" width="288"></video>
+                        <video class="form__video" src="assets/videos/form/form_video.mp4" loop muted playsinline
+                            preload="none" aria-hidden="true" width="288" data-motion-video
+                            poster="assets/img/posters/form_poster.webp"></video>
                     </div>
 
                 </div>
