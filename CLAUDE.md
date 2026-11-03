@@ -60,7 +60,14 @@
 2. **`chore/remove-unused-images`** — 11 невикористаних зображень (~400 КБ) у `assets/img/product/` і `assets/img/relics/12.webp`. **Перед видаленням показати Валерії список.**
 3. **Гілка `copilot/fix-buttons-in-cards`** — перевірити різницю з `main`; якщо там тільки старі картки, запропонувати видалити гілку.
 4. **`style/muted-contrast`** — `--c-text--muted` `#82868B` → `#595E64` (контраст 4,87:1 на `#D8DFE6`, зараз 2,7:1).
-5. **`feat/motion`** — тихий motion, робити після задачі `a11y/reduced-motion` (на тій самій основі `prefers-reduced-motion`).
+5. **`feat/capsule-selection`** — у капсулі кожна реліквія «на перегляд» або «на потім».
+   - У рядку перемикач «Bring to viewing» ↔ «Kept for later» (`aria-pressed`), за замовчуванням viewing.
+   - Рядки later приглушені з підписом «Kept for later», порядок списку не змінюється.
+   - Панель «The archive»: «To be fitted: N · €сума» і «Kept for later: N».
+   - «Seal my capsule» відправляє тільки viewing; якщо їх 0 — кнопка `disabled` з підказкою «Choose at least one relic to bring to the viewing».
+   - Після відправки ці реліквії отримують статус «Requested · awaiting viewing» і не перемикаються; later лишаються, їх можна запечатати пізніше окремо.
+   - `localStorage`: `[{ id, note, status }]`, `status` = `viewing` | `later` | `requested`; старі записи без `status` вважати `viewing`.
+6. **`feat/motion`** — тихий motion, робити після задачі `a11y/reduced-motion` (на тій самій основі `prefers-reduced-motion`).
    - **Токени** (додати в `:root`, наявні `--transition-*` не чіпати):
      `--ease-reveal: cubic-bezier(.2,.7,.2,1)` · `--dur-reveal: 700ms` · `--dur-morph: 650ms` · `--dur-draw: 900ms`.
    - **Правила:** анімувати тільки `opacity` і `transform`; зсув 12–24 px; кожна анімація один раз (без повтору при скролі назад); на кожному hero рухається щось одне головне; без бібліотек; при `prefers-reduced-motion: reduce` усе видно одразу, без руху.
@@ -71,7 +78,7 @@
    - **Капсула:** рядки списку з'являються по черзі (80 мс), при ↑↓ рядки плавно міняються місцями (FLIP, 200 мс), Release згортає рядок. Кружок у хедері ледь «пульсує» (scale 1 → 1.15 → 1, 300 мс), коли додаєш реліквію.
    - **Не робити:** нових паралаксів, кастомного курсора, scroll-jacking, безкінечних анімацій.
    - **Перевірка:** усі сторінки на 1440 і 375 px з увімкненим і вимкненим «зменшити рух».
-6. Підпис «Photos by Max Shirko» у футері замінити, коли будуть власні AI-зображення.
+7. Підпис «Photos by Max Shirko» у футері замінити, коли будуть власні AI-зображення.
 
 ## Перевірка перед комітом
 Відкрити `index.html`, `about.html`, `product-card.html?look=...` для всіх образів і `capsule.html` на 1440 і 375 px. У консолі не має бути помилок, у Network не має бути 404.
