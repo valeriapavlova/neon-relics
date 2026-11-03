@@ -9,6 +9,7 @@
 // =============================================
 
 import { LOOKS, PIECES } from './data.js';
+import { drawLines, revealStagger, flip, collapse, prefersMotion } from './motion.js';
 
 // =============================================
 // 1. ALMACENAMIENTO
@@ -93,13 +94,25 @@ export function removeFromCapsule(id) {
 
 // Contador del header: número de reliquias
 // Enlace .wishlist-counter → texto "Capsule" + círculo metálico con el número
+let lastCount = null; // para saber si se acaba de añadir una reliquia
+
 export function updateCapsuleCounter() {
     const counterLink = document.querySelector('.wishlist-counter');
     if (!counterLink) return;
 
     const count = getCapsule().length;
     const badge = counterLink.querySelector('.wishlist-counter__badge');
-    if (badge) badge.textContent = count;
+    if (badge) {
+        badge.textContent = count;
+        // al añadir: un pulso suave del círculo (1 → 1.15 → 1, 300 ms)
+        if (lastCount !== null && count > lastCount && prefersMotion()) {
+            badge.animate(
+                [{ transform: 'scale(1)' }, { transform: 'scale(1.15)' }, { transform: 'scale(1)' }],
+                { duration: 300, easing: 'ease-out' },
+            );
+        }
+    }
+    lastCount = count;
 
     counterLink.setAttribute('aria-label', `Capsule, ${count} ${count === 1 ? 'relic' : 'relics'}`);
 }
@@ -118,6 +131,7 @@ let capsule = [];
 let removed = null; // { item, index } para "Undo"
 let sealed = null;  // { name } cuando la cápsula está sellada
 let root = null;
+let rowsShown = false; // las filas solo aparecen escalonadas la primera vez
 
 // ---- aviso (toast) ----
 
@@ -174,7 +188,7 @@ function entryTemplate(item, i) {
     const last = i === capsule.length - 1;
 
     return `
-        <li class="archive-entry archive-entry--${item.status}" draggable="true" data-index="${i}">
+        <li class="archive-entry archive-entry--${item.status}${rowsShown ? '' : ' reveal'}" draggable="true" data-index="${i}" data-id="${esc(item.id)}">
             <span class="archive-entry__handle" aria-hidden="true" title="Drag to reorder">⋮⋮</span>
             <span class="archive-entry__index">${pad(i + 1)}</span>
             <a class="archive-entry__media" href="product-card.html?look=${encodeURIComponent(piece.look)}" draggable="false">
@@ -269,6 +283,11 @@ function render(focus) {
     }
 
     root.querySelectorAll('[data-note]').forEach(autosize);
+    if (!rowsShown && capsule.length) {
+        revealStagger(root.querySelectorAll('.archive-entry'), { step: 80 });
+        rowsShown = true;
+    }
+    drawLines(root.querySelector('.ledger'), 'ledger');
     if (focus) root.querySelector(focus)?.focus();
 }
 
@@ -281,6 +300,11 @@ function commit(focus) {
     render(focus);
 }
 
+// Igual que commit(), pero las filas se deslizan a su nuevo sitio (FLIP, 200 ms)
+function commitWithFlip(focus) {
+    flip(root, '.archive-entry', 'id', () => commit(focus));
+}
+
 function move(from, to) {
     if (to < 0 || to >= capsule.length || from === to) return false;
     const [item] = capsule.splice(from, 1);
@@ -289,14 +313,23 @@ function move(from, to) {
     return true;
 }
 
+let releasing = false; // evita dobles clics mientras la fila se pliega
+
 function release(id) {
     const index = capsule.findIndex((item) => item.id === id);
-    if (index < 0) return;
-    removed = { item: capsule[index], index };
-    capsule.splice(index, 1);
-    sealed = null;
-    commit('[data-undo]');
-    showToast(`${PIECES[id].name} released`);
+    if (index < 0 || releasing) return;
+    releasing = true;
+
+    // la fila se pliega y las de abajo suben a su sitio (FLIP)
+    const row = [...root.querySelectorAll('.archive-entry')].find((li) => li.dataset.id === id);
+    collapse(row).then(() => {
+        releasing = false;
+        removed = { item: capsule[index], index };
+        capsule.splice(index, 1);
+        sealed = null;
+        commitWithFlip('[data-undo]');
+        showToast(`${PIECES[id].name} released`);
+    });
 }
 
 // viewing ↔ later; el orden de la lista no cambia
@@ -367,7 +400,7 @@ function handleClick(event) {
         const same = `[data-move="${to}"][data-dir="${dir}"]`;
         const other = `[data-move="${to}"][data-dir="${-dir}"]`;
         const edge = to === 0 || to === capsule.length - 1;
-        commit(edge ? other : same);
+        commitWithFlip(edge ? other : same);
     } else if (btn.dataset.status) {
         setStatus(btn.dataset.status, btn.dataset.value);
     } else if (btn.dataset.remove) {
@@ -425,7 +458,7 @@ function setupDragAndDrop() {
         const to = Number(li.dataset.index);
         const name = PIECES[capsule[from].id].name;
         if (move(from, to)) {
-            commit();
+            commitWithFlip();
             showToast(`${name} moved to position ${to + 1}`);
         }
         from = null;

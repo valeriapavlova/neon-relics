@@ -117,6 +117,12 @@
 	--transition-fast: 150ms ease-out;
 	--transition-normal: 300ms ease-out;
 	--transition-slow: 500ms ease-out;
+
+	/* Motion: revelados, morph entre páginas y líneas */
+	--ease-reveal: cubic-bezier(.2, .7, .2, 1);
+	--dur-reveal: 700ms;
+	--dur-morph: 650ms;
+	--dur-draw: 900ms;
 }
 
 /* 3. GLOBAL (body, headings, links, imágenes) */
@@ -1005,7 +1011,7 @@ a {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		transition: transform var(--transition-slow), opacity var(--transition-normal);
+		transition: transform var(--dur-reveal) var(--ease-reveal), opacity var(--transition-normal);
 	}
 
 	/* Miniaturas de las piezas: aparecen al hover / foco */
@@ -1058,7 +1064,7 @@ a {
 	&:hover,
 	&:focus-visible {
 		& .look-card__portrait {
-			transform: scale(1.04);
+			transform: scale(1.03);
 			opacity: 0.55;
 		}
 
@@ -1332,21 +1338,30 @@ a {
 }
 
 
-/* Flotación suave de la imagen de eventos; solo si no se pide menos movimiento.
-   La clase está en el <img> (.events__img-inner), no en el <picture> (.events__img) */
+/* Flotación ambiental lenta; solo si no se pide menos movimiento.
+   - Anillo de eventos: la clase está en el <img> (.events__img-inner), no en el <picture>
+   - Forma cromada de la sección capsule (.capsule__bg), algo más lenta y a
+     contratiempo para que no se muevan a la vez */
 @media (prefers-reduced-motion: no-preference) {
 	.events__img-inner.events__img--floating {
-		animation: eventsFloat 12s ease-in-out infinite alternate;
+		animation: ambientFloat 9s ease-in-out infinite alternate;
+	}
+
+	.capsule .capsule__bg {
+		animation: ambientFloat 11s ease-in-out infinite alternate-reverse;
 	}
 }
 
-@keyframes eventsFloat {
+/* 20 px en 9 s (con 12 px en 12 s casi no se notaba).
+   Se anima "translate" (no "transform"): .capsule__bg ya usa transform
+   para colocarse y así no se pisan. */
+@keyframes ambientFloat {
 	0% {
-		transform: translateY(0) translateX(0);
+		translate: 0 0;
 	}
 
 	100% {
-		transform: translateY(-12px) translateX(6px);
+		translate: 10px -20px;
 	}
 }
 
@@ -2050,8 +2065,8 @@ a {
 		justify-content: space-between;
 		align-items: center;
 		gap: var(--space-xs);
+		position: relative;
 		padding: var(--space-sm);
-		border-top: 1px solid color-mix(in srgb, var(--c-bg) 14%, transparent);
 		font: var(--f-body-md);
 	}
 }
@@ -2062,8 +2077,8 @@ a {
 	grid-template-columns: 7.5rem minmax(0, 1fr) auto;
 	gap: var(--space-sm);
 	align-items: center;
+	position: relative;
 	padding: var(--space-sm);
-	border-top: 1px solid color-mix(in srgb, var(--c-bg) 14%, transparent);
 
 	& .piece__media {
 		display: grid;
@@ -2647,8 +2662,8 @@ a {
 
 		& .ledger__total-label,
 		& .ledger__total {
+			position: relative;
 			padding-top: var(--space-xs);
-			border-top: 1px solid color-mix(in srgb, var(--c-bg) 14%, transparent);
 		}
 
 		& .ledger__total {
@@ -3230,4 +3245,130 @@ a {
 			gap: var(--space-md);
 		}
 	}
+}
+
+
+/* =============================================
+   MOTION (js/motion.js)
+   Solo opacity y transform; cada animación se ve una vez.
+   Los estados iniciales ocultos dependen de .has-motion (lo pone
+   el script del <head>) y de prefers-reduced-motion: no-preference,
+   así sin JS o con "reducir movimiento" todo se ve al momento.
+   ============================================= */
+
+/* ---- Títulos por líneas ---- */
+.lines__line {
+	display: block;
+	overflow: hidden;
+	/* un poco de aire para que no se corten los acentos ni las descendentes */
+	padding-block: 0.06em;
+	margin-block: -0.06em;
+}
+
+.lines__inner {
+	display: block;
+	transform: translateY(105%);
+	transition: transform var(--dur-reveal) var(--ease-reveal);
+	transition-delay: calc(var(--line) * 90ms);
+}
+
+.lines--in .lines__inner {
+	transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.has-motion {
+
+		/* el título no se ve hasta que está dividido en líneas */
+		& [data-reveal-lines]:not(.lines--ready) {
+			opacity: 0;
+		}
+
+		/* Vídeos del hero: fade de 400 ms antes del título */
+		& :is(.hero, .about-hero) video[data-motion-video] {
+			opacity: 0;
+			transition: opacity 400ms ease-out;
+
+			&.is-shown {
+				opacity: 1;
+			}
+		}
+	}
+}
+
+/* ---- Líneas divisorias que se dibujan (js/motion.js → drawLines) ----
+   Vitrina "Worn in this look" y panel "The archive".
+   La línea es un ::before de 1px que crece desde la izquierda. */
+:is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total)::before {
+	content: "";
+	position: absolute;
+	inset: 0 0 auto 0;
+	height: 1px;
+	background-color: color-mix(in srgb, var(--c-bg) 14%, transparent);
+	transform-origin: left center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.has-motion :is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total)::before {
+		transform: scaleX(0);
+		transition: transform var(--dur-draw) var(--ease-reveal);
+		transition-delay: var(--draw-delay, 0ms);
+	}
+
+	.has-motion :is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total).is-drawn::before {
+		transform: none;
+	}
+
+	/* zona ya dibujada que se vuelve a pintar: sin animación */
+	.has-motion :is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total).is-static::before {
+		transition: none;
+	}
+}
+
+/* ---- Aparición escalonada (js/motion.js → revealStagger) ---- */
+@media (prefers-reduced-motion: no-preference) {
+	.has-motion .reveal {
+		opacity: 0;
+		transform: translateY(24px);
+		transition:
+			opacity var(--dur-reveal) var(--ease-reveal),
+			transform var(--dur-reveal) var(--ease-reveal);
+		transition-delay: var(--reveal-delay, 0ms);
+
+		&.is-revealed {
+			opacity: 1;
+			transform: none;
+		}
+
+		&.is-static {
+			transition: none;
+		}
+	}
+}
+
+/* ---- Tarjeta → retrato: View Transitions entre páginas ----
+   La foto de la tarjeta (Featured) y el retrato de product-card.html
+   comparten view-transition-name: look-<id> (lo ponen featured.js y product.js).
+   Firefox aún no lo soporta: navega sin animación. */
+@view-transition {
+	navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	@view-transition {
+		navigation: none;
+	}
+}
+
+/* la foto del look: morph */
+::view-transition-group(*) {
+	animation-duration: var(--dur-morph);
+	animation-timing-function: var(--ease-reveal);
+}
+
+/* resto de la página: crossfade de 300 ms */
+::view-transition-group(root),
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 300ms;
 }

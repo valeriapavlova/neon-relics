@@ -4,7 +4,7 @@ import { renderEvents } from './events.js';
 import { setupHeaderMenu } from './header.js';
 import { initProductPage } from './product.js';
 import { updateCapsuleCounter, initCapsulePage } from './capsule.js';
-import { initMotionVideos } from './motion.js';
+import { initMotionVideos, initTitleReveals } from './motion.js';
 import { initNewsletterForm } from './newsletter.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -37,4 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('capsule-root')) {
         initCapsulePage();
     }
+
+    // Títulos por líneas (después de pintar las páginas generadas con JS)
+    initTitleReveals();
 });

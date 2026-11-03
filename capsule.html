@@ -6,6 +6,8 @@
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title>NEON RELICS — Capsule</title>
 
+    <!-- Movimiento permitido → clase en <html> antes de pintar (evita parpadeos al cargar) -->
+    <script>if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('has-motion');</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -65,7 +67,7 @@
                 <header class="archive-page__head">
                     <div class="heading-block flex-column">
                         <span class="subtitle">a private ritual of adornment</span>
-                        <h1 class="t--md">Your capsule</h1>
+                        <h1 class="t--md" data-reveal-lines>Your capsule</h1>
                     </div>
                     <p class="archive-page__intro body-text">Instead of a classic cart, each selection is kept in your
                         capsule: an intimate inventory of pieces that resonate with you. Add, remove, reorder. You are not

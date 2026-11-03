@@ -8,6 +8,7 @@
 
 import { LOOKS, PIECES } from './data.js';
 import { isInCapsule, addToCapsule, removeFromCapsule, updateCapsuleCounter } from './capsule.js';
+import { drawLines } from './motion.js';
 
 // ---- helpers ----
 
@@ -59,14 +60,15 @@ function renderLook(root, index) {
 
     root.innerHTML = `
         <div class="look__portrait">
-            <img src="${esc(look.img)}" alt="${esc(look.character)}, wearing the ${esc(look.name)} look">
+            <img src="${esc(look.img)}" alt="${esc(look.character)}, wearing the ${esc(look.name)} look"
+                style="view-transition-name: look-${esc(look.id)}">
             <span class="look__num">Look ${esc(look.n)} / ${pad(LOOKS.length)}</span>
         </div>
 
         <div class="look__info">
             <header class="look__header">
                 <p class="look__character">${esc(look.character)}</p>
-                <h1 class="look__title">${esc(look.name)}</h1>
+                <h1 class="look__title" data-reveal-lines>${esc(look.name)}</h1>
             </header>
 
             <ul class="look__tags" aria-label="Mood">
@@ -146,6 +148,7 @@ export function initProductPage() {
     document.title = `${look.name} — NEON RELICS`;
 
     renderLook(root, index);
+    drawLines(root.querySelector('.vitrine'), 'vitrine');
     syncState(root, look);
     updateCapsuleCounter();
 

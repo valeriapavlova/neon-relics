@@ -8,6 +8,8 @@
     <meta name="description"
         content="NEON RELICS: jewelry for quiet dominion. A manifesto for those who choose presence over noise.">
 
+    <!-- Movimiento permitido → clase en <html> antes de pintar (evita parpadeos al cargar) -->
+    <script>if (!matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('has-motion');</script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
@@ -130,7 +132,7 @@
                         </div>
                     </figure>
 
-                    <h1 class="about-hero__title t--md" id="about-title">Jewelry for quiet dominion</h1>
+                    <h1 class="about-hero__title t--md" id="about-title" data-reveal-lines>Jewelry for quiet dominion</h1>
                 </div>
 
                 <p class="about-hero__tagline body-text body-text--big">Pieces sculpted for those who command
