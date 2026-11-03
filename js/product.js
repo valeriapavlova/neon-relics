@@ -77,7 +77,7 @@ function renderLook(root, index) {
 
             <p class="look__story body-text">${esc(look.story)}</p>
 
-            <section class="vitrine" aria-labelledby="vitrine-title">
+            <section class="vitrine" aria-labelledby="vitrine-title" data-reveal>
                 <div class="vitrine__head">
                     <h2 class="vitrine__title" id="vitrine-title">Worn in this look</h2>
                     <span class="vitrine__count" data-kept-count></span>

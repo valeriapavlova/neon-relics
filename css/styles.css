@@ -3541,6 +3541,47 @@ a {
 	}
 }
 
+/* ---- Respiración de las secciones (js/motion.js → initSectionReveals) ----
+   Secciones con [data-reveal]: h2 por líneas, textos que suben 16 px y
+   fotos / vídeos que pasan de scale(1.06) a 1. Lo que está dentro de
+   [data-reveal-skip] tiene su propio movimiento y no se toca.
+   .is-in = aparece; .is-settled = terminado (vuelven sus propios estilos). */
+@media (prefers-reduced-motion: no-preference) {
+	.has-motion [data-reveal] {
+		& h2:not(.lines--ready, [data-reveal-skip] *) {
+			opacity: 0;
+		}
+
+		& :is(.subtitle, .eyebrow, .body-text, .body-text--big):not(.is-settled, [data-reveal-skip] *) {
+			opacity: 0;
+			transform: translateY(16px);
+			transition:
+				opacity 600ms var(--ease-reveal),
+				transform 600ms var(--ease-reveal);
+			transition-delay: var(--breath-delay, 0ms);
+		}
+
+		& :is(img, video):not(.is-settled, [data-reveal-skip] *) {
+			opacity: 0;
+			transform: scale(1.06);
+			transition:
+				opacity var(--dur-draw) var(--ease-reveal),
+				transform var(--dur-draw) var(--ease-reveal);
+			transition-delay: var(--breath-delay, 0ms);
+		}
+
+		& .is-in:not(.is-settled) {
+			opacity: 1;
+			transform: none;
+		}
+
+		/* la caja de una imagen sola recorta el zoom (clip: sin cambiar el layout) */
+		& .breath-clip {
+			overflow: clip;
+		}
+	}
+}
+
 /* ---- Aparición escalonada (js/motion.js → revealStagger) ---- */
 @media (prefers-reduced-motion: no-preference) {
 	.has-motion .reveal {
