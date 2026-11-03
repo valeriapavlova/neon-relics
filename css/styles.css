@@ -516,6 +516,29 @@ a {
 	/* Elimina el padding horizontal aquí */
 	backdrop-filter: blur(10px);
 
+	/* Enlaces del header: el color cambia suavemente al pasar sobre
+	   secciones rojas u oscuras (ver js/header.js) */
+	& .nav__link,
+	& .header__menu-btn,
+	& .wishlist-counter__label,
+	& .header__logo img {
+		transition: color var(--transition-normal), filter var(--transition-normal);
+	}
+
+	/* Sobre [data-header="inverse"]: texto claro (contraste ≥ 5,8:1 sobre rojo y oscuro)
+	   y logotipo invertido (queda plateado, como el círculo de la cápsula) */
+	&.header--inverse {
+		& .nav__link,
+		& .header__menu-btn,
+		& .wishlist-counter__label {
+			color: var(--c-bg);
+		}
+
+		& .header__logo img {
+			filter: invert(1);
+		}
+	}
+
 	& .container {
 		padding: 0 var(--space-md);
 		max-width: 100vw;
@@ -824,7 +847,8 @@ a {
 /* MANIFEST Section */
 
 .manifest {
-	overflow: hidden;
+	/* Solo se recorta en horizontal: el retrato (con el sombrero) sale por arriba del fondo */
+	overflow-x: clip;
 
 	& .container {
 		@media (max-width: 48rem) {
@@ -837,7 +861,8 @@ a {
 		z-index: 0;
 		border-radius: var(--r-s);
 		overflow: visible;
-		min-height: 60vh;
+		/* Alto suficiente para que el retrato quepa entero dentro de la sección */
+		min-height: 50rem;
 		background-image: url("../assets/img/manifest/blob_2bg.webp");
 		background-size: cover;
 		background-position: left top;
@@ -849,10 +874,14 @@ a {
 			background-attachment: scroll;
 		}
 
+		@media (max-width: 48rem) {
+			min-height: 60vh;
+		}
+
 		& .manifest__bg {
 			position: absolute;
 			left: 50%;
-			bottom: -10%;
+			bottom: calc(-1 * var(--space-md));
 			transform: translateX(-50%);
 			width: 100%;
 			max-width: 52rem;
@@ -863,18 +892,30 @@ a {
 				bottom: 0%;
 				max-width: 38rem;
 			}
+
+			& .manifest__image {
+				display: block;
+				width: 100%;
+				height: auto;
+			}
 		}
 
 		& .manifest__content {
 			display: flex;
 			justify-content: space-between;
 			max-width: 70rem;
-			position: relative;
-			z-index: 2;
 
 			display: flex;
-			justify-content: flex-end;
+			/* Título a media altura, como en Figma; el texto va abajo, sobre la foto */
+			justify-content: center;
 			gap: var(--space-md);
+
+			/* Sin position propia: el texto se coloca respecto a .manifest__wrapper
+			   (centrado con el retrato); cada hijo va por encima de la foto */
+			& > * {
+				position: relative;
+				z-index: 2;
+			}
 
 			@media (max-width: 40rem) {
 				align-items: center;
@@ -882,19 +923,29 @@ a {
 				gap: var(--space-lg);
 			}
 
-			& p {
+			/* Texto siempre sobre la parte oscura del retrato (la chaqueta),
+			   centrado respecto a la foto como en Figma */
+			& > p {
+				position: absolute;
+				left: 50%;
+				bottom: var(--space-lg);
+				transform: translateX(-50%);
+				width: min(26rem, 80%);
 				color: var(--c-bg);
-				align-self: flex-end;
 
-				@media (max-width: 40rem) {}
+				/* En móvil vuelve al flujo, con placa oscura por si la foto cambia */
+				@media (max-width: 48rem) {
+					position: static;
+					transform: none;
+					width: auto;
+					padding: var(--space-xs);
+					background-color: color-mix(in srgb, var(--c-text) 72%, transparent);
+					border-radius: var(--r-s);
+				}
 			}
 
 			& .manifest__title {
 				max-width: 52rem;
-			}
-
-			& p {
-				max-width: 20rem;
 			}
 		}
 	}
@@ -1113,16 +1164,19 @@ a {
 			overflow: visible;
 			min-height: 60vh;
 
+			/* La caja mide lo mismo que el vídeo: sin imagen de fondo debajo
+			   (el póster del vídeo ya cubre el caso sin movimiento) */
 			& .capsule__bg {
 				position: absolute;
-				inset: 0;
-				background: url('../assets/img/capsule/capsule_bg.webp') center/cover no-repeat;
 				z-index: 0;
-				opacity: 0.95;
-				pointer-events: none;
 				top: -10%;
 				left: 40%;
 				transform: translateX(-40%);
+				width: 48%;
+				aspect-ratio: 1;
+				overflow: clip;
+				opacity: 0.95;
+				pointer-events: none;
 
 				@media (max-width: 85rem) {
 					max-width: 38rem;
@@ -1130,23 +1184,16 @@ a {
 
 				@media (max-width: 40rem) {
 					top: -5%;
-					left: 70%;
+					left: 50%;
 					transform: translateX(-50%);
-					width: 100%;
-					max-width: 30rem;
-				}
-
-				@media (max-width: 32rem) {
-					top: -5%;
-					left: 70%;
-					transform: translateX(-50%);
-					width: 100%;
-					max-width: 20rem;
+					width: 80%;
+					max-width: var(--size-xs);
 				}
 
 				& .media-video {
-					width: 80%;
-					height: auto;
+					display: block;
+					width: 100%;
+					height: 100%;
 					object-fit: cover;
 					pointer-events: none;
 				}
@@ -2794,12 +2841,6 @@ a {
 		color: var(--c-text);
 	}
 
-	& .about-card__icon {
-		font-size: var(--fs-lg);
-		line-height: 1;
-		color: var(--c-primary);
-	}
-
 	& .about-card__frame {
 		padding: 10%;
 		background-color: var(--c-text);
@@ -3081,7 +3122,9 @@ a {
 			padding-top: 0;
 		}
 
-		& .about-manifesto__text {
+		/* En una columna todos los textos van a la izquierda, junto a su tarjeta */
+		& .about-manifesto__item .about-manifesto__text {
+			max-width: 12.25rem;
 			text-align: left;
 		}
 	}
@@ -3099,17 +3142,13 @@ a {
 
 	& .about-philosophy__panel {
 		position: relative;
-		display: flex;
-		align-items: flex-end;
 		min-height: 48rem;
-		padding: var(--space-md);
 		border-radius: var(--r-s);
-		/* la figura puede salir por arriba, pero se recorta abajo y a los lados */
-		clip-path: inset(-25% 0 0 0 round var(--r-s));
+		/* la figura sale por arriba y por abajo (como en Figma); solo se recorta a los lados */
+		clip-path: inset(-25% 0 -25% 0);
 
 		@media (max-width: 48rem) {
-			min-height: 32rem;
-			padding: var(--space-sm);
+			min-height: var(--size-sm);
 		}
 	}
 
@@ -3129,30 +3168,33 @@ a {
 		}
 	}
 
+	/* Encuadre más bajo: la figura baja por debajo del fondo y se ve entera
+	   (sombrero arriba, flores y prenda abajo) */
 	& .about-philosophy__figure {
 		position: absolute;
-		top: -13.54%;
+		bottom: calc(-1 * var(--space-lg));
 		left: 50%;
 		width: 60.54%;
 		height: auto;
 		transform: translateX(-50%);
 
+		/* En móvil la figura acaba con el panel: el subtítulo oscuro queda sobre fondo claro */
 		@media (max-width: 48rem) {
-			top: -6%;
+			bottom: 0;
 			width: 90%;
 		}
 	}
 
+	/* Título bajo el panel: pisa la parte baja de la figura y se alinea
+	   a la izquierda con las columnas de texto (frame "about › philosophy") */
 	& .about-philosophy__heading {
 		position: relative;
+		z-index: 1;
+		margin-top: var(--space-xs);
 		padding-left: var(--space-4xl);
 
 		@media (max-width: 64rem) {
 			padding-left: 0;
-		}
-
-		& .subtitle {
-			color: var(--c-bg);
 		}
 
 		& h2 {
@@ -3163,7 +3205,7 @@ a {
 	& .about-philosophy__text {
 		display: flex;
 		gap: var(--space-md);
-		padding: var(--space-4xl) 0 0 var(--space-4xl);
+		padding: var(--space-xl) 0 0 var(--space-4xl);
 
 		& p:first-child {
 			max-width: 36rem;
@@ -3179,7 +3221,7 @@ a {
 
 		@media (max-width: 48rem) {
 			flex-direction: column;
-			padding-top: var(--space-2xl);
+			padding-top: var(--space-lg);
 		}
 	}
 }
