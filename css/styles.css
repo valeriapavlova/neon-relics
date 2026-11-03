@@ -847,7 +847,8 @@ a {
 /* MANIFEST Section */
 
 .manifest {
-	overflow: hidden;
+	/* Solo se recorta en horizontal: el retrato (con el sombrero) sale por arriba del fondo */
+	overflow-x: clip;
 
 	& .container {
 		@media (max-width: 48rem) {
@@ -860,7 +861,8 @@ a {
 		z-index: 0;
 		border-radius: var(--r-s);
 		overflow: visible;
-		min-height: 60vh;
+		/* Alto suficiente para que el retrato quepa entero dentro de la sección */
+		min-height: 50rem;
 		background-image: url("../assets/img/manifest/blob_2bg.webp");
 		background-size: cover;
 		background-position: left top;
@@ -872,10 +874,14 @@ a {
 			background-attachment: scroll;
 		}
 
+		@media (max-width: 48rem) {
+			min-height: 60vh;
+		}
+
 		& .manifest__bg {
 			position: absolute;
 			left: 50%;
-			bottom: -10%;
+			bottom: calc(-1 * var(--space-md));
 			transform: translateX(-50%);
 			width: 100%;
 			max-width: 52rem;
@@ -886,18 +892,30 @@ a {
 				bottom: 0%;
 				max-width: 38rem;
 			}
+
+			& .manifest__image {
+				display: block;
+				width: 100%;
+				height: auto;
+			}
 		}
 
 		& .manifest__content {
 			display: flex;
 			justify-content: space-between;
 			max-width: 70rem;
-			position: relative;
-			z-index: 2;
 
 			display: flex;
-			justify-content: flex-end;
+			/* Título a media altura, como en Figma; el texto va abajo, sobre la foto */
+			justify-content: center;
 			gap: var(--space-md);
+
+			/* Sin position propia: el texto se coloca respecto a .manifest__wrapper
+			   (centrado con el retrato); cada hijo va por encima de la foto */
+			& > * {
+				position: relative;
+				z-index: 2;
+			}
 
 			@media (max-width: 40rem) {
 				align-items: center;
@@ -905,19 +923,29 @@ a {
 				gap: var(--space-lg);
 			}
 
-			& p {
+			/* Texto siempre sobre la parte oscura del retrato (la chaqueta),
+			   centrado respecto a la foto como en Figma */
+			& > p {
+				position: absolute;
+				left: 50%;
+				bottom: var(--space-lg);
+				transform: translateX(-50%);
+				width: min(26rem, 80%);
 				color: var(--c-bg);
-				align-self: flex-end;
 
-				@media (max-width: 40rem) {}
+				/* En móvil vuelve al flujo, con placa oscura por si la foto cambia */
+				@media (max-width: 48rem) {
+					position: static;
+					transform: none;
+					width: auto;
+					padding: var(--space-xs);
+					background-color: color-mix(in srgb, var(--c-text) 72%, transparent);
+					border-radius: var(--r-s);
+				}
 			}
 
 			& .manifest__title {
 				max-width: 52rem;
-			}
-
-			& p {
-				max-width: 20rem;
 			}
 		}
 	}
