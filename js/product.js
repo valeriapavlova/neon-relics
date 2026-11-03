@@ -66,7 +66,7 @@ function renderLook(root, index) {
         <div class="look__info">
             <header class="look__header">
                 <p class="look__character">${esc(look.character)}</p>
-                <h1 class="look__title">${esc(look.name)}</h1>
+                <h1 class="look__title" data-reveal-lines>${esc(look.name)}</h1>
             </header>
 
             <ul class="look__tags" aria-label="Mood">

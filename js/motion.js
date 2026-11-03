@@ -57,3 +57,86 @@ export function onceVisible(el, callback, threshold = 0.2) {
     }, { threshold });
     observer.observe(el);
 }
+
+// =============================================
+// TÍTULOS POR LÍNEAS
+// Cada línea va dentro de un contenedor con overflow:hidden y el texto
+// sube desde translateY(105%); 90 ms de retraso entre líneas.
+// Al terminar se devuelve el texto normal (para que el salto de línea
+// siga funcionando si cambia el ancho de la ventana).
+// =============================================
+
+const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const LINE_STAGGER = 90;
+const HERO_VIDEO_FADE = 400;
+const HERO_VIDEO_WAIT = 1000; // si el vídeo no arranca (móvil, red lenta), no esperar más
+
+function splitAndReveal(el, delay) {
+    const text = el.textContent.trim().replace(/\s+/g, ' ');
+
+    // 1. Palabras sueltas para saber dónde corta cada línea
+    el.innerHTML = text.split(' ').map((w) => `<span class="lines__word">${esc(w)}</span>`).join(' ');
+    const lines = [];
+    let top = null;
+    el.querySelectorAll('.lines__word').forEach((word) => {
+        if (word.offsetTop !== top) {
+            lines.push([]);
+            top = word.offsetTop;
+        }
+        lines[lines.length - 1].push(word.textContent);
+    });
+
+    // 2. Una caja por línea; el lector de pantalla lee el aria-label
+    el.setAttribute('aria-label', text);
+    el.innerHTML = lines.map((words, i) => `
+        <span class="lines__line" aria-hidden="true"><span class="lines__inner" style="--line: ${i}">${esc(words.join(' '))}</span></span>`).join('');
+    el.classList.add('lines--ready');
+
+    // 3. Arrancar en el siguiente frame (para que la transición se vea)
+    requestAnimationFrame(() => {
+        setTimeout(() => el.classList.add('lines--in'), delay);
+    });
+
+    // 4. Al terminar, texto normal otra vez
+    const restore = () => {
+        if (!el.classList.contains('lines--ready')) return;
+        el.textContent = text;
+        el.removeAttribute('aria-label');
+    };
+    const total = delay + 700 + (lines.length - 1) * LINE_STAGGER + 150;
+    setTimeout(restore, total);
+}
+
+export function revealLines(el, delay = 0) {
+    if (!el) return;
+    if (!prefersMotion()) return;
+    // esperar a las fuentes: con otra fuente los cortes de línea serían otros
+    const fonts = document.fonts ? document.fonts.ready : Promise.resolve();
+    fonts.then(() => splitAndReveal(el, delay));
+}
+
+// Hero (index y about): primero aparece el vídeo (fade 400 ms) y luego el h1
+function revealHeroTitle(title, hero) {
+    const videos = [...hero.querySelectorAll('video[data-motion-video]')];
+    let started = false;
+
+    const start = () => {
+        if (started) return;
+        started = true;
+        videos.forEach((video) => video.classList.add('is-shown'));
+        revealLines(title, HERO_VIDEO_FADE);
+    };
+
+    videos.forEach((video) => video.addEventListener('playing', start, { once: true }));
+    setTimeout(start, videos.length ? HERO_VIDEO_WAIT : 0);
+}
+
+// Todos los títulos con [data-reveal-lines] de la página
+export function initTitleReveals() {
+    if (!prefersMotion()) return;
+    document.querySelectorAll('[data-reveal-lines]').forEach((title) => {
+        const hero = title.closest('.hero, .about-hero');
+        if (hero) revealHeroTitle(title, hero);
+        else revealLines(title);
+    });
+}

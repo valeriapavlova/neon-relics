@@ -3237,3 +3237,52 @@ a {
 		}
 	}
 }
+
+
+/* =============================================
+   MOTION (js/motion.js)
+   Solo opacity y transform; cada animación se ve una vez.
+   Los estados iniciales ocultos dependen de .has-motion (lo pone
+   el script del <head>) y de prefers-reduced-motion: no-preference,
+   así sin JS o con "reducir movimiento" todo se ve al momento.
+   ============================================= */
+
+/* ---- Títulos por líneas ---- */
+.lines__line {
+	display: block;
+	overflow: hidden;
+	/* un poco de aire para que no se corten los acentos ni las descendentes */
+	padding-block: 0.06em;
+	margin-block: -0.06em;
+}
+
+.lines__inner {
+	display: block;
+	transform: translateY(105%);
+	transition: transform var(--dur-reveal) var(--ease-reveal);
+	transition-delay: calc(var(--line) * 90ms);
+}
+
+.lines--in .lines__inner {
+	transform: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.has-motion {
+
+		/* el título no se ve hasta que está dividido en líneas */
+		& [data-reveal-lines]:not(.lines--ready) {
+			opacity: 0;
+		}
+
+		/* Vídeos del hero: fade de 400 ms antes del título */
+		& :is(.hero, .about-hero) video[data-motion-video] {
+			opacity: 0;
+			transition: opacity 400ms ease-out;
+
+			&.is-shown {
+				opacity: 1;
+			}
+		}
+	}
+}
