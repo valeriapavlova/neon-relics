@@ -2845,6 +2845,11 @@ a {
 		}
 	}
 
+	/* Eyebrow + línea sobre el escenario, alineados a la izquierda */
+	& .about-hero__intro {
+		max-width: var(--size-sm);
+	}
+
 	& .about-hero__stage {
 		position: relative;
 		width: 100%;
