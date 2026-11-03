@@ -7,6 +7,7 @@
 // =============================================
 
 import { LOOKS, PIECES } from './data.js';
+import { revealStagger } from './motion.js';
 
 // Números en palabras para el título ("six relics")
 const WORDS = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten'];
@@ -26,7 +27,7 @@ function createLookCard(look) {
         .join('');
 
     return `
-        <li class="looks__item">
+        <li class="looks__item reveal">
             <a class="look-card" href="product-card.html?look=${encodeURIComponent(look.id)}">
                 <div class="look-card__meta">
                     <span>Look ${esc(look.n)}</span>
@@ -51,6 +52,9 @@ export function renderFeaturedLooks() {
     if (!grid) return;
 
     grid.innerHTML = LOOKS.map(createLookCard).join('');
+
+    // Escalones que aparecen uno tras otro: 200 ms + 80 ms por tarjeta
+    revealStagger(grid.querySelectorAll('.looks__item'), { base: 200, step: 80 });
 
     // Mantener el título sincronizado con los datos
     const total = Object.keys(PIECES).length;

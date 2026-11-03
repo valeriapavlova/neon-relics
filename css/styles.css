@@ -1011,7 +1011,7 @@ a {
 		width: 100%;
 		height: 100%;
 		object-fit: cover;
-		transition: transform var(--transition-slow), opacity var(--transition-normal);
+		transition: transform var(--dur-reveal) var(--ease-reveal), opacity var(--transition-normal);
 	}
 
 	/* Miniaturas de las piezas: aparecen al hover / foco */
@@ -1064,7 +1064,7 @@ a {
 	&:hover,
 	&:focus-visible {
 		& .look-card__portrait {
-			transform: scale(1.04);
+			transform: scale(1.03);
 			opacity: 0.55;
 		}
 
@@ -3313,5 +3313,26 @@ a {
 	/* zona ya dibujada que se vuelve a pintar: sin animación */
 	.has-motion :is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total).is-static::before {
 		transition: none;
+	}
+}
+
+/* ---- Aparición escalonada (js/motion.js → revealStagger) ---- */
+@media (prefers-reduced-motion: no-preference) {
+	.has-motion .reveal {
+		opacity: 0;
+		transform: translateY(24px);
+		transition:
+			opacity var(--dur-reveal) var(--ease-reveal),
+			transform var(--dur-reveal) var(--ease-reveal);
+		transition-delay: var(--reveal-delay, 0ms);
+
+		&.is-revealed {
+			opacity: 1;
+			transform: none;
+		}
+
+		&.is-static {
+			transition: none;
+		}
 	}
 }

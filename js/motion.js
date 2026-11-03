@@ -179,3 +179,41 @@ export function drawLines(container, group) {
 
     lines.forEach((line) => observer.observe(line));
 }
+
+// =============================================
+// APARICIÓN ESCALONADA
+// Los elementos con la clase .reveal (opacity 0 + translateY) aparecen
+// al entrar en pantalla: base ms + step ms por cada uno del mismo grupo
+// visible. Se usa en "Featured" y en las filas de la cápsula.
+// =============================================
+
+export function revealStagger(items, { base = 0, step = 80, threshold = 0.15 } = {}) {
+    const list = [...items];
+    if (!list.length) return;
+
+    if (!prefersMotion() || !('IntersectionObserver' in window)) {
+        list.forEach((item) => item.classList.add('is-revealed', 'is-static'));
+        return;
+    }
+
+    const pending = new Set(list);
+    // fila de la cuadrícula: el top sin el margin-top de los escalones
+    const rowOf = (item) => item.offsetTop - parseFloat(getComputedStyle(item).marginTop || 0);
+
+    const observer = new IntersectionObserver((entries) => {
+        const rows = new Set(entries.filter((entry) => entry.isIntersecting).map((entry) => rowOf(entry.target)));
+        if (!rows.size) return;
+        // Un mismo grupo = toda la fila (en "Featured" los 4 escalones de
+        // escritorio salen en orden aunque cada uno esté a otra altura)
+        list
+            .filter((item) => pending.has(item) && rows.has(rowOf(item)))
+            .forEach((item, i) => {
+                pending.delete(item);
+                observer.unobserve(item);
+                item.style.setProperty('--reveal-delay', `${base + i * step}ms`);
+                item.classList.add('is-revealed');
+            });
+    }, { threshold });
+
+    list.forEach((item) => observer.observe(item));
+}
