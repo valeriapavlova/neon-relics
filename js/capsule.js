@@ -9,7 +9,7 @@
 // =============================================
 
 import { LOOKS, PIECES } from './data.js';
-import { drawLines } from './motion.js';
+import { drawLines, revealStagger } from './motion.js';
 
 // =============================================
 // 1. ALMACENAMIENTO
@@ -119,6 +119,7 @@ let capsule = [];
 let removed = null; // { item, index } para "Undo"
 let sealed = null;  // { name } cuando la cápsula está sellada
 let root = null;
+let rowsShown = false; // las filas solo aparecen escalonadas la primera vez
 
 // ---- aviso (toast) ----
 
@@ -175,7 +176,7 @@ function entryTemplate(item, i) {
     const last = i === capsule.length - 1;
 
     return `
-        <li class="archive-entry archive-entry--${item.status}" draggable="true" data-index="${i}">
+        <li class="archive-entry archive-entry--${item.status}${rowsShown ? '' : ' reveal'}" draggable="true" data-index="${i}">
             <span class="archive-entry__handle" aria-hidden="true" title="Drag to reorder">⋮⋮</span>
             <span class="archive-entry__index">${pad(i + 1)}</span>
             <a class="archive-entry__media" href="product-card.html?look=${encodeURIComponent(piece.look)}" draggable="false">
@@ -270,6 +271,10 @@ function render(focus) {
     }
 
     root.querySelectorAll('[data-note]').forEach(autosize);
+    if (!rowsShown && capsule.length) {
+        revealStagger(root.querySelectorAll('.archive-entry'), { step: 80 });
+        rowsShown = true;
+    }
     drawLines(root.querySelector('.ledger'), 'ledger');
     if (focus) root.querySelector(focus)?.focus();
 }

@@ -212,6 +212,13 @@ export function revealStagger(items, { base = 0, step = 80, threshold = 0.15, in
                 observer.unobserve(item);
                 item.style.setProperty('--reveal-delay', `${base + i * step}ms`);
                 item.classList.add('is-revealed');
+                // al terminar se quitan las clases: no pisan otros estados (p. ej. al arrastrar)
+                item.addEventListener('transitionend', function done(event) {
+                    if (event.target !== item || event.propertyName !== 'transform') return;
+                    item.removeEventListener('transitionend', done);
+                    item.classList.remove('reveal', 'is-revealed');
+                    item.style.removeProperty('--reveal-delay');
+                });
             });
     }, { threshold });
 
