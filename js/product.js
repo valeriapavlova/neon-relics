@@ -77,7 +77,7 @@ function renderLook(root, index) {
 
             <p class="look__story body-text">${esc(look.story)}</p>
 
-            <section class="vitrine" aria-labelledby="vitrine-title">
+            <section class="vitrine" aria-labelledby="vitrine-title" data-reveal>
                 <div class="vitrine__head">
                     <h2 class="vitrine__title" id="vitrine-title">Worn in this look</h2>
                     <span class="vitrine__count" data-kept-count></span>
@@ -129,6 +129,46 @@ function syncState(root, look) {
     }
 }
 
+// ---- volver a la colección ----
+// Si la página anterior es el index de este sitio, "← All looks" hace
+// history.back(): el navegador devuelve la página con su scroll (sin saltar
+// arriba) y la View Transition lleva el retrato a su tarjeta.
+// Si no (enlace directo, otra web), queda el enlace normal.
+
+const LAST_LOOK_KEY = 'neon-relics:last-look';
+
+function rememberLook(id) {
+    try {
+        sessionStorage.setItem(LAST_LOOK_KEY, id);
+    } catch (e) {
+        // sin sessionStorage: solo se pierde la animación de vuelta
+    }
+}
+
+function cameFromIndex() {
+    if (!document.referrer || window.history.length < 2) return false;
+    try {
+        const from = new URL(document.referrer);
+        const base = window.location.pathname.replace(/[^/]*$/, '');
+        return from.origin === window.location.origin
+            && (from.pathname === base || from.pathname === `${base}index.html`);
+    } catch (e) {
+        return false;
+    }
+}
+
+function setupBackLink() {
+    const back = document.querySelector('.look-page__back');
+    if (!back) return;
+    back.addEventListener('click', (event) => {
+        // Ctrl/Cmd + clic o clic central: nueva pestaña, como un enlace normal
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        if (!cameFromIndex()) return;
+        event.preventDefault();
+        window.history.back();
+    });
+}
+
 // ---- init ----
 
 export function initProductPage() {
@@ -147,8 +187,11 @@ export function initProductPage() {
     const look = LOOKS[index];
     document.title = `${look.name} — NEON RELICS`;
 
+    rememberLook(look.id);
+    setupBackLink();
     renderLook(root, index);
-    drawLines(root.querySelector('.vitrine'), 'vitrine');
+    // "Worn in this look": las líneas, después del título (que sale por líneas)
+    drawLines(root.querySelector('.vitrine'), 'vitrine', { base: 300 });
     syncState(root, look);
     updateCapsuleCounter();
 

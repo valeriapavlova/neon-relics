@@ -8,25 +8,38 @@
 // =============================================
 
 export function initMotionVideos() {
-    const videos = document.querySelectorAll('video[data-motion-video]');
+    const videos = [...document.querySelectorAll('video[data-motion-video]')];
     if (!videos.length) return;
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    // Sin IntersectionObserver se tratan todos como visibles
+    const visible = new Set('IntersectionObserver' in window ? [] : videos);
 
-    function update() {
-        videos.forEach((video) => {
-            if (reduceMotion.matches) {
-                video.pause();
-            } else {
-                // play() devuelve una promesa; si el navegador lo bloquea, se queda el póster
-                video.play().catch(() => {});
-            }
-        });
+    // Solo suena el vídeo que está en pantalla: con preload="none" así
+    // tampoco se descargan los que el usuario no llega a ver
+    function update(video) {
+        if (reduceMotion.matches || !visible.has(video)) {
+            video.pause();
+        } else {
+            // play() devuelve una promesa; si el navegador lo bloquea, se queda el póster
+            video.play().catch(() => {});
+        }
     }
 
-    update();
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) visible.add(entry.target);
+                else visible.delete(entry.target);
+                update(entry.target);
+            });
+        }, { rootMargin: '10% 0px' });
+        videos.forEach((video) => observer.observe(video));
+    }
+
+    videos.forEach(update);
     // Si el usuario cambia el ajuste con la página abierta, se aplica al momento
-    reduceMotion.addEventListener('change', update);
+    reduceMotion.addEventListener('change', () => videos.forEach(update));
 }
 
 // =============================================
@@ -39,6 +52,12 @@ export function initMotionVideos() {
 export function prefersMotion() {
     return document.documentElement.classList.contains('has-motion')
         && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+// Duración de un token de :root ("700ms" → 700)
+export function cssMs(name, fallback) {
+    const value = parseFloat(getComputedStyle(document.documentElement).getPropertyValue(name));
+    return Number.isFinite(value) ? value : fallback;
 }
 
 // Llama a callback una sola vez, cuando el elemento entra en pantalla
@@ -71,11 +90,23 @@ const LINE_STAGGER = 90;
 const HERO_VIDEO_FADE = 400;
 const HERO_VIDEO_WAIT = 1000; // si el vídeo no arranca (móvil, red lenta), no esperar más
 
+// Palabras del título; los <br> se guardan como null (salto forzado)
+function wordsOf(el) {
+    const words = [];
+    el.childNodes.forEach((node) => {
+        if (node.nodeName === 'BR') words.push(null);
+        else node.textContent.split(/\s+/).filter(Boolean).forEach((w) => words.push(w));
+    });
+    return words;
+}
+
 function splitAndReveal(el, delay) {
+    // se guarda el HTML original (p. ej. los <span> con contadores y los <br>)
+    const html = el.innerHTML;
     const text = el.textContent.trim().replace(/\s+/g, ' ');
 
     // 1. Palabras sueltas para saber dónde corta cada línea
-    el.innerHTML = text.split(' ').map((w) => `<span class="lines__word">${esc(w)}</span>`).join(' ');
+    el.innerHTML = wordsOf(el).map((w) => (w === null ? '<br>' : `<span class="lines__word">${esc(w)}</span>`)).join(' ');
     const lines = [];
     let top = null;
     el.querySelectorAll('.lines__word').forEach((word) => {
@@ -97,13 +128,13 @@ function splitAndReveal(el, delay) {
         setTimeout(() => el.classList.add('lines--in'), delay);
     });
 
-    // 4. Al terminar, texto normal otra vez
+    // 4. Al terminar, el HTML original otra vez
     const restore = () => {
         if (!el.classList.contains('lines--ready')) return;
-        el.textContent = text;
+        el.innerHTML = html;
         el.removeAttribute('aria-label');
     };
-    const total = delay + 700 + (lines.length - 1) * LINE_STAGGER + 150;
+    const total = delay + cssMs('--dur-reveal', 700) + (lines.length - 1) * LINE_STAGGER + 150;
     setTimeout(restore, total);
 }
 
@@ -143,41 +174,38 @@ export function initTitleReveals() {
 
 // =============================================
 // LÍNEAS DIVISORIAS
-// Se dibujan (scaleX 0 → 1) al entrar en pantalla (threshold 0.4),
-// con +120 ms entre líneas vecinas. Cada grupo se dibuja una sola vez:
-// si la zona se vuelve a pintar (p. ej. "The archive" tras cada cambio),
-// las líneas nuevas aparecen ya dibujadas.
+// Se dibujan (scaleX 0 → 1) cuando el bloque entra en pantalla
+// (threshold 0.2), con +120 ms entre líneas vecinas. Cada grupo se
+// dibuja una sola vez: si la zona se vuelve a pintar (p. ej. "The archive"
+// tras cada cambio), las líneas nuevas aparecen ya dibujadas.
+// Al terminar, la línea queda .is-settled (el formulario vuelve a su borde).
 // =============================================
 
-const LINE_SELECTOR = '.piece, .vitrine__cta, .ledger__total-label, .ledger__total, .visit__row';
+const LINE_SELECTOR = '.piece, .vitrine__cta, .ledger__total-label, .ledger__total, .visit__row, .event, .form__field';
 const DRAW_STAGGER = 120;
 const drawnGroups = new Set();
 
-export function drawLines(container, group) {
+export function drawLines(container, group, { base = 0 } = {}) {
     if (!container) return;
     const lines = [...container.querySelectorAll(LINE_SELECTOR)];
     if (!lines.length) return;
 
     if (!prefersMotion() || drawnGroups.has(group) || !('IntersectionObserver' in window)) {
-        lines.forEach((line) => line.classList.add('is-drawn', 'is-static'));
+        lines.forEach((line) => line.classList.add('is-drawn', 'is-static', 'is-settled'));
         return;
     }
 
-    const observer = new IntersectionObserver((entries) => {
-        const visible = entries.filter((entry) => entry.isIntersecting).map((entry) => entry.target);
-        if (!visible.length) return;
+    onceVisible(container, () => {
         drawnGroups.add(group);
+        const duration = cssMs('--dur-draw', 900);
         // en orden del documento, cada una 120 ms después de la anterior
-        visible
-            .sort((a, b) => lines.indexOf(a) - lines.indexOf(b))
-            .forEach((line, i) => {
-                observer.unobserve(line);
-                line.style.setProperty('--draw-delay', `${i * DRAW_STAGGER}ms`);
-                line.classList.add('is-drawn');
-            });
-    }, { threshold: 0.4 });
-
-    lines.forEach((line) => observer.observe(line));
+        lines.forEach((line, i) => {
+            const delay = base + i * DRAW_STAGGER;
+            line.style.setProperty('--draw-delay', `${delay}ms`);
+            line.classList.add('is-drawn');
+            setTimeout(() => line.classList.add('is-settled'), delay + duration + 50);
+        });
+    }, 0.2);
 }
 
 // =============================================
@@ -265,4 +293,105 @@ export function collapse(el, duration = 200) {
         { duration, easing: easeReveal(), fill: 'forwards' },
     );
     return animation.finished.catch(() => {});
+}
+
+// =============================================
+// "RESPIRACIÓN" DE LAS SECCIONES
+// Basta con poner data-reveal en la sección. Al entrar en pantalla
+// (threshold 0.2, una sola vez por elemento):
+//   - h2: por líneas, como el h1 del hero
+//   - .subtitle, .eyebrow, .body-text, .body-text--big: opacity + 16 px,
+//     600 ms, 120 ms después del título y 80 ms entre elementos
+//   - img y video: opacity + scale(1.06) → 1, 900 ms, 100 ms entre ellos;
+//     si la imagen va sola en su caja, la caja recorta (overflow: clip)
+// Lo que esté dentro de [data-reveal-skip] no se toca (tiene su propio
+// movimiento). Los estados ocultos están en el CSS (bloque MOTION).
+// =============================================
+
+const BREATH_TEXT = '.subtitle, .eyebrow, .body-text, .body-text--big';
+const BREATH_MEDIA = 'img, video';
+const TEXT_AFTER_TITLE = 120;
+const TEXT_STEP = 80;
+const MEDIA_STEP = 100;
+const TEXT_DUR = 600;
+const MEDIA_DUR = 900;
+
+// El elemento aparece; al terminar se quitan las clases para no pisar
+// sus propios estilos (hover, transform, etc.)
+function breathe(el, delay, duration) {
+    el.style.setProperty('--breath-delay', `${delay}ms`);
+    el.classList.add('is-in');
+    setTimeout(() => {
+        el.classList.add('is-settled');
+        el.classList.remove('is-in');
+        el.style.removeProperty('--breath-delay');
+        el.parentElement?.classList.remove('breath-clip');
+    }, delay + duration + 50);
+}
+
+function initSection(section) {
+    const own = (el) => !el.closest('[data-reveal-skip]');
+    const titles = [...section.querySelectorAll('h2')].filter(own);
+    const texts = [...section.querySelectorAll(BREATH_TEXT)].filter(own);
+    const media = [...section.querySelectorAll(BREATH_MEDIA)].filter(own);
+
+    if (!prefersMotion() || !('IntersectionObserver' in window)) {
+        titles.forEach((title) => title.classList.add('lines--ready'));
+        [...texts, ...media].forEach((el) => el.classList.add('is-settled'));
+        return;
+    }
+
+    // La imagen sola en su caja: la caja recorta el zoom
+    media.forEach((el) => {
+        const box = el.parentElement;
+        const alone = [...box.children].every((child) => child === el || child.tagName === 'SOURCE');
+        if (alone) box.classList.add('breath-clip');
+    });
+
+    // El subtítulo de un heading-block sale con su título (aunque esté encima)
+    const followers = new Map(titles.map((title) => [title, []]));
+    const free = texts.filter((text) => {
+        const title = text.closest('.heading-block')?.querySelector('h2');
+        if (!title || !followers.has(title)) return true;
+        followers.get(title).push(text);
+        return false;
+    });
+
+    const order = [...titles, ...free, ...media];
+    const byDocument = (a, b) => (a.compareDocumentPosition(b) & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1);
+    let titleAt = null;
+
+    const observer = new IntersectionObserver((entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting).map((entry) => entry.target);
+        if (!visible.length) return;
+        visible.sort(byDocument);
+
+        const now = performance.now();
+        const titlesNow = visible.filter((el) => followers.has(el));
+        if (titlesNow.length) titleAt = now;
+        // texto: 120 ms después del último título (si acaba de salir)
+        const textBase = titleAt === null ? 0 : Math.max(0, TEXT_AFTER_TITLE - (now - titleAt));
+        const textQueue = [];
+        let mediaIndex = 0;
+
+        visible.forEach((el) => {
+            observer.unobserve(el);
+            if (followers.has(el)) {
+                revealLines(el);
+                textQueue.push(...followers.get(el));
+            } else if (el.matches(BREATH_MEDIA)) {
+                breathe(el, mediaIndex++ * MEDIA_STEP, MEDIA_DUR);
+            } else {
+                textQueue.push(el);
+            }
+        });
+
+        textQueue.sort(byDocument).forEach((el, i) => breathe(el, textBase + i * TEXT_STEP, TEXT_DUR));
+    }, { threshold: 0.2 });
+
+    order.forEach((el) => observer.observe(el));
+}
+
+export function initSectionReveals() {
+    document.querySelectorAll('[data-reveal]').forEach(initSection);
 }

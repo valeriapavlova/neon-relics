@@ -987,6 +987,20 @@ a {
 	align-items: start;
 	width: 100%;
 
+	/* Altura de la parte de texto de cada tarjeta (meta + nombre + línea) */
+	--look-card-text: 6.5rem;
+
+	/* Antes de que featured.js pinte las tarjetas, la cuadrícula ya ocupa
+	   su altura: al volver atrás el navegador restaura el scroll sin saltos.
+	   El % del padding es del ancho: foto 3:4 = ancho de columna × 4/3.
+	   Solo con JS (sin JS la cuadrícula se queda vacía, sin hueco).
+	   4 columnas: foto + texto + el escalón más bajo (--space-4xl) */
+	@media (scripting: enabled) {
+		&:not(:has(.looks__item)) {
+			padding-bottom: calc(100% / 3 - var(--space-sm) + var(--look-card-text) + var(--space-4xl));
+		}
+	}
+
 	/* Escalones: cada tarjeta empieza a una altura distinta */
 	& .looks__item:nth-child(2) {
 		margin-top: var(--space-2xl);
@@ -1005,6 +1019,13 @@ a {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		row-gap: var(--space-lg);
 
+		/* 2 filas de 2: fotos, textos, hueco entre filas y escalones */
+		@media (scripting: enabled) {
+			&:not(:has(.looks__item)) {
+				padding-bottom: calc(400% / 3 - var(--space-sm) * 4 / 3 + 2 * var(--look-card-text) + var(--space-lg) + 2 * var(--space-2xl));
+			}
+		}
+
 		& .looks__item:nth-child(3) {
 			margin-top: 0;
 		}
@@ -1018,6 +1039,16 @@ a {
 	@media (max-width: 40rem) {
 		grid-template-columns: minmax(0, 1fr);
 		row-gap: var(--space-md);
+
+		/* en móvil la línea del personaje ocupa menos */
+		--look-card-text: 5.75rem;
+
+		/* 4 tarjetas en columna */
+		@media (scripting: enabled) {
+			&:not(:has(.looks__item)) {
+				padding-bottom: calc(1600% / 3 + 4 * var(--look-card-text) + 3 * var(--space-md));
+			}
+		}
 
 		& .looks__item:nth-child(n) {
 			margin-top: 0;
@@ -1293,17 +1324,18 @@ a {
 				gap: var(--space-md);
 				padding: var(--space-md) 0;
 
-				& ::after {
+				/* Línea inferior (se dibuja con drawLines, ver bloque MOTION) */
+				&::after {
 					content: "";
 					position: absolute;
 					left: 0;
 					bottom: 0;
 					width: 100%;
 					height: 1px;
-					/* Ajusta el grosor del "border" */
 					background: linear-gradient(90deg,
-							rgba(216, 223, 230, 0.2) 0%,
-							rgba(25, 16, 38, 0.7) 100%);
+							color-mix(in srgb, var(--c-bg) 40%, transparent) 0%,
+							color-mix(in srgb, var(--c-bg) 8%, transparent) 100%);
+					transform-origin: left center;
 					pointer-events: none;
 				}
 
@@ -1391,11 +1423,25 @@ a {
      contratiempo para que no se muevan a la vez */
 @media (prefers-reduced-motion: no-preference) {
 	.events__img-inner.events__img--floating {
-		animation: ambientFloat 9s ease-in-out infinite alternate;
+		animation: ringFloat 6s ease-in-out infinite alternate;
 	}
 
 	.capsule .capsule__bg {
 		animation: ambientFloat 11s ease-in-out infinite alternate-reverse;
+	}
+}
+
+/* Anillo de events: 24 px y un giro de 3° en 6 s (antes 20 px en 9 s
+   apenas se veía). "translate" y "rotate" no pisan otros transform. */
+@keyframes ringFloat {
+	0% {
+		translate: 0 0;
+		rotate: 0deg;
+	}
+
+	100% {
+		translate: 8px -24px;
+		rotate: 3deg;
 	}
 }
 
@@ -1634,6 +1680,11 @@ a {
 			flex-direction: column;
 			gap: var(--space-xs);
 			width: 100%;
+
+			& .form__field {
+				position: relative;
+				max-width: 40rem;
+			}
 
 			& .form__input {
 				width: 100%;
@@ -3489,7 +3540,8 @@ a {
 	position: absolute;
 	inset: 0 0 auto 0;
 	height: 1px;
-	background-color: color-mix(in srgb, var(--c-bg) 14%, transparent);
+	/* algo más clara que antes (14 %): así se ve cómo se dibuja */
+	background-color: color-mix(in srgb, var(--c-bg) 28%, transparent);
 	transform-origin: left center;
 }
 
@@ -3507,6 +3559,89 @@ a {
 	/* zona ya dibujada que se vuelve a pintar: sin animación */
 	.has-motion :is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total, .visit__row).is-static::before {
 		transition: none;
+	}
+}
+
+/* Líneas de events (.event::after) y subrayado del formulario
+   "Inner frequency". El subrayado real es el borde del input; mientras
+   se dibuja lo sustituye un ::after (un input no tiene pseudoelementos)
+   y al terminar (.is-settled) vuelve el borde, que sabe mostrar errores. */
+@media (prefers-reduced-motion: no-preference) {
+	.has-motion .event::after {
+		transform: scaleX(0);
+		transition: transform var(--dur-draw) var(--ease-reveal);
+		transition-delay: var(--draw-delay, 0ms);
+	}
+
+	.has-motion .event.is-drawn::after {
+		transform: none;
+	}
+
+	.has-motion .event.is-static::after {
+		transition: none;
+	}
+
+	.has-motion .frequency .form__field:not(.is-settled) {
+		& .form__input {
+			border-bottom-color: transparent;
+		}
+
+		&::after {
+			content: "";
+			position: absolute;
+			inset: auto 0 0 0;
+			height: 1px;
+			background-color: var(--c-bg--soft);
+			transform: scaleX(0);
+			transform-origin: left center;
+			transition: transform var(--dur-draw) var(--ease-reveal);
+			transition-delay: var(--draw-delay, 0ms);
+		}
+
+		&.is-drawn::after {
+			transform: none;
+		}
+	}
+}
+
+/* ---- Respiración de las secciones (js/motion.js → initSectionReveals) ----
+   Secciones con [data-reveal]: h2 por líneas, textos que suben 16 px y
+   fotos / vídeos que pasan de scale(1.06) a 1. Lo que está dentro de
+   [data-reveal-skip] tiene su propio movimiento y no se toca.
+   .is-in = aparece; .is-settled = terminado (vuelven sus propios estilos). */
+@media (prefers-reduced-motion: no-preference) {
+	.has-motion [data-reveal] {
+		& h2:not(.lines--ready, [data-reveal-skip] *) {
+			opacity: 0;
+		}
+
+		& :is(.subtitle, .eyebrow, .body-text, .body-text--big):not(.is-settled, [data-reveal-skip] *) {
+			opacity: 0;
+			transform: translateY(16px);
+			transition:
+				opacity 600ms var(--ease-reveal),
+				transform 600ms var(--ease-reveal);
+			transition-delay: var(--breath-delay, 0ms);
+		}
+
+		& :is(img, video):not(.is-settled, [data-reveal-skip] *) {
+			opacity: 0;
+			transform: scale(1.06);
+			transition:
+				opacity var(--dur-draw) var(--ease-reveal),
+				transform var(--dur-draw) var(--ease-reveal);
+			transition-delay: var(--breath-delay, 0ms);
+		}
+
+		& .is-in:not(.is-settled) {
+			opacity: 1;
+			transform: none;
+		}
+
+		/* la caja de una imagen sola recorta el zoom (clip: sin cambiar el layout) */
+		& .breath-clip {
+			overflow: clip;
+		}
 	}
 }
 

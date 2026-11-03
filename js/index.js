@@ -4,7 +4,7 @@ import { renderEvents } from './events.js';
 import { setupHeaderMenu } from './header.js';
 import { initProductPage } from './product.js';
 import { updateCapsuleCounter, initCapsulePage } from './capsule.js';
-import { initMotionVideos, initTitleReveals } from './motion.js';
+import { initMotionVideos, initTitleReveals, initSectionReveals } from './motion.js';
 import { initNewsletterForm } from './newsletter.js';
 import { initVisit } from './visit.js';
 
@@ -46,4 +46,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Títulos por líneas (después de pintar las páginas generadas con JS)
     initTitleReveals();
+    // "Respiración" de las secciones con [data-reveal] (todas las páginas, menos el hero)
+    initSectionReveals();
 });
