@@ -9,7 +9,7 @@
 // =============================================
 
 import { LOOKS, PIECES } from './data.js';
-import { drawLines, revealStagger } from './motion.js';
+import { drawLines, revealStagger, flip } from './motion.js';
 
 // =============================================
 // 1. ALMACENAMIENTO
@@ -176,7 +176,7 @@ function entryTemplate(item, i) {
     const last = i === capsule.length - 1;
 
     return `
-        <li class="archive-entry archive-entry--${item.status}${rowsShown ? '' : ' reveal'}" draggable="true" data-index="${i}">
+        <li class="archive-entry archive-entry--${item.status}${rowsShown ? '' : ' reveal'}" draggable="true" data-index="${i}" data-id="${esc(item.id)}">
             <span class="archive-entry__handle" aria-hidden="true" title="Drag to reorder">⋮⋮</span>
             <span class="archive-entry__index">${pad(i + 1)}</span>
             <a class="archive-entry__media" href="product-card.html?look=${encodeURIComponent(piece.look)}" draggable="false">
@@ -288,6 +288,11 @@ function commit(focus) {
     render(focus);
 }
 
+// Igual que commit(), pero las filas se deslizan a su nuevo sitio (FLIP, 200 ms)
+function commitWithFlip(focus) {
+    flip(root, '.archive-entry', 'id', () => commit(focus));
+}
+
 function move(from, to) {
     if (to < 0 || to >= capsule.length || from === to) return false;
     const [item] = capsule.splice(from, 1);
@@ -374,7 +379,7 @@ function handleClick(event) {
         const same = `[data-move="${to}"][data-dir="${dir}"]`;
         const other = `[data-move="${to}"][data-dir="${-dir}"]`;
         const edge = to === 0 || to === capsule.length - 1;
-        commit(edge ? other : same);
+        commitWithFlip(edge ? other : same);
     } else if (btn.dataset.status) {
         setStatus(btn.dataset.status, btn.dataset.value);
     } else if (btn.dataset.remove) {
@@ -432,7 +437,7 @@ function setupDragAndDrop() {
         const to = Number(li.dataset.index);
         const name = PIECES[capsule[from].id].name;
         if (move(from, to)) {
-            commit();
+            commitWithFlip();
             showToast(`${name} moved to position ${to + 1}`);
         }
         from = null;

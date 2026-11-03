@@ -224,3 +224,33 @@ export function revealStagger(items, { base = 0, step = 80, threshold = 0.15, in
 
     list.forEach((item) => observer.observe(item));
 }
+
+// =============================================
+// FLIP: las filas se deslizan a su nuevo sitio
+// 1) recordar dónde estaba cada elemento (por data-<key>)
+// 2) cambiar el DOM  3) animar desde la posición vieja hasta la nueva
+// =============================================
+
+const easeReveal = () =>
+    getComputedStyle(document.documentElement).getPropertyValue('--ease-reveal').trim() || 'ease-out';
+
+export function flip(container, selector, key, change, duration = 200) {
+    if (!container || !prefersMotion()) {
+        change();
+        return;
+    }
+
+    const before = new Map();
+    container.querySelectorAll(selector).forEach((el) => before.set(el.dataset[key], el.getBoundingClientRect().top));
+
+    change();
+
+    const easing = easeReveal();
+    container.querySelectorAll(selector).forEach((el) => {
+        const top = before.get(el.dataset[key]);
+        if (top === undefined) return;
+        const dy = top - el.getBoundingClientRect().top;
+        if (Math.abs(dy) < 1) return;
+        el.animate([{ transform: `translateY(${dy}px)` }, { transform: 'none' }], { duration, easing });
+    });
+}
