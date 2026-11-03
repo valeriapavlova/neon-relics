@@ -8,25 +8,38 @@
 // =============================================
 
 export function initMotionVideos() {
-    const videos = document.querySelectorAll('video[data-motion-video]');
+    const videos = [...document.querySelectorAll('video[data-motion-video]')];
     if (!videos.length) return;
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    // Sin IntersectionObserver se tratan todos como visibles
+    const visible = new Set('IntersectionObserver' in window ? [] : videos);
 
-    function update() {
-        videos.forEach((video) => {
-            if (reduceMotion.matches) {
-                video.pause();
-            } else {
-                // play() devuelve una promesa; si el navegador lo bloquea, se queda el póster
-                video.play().catch(() => {});
-            }
-        });
+    // Solo suena el vídeo que está en pantalla: con preload="none" así
+    // tampoco se descargan los que el usuario no llega a ver
+    function update(video) {
+        if (reduceMotion.matches || !visible.has(video)) {
+            video.pause();
+        } else {
+            // play() devuelve una promesa; si el navegador lo bloquea, se queda el póster
+            video.play().catch(() => {});
+        }
     }
 
-    update();
+    if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) visible.add(entry.target);
+                else visible.delete(entry.target);
+                update(entry.target);
+            });
+        }, { rootMargin: '10% 0px' });
+        videos.forEach((video) => observer.observe(video));
+    }
+
+    videos.forEach(update);
     // Si el usuario cambia el ajuste con la página abierta, se aplica al momento
-    reduceMotion.addEventListener('change', update);
+    reduceMotion.addEventListener('change', () => videos.forEach(update));
 }
 
 // =============================================
