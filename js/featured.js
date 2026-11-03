@@ -50,6 +50,11 @@ function createLookCard(look) {
 // ---- Tarjeta → retrato (View Transitions entre páginas) ----
 // Solo la foto del look que se abre (o al que se vuelve) lleva
 // view-transition-name: look-<id>, el mismo que el retrato de product-card.html.
+// El id del último look visto lo guarda product.js en sessionStorage:
+// así la tarjeta correcta se nombra al volver atrás y también al llegar
+// por un enlace normal ("← All looks", "Collection" del header).
+
+const LAST_LOOK_KEY = 'neon-relics:last-look';
 
 const lookFromUrl = (url) => {
     try {
@@ -59,7 +64,20 @@ const lookFromUrl = (url) => {
     }
 };
 
+function lastLook() {
+    try {
+        return sessionStorage.getItem(LAST_LOOK_KEY);
+    } catch (e) {
+        return null;
+    }
+}
+
+function clearNames() {
+    document.querySelectorAll('.look-card__portrait').forEach((img) => img.style.removeProperty('view-transition-name'));
+}
+
 function nameCard(id) {
+    clearNames();
     if (!id) return;
     const card = [...document.querySelectorAll('.look-card[data-look]')].find((a) => a.dataset.look === id);
     const img = card?.querySelector('.look-card__portrait');
@@ -72,15 +90,28 @@ function isBackNavigation() {
     return performance.getEntriesByType('navigation')[0]?.type === 'back_forward';
 }
 
+// ¿Venimos de la página de un look?
+function fromLookPage() {
+    const from = window.navigation?.activation?.from?.url || document.referrer;
+    return Boolean(from) && from.includes('product-card');
+}
+
 // salida: la tarjeta pulsada
 window.addEventListener('pageswap', (event) => {
     if (event.viewTransition && event.activation) nameCard(lookFromUrl(event.activation.entry.url));
 });
 
-// vuelta atrás desde la página de un look
+// llegada desde la página de un look (atrás o por enlace)
 window.addEventListener('pagereveal', (event) => {
-    const from = window.navigation?.activation?.from;
-    if (event.viewTransition && from && isBackNavigation()) nameCard(lookFromUrl(from.url));
+    if (!event.viewTransition) return;
+    if (!fromLookPage()) {
+        clearNames();
+        return;
+    }
+    const from = window.navigation?.activation?.from?.url;
+    nameCard(lookFromUrl(from) || lastLook());
+    // al terminar se quita el nombre: no estorba en la siguiente navegación
+    event.viewTransition.finished.finally(clearNames);
 });
 
 export function renderFeaturedLooks() {

@@ -16,7 +16,9 @@
     rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
   <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
-  <script defer src="js/index.js" type="module"></script>
+  <!-- blocking="render": las tarjetas de looks existen antes del primer pintado
+    (la View Transition de vuelta necesita la foto con su nombre) -->
+  <script defer src="js/index.js" type="module" blocking="render"></script>
 </head>
 
 <body>

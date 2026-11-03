@@ -987,6 +987,20 @@ a {
 	align-items: start;
 	width: 100%;
 
+	/* Altura de la parte de texto de cada tarjeta (meta + nombre + línea) */
+	--look-card-text: 6.5rem;
+
+	/* Antes de que featured.js pinte las tarjetas, la cuadrícula ya ocupa
+	   su altura: al volver atrás el navegador restaura el scroll sin saltos.
+	   El % del padding es del ancho: foto 3:4 = ancho de columna × 4/3.
+	   Solo con JS (sin JS la cuadrícula se queda vacía, sin hueco).
+	   4 columnas: foto + texto + el escalón más bajo (--space-4xl) */
+	@media (scripting: enabled) {
+		&:not(:has(.looks__item)) {
+			padding-bottom: calc(100% / 3 - var(--space-sm) + var(--look-card-text) + var(--space-4xl));
+		}
+	}
+
 	/* Escalones: cada tarjeta empieza a una altura distinta */
 	& .looks__item:nth-child(2) {
 		margin-top: var(--space-2xl);
@@ -1005,6 +1019,13 @@ a {
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		row-gap: var(--space-lg);
 
+		/* 2 filas de 2: fotos, textos, hueco entre filas y escalones */
+		@media (scripting: enabled) {
+			&:not(:has(.looks__item)) {
+				padding-bottom: calc(400% / 3 - var(--space-sm) * 4 / 3 + 2 * var(--look-card-text) + var(--space-lg) + 2 * var(--space-2xl));
+			}
+		}
+
 		& .looks__item:nth-child(3) {
 			margin-top: 0;
 		}
@@ -1018,6 +1039,16 @@ a {
 	@media (max-width: 40rem) {
 		grid-template-columns: minmax(0, 1fr);
 		row-gap: var(--space-md);
+
+		/* en móvil la línea del personaje ocupa menos */
+		--look-card-text: 5.75rem;
+
+		/* 4 tarjetas en columna */
+		@media (scripting: enabled) {
+			&:not(:has(.looks__item)) {
+				padding-bottom: calc(1600% / 3 + 4 * var(--look-card-text) + 3 * var(--space-md));
+			}
+		}
 
 		& .looks__item:nth-child(n) {
 			margin-top: 0;

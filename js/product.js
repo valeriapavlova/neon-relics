@@ -129,6 +129,46 @@ function syncState(root, look) {
     }
 }
 
+// ---- volver a la colección ----
+// Si la página anterior es el index de este sitio, "← All looks" hace
+// history.back(): el navegador devuelve la página con su scroll (sin saltar
+// arriba) y la View Transition lleva el retrato a su tarjeta.
+// Si no (enlace directo, otra web), queda el enlace normal.
+
+const LAST_LOOK_KEY = 'neon-relics:last-look';
+
+function rememberLook(id) {
+    try {
+        sessionStorage.setItem(LAST_LOOK_KEY, id);
+    } catch (e) {
+        // sin sessionStorage: solo se pierde la animación de vuelta
+    }
+}
+
+function cameFromIndex() {
+    if (!document.referrer || window.history.length < 2) return false;
+    try {
+        const from = new URL(document.referrer);
+        const base = window.location.pathname.replace(/[^/]*$/, '');
+        return from.origin === window.location.origin
+            && (from.pathname === base || from.pathname === `${base}index.html`);
+    } catch (e) {
+        return false;
+    }
+}
+
+function setupBackLink() {
+    const back = document.querySelector('.look-page__back');
+    if (!back) return;
+    back.addEventListener('click', (event) => {
+        // Ctrl/Cmd + clic o clic central: nueva pestaña, como un enlace normal
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        if (!cameFromIndex()) return;
+        event.preventDefault();
+        window.history.back();
+    });
+}
+
 // ---- init ----
 
 export function initProductPage() {
@@ -147,6 +187,8 @@ export function initProductPage() {
     const look = LOOKS[index];
     document.title = `${look.name} — NEON RELICS`;
 
+    rememberLook(look.id);
+    setupBackLink();
     renderLook(root, index);
     drawLines(root.querySelector('.vitrine'), 'vitrine');
     syncState(root, look);
