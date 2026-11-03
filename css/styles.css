@@ -1338,18 +1338,24 @@ a {
 }
 
 
-/* Flotación suave de la imagen de eventos; solo si no se pide menos movimiento.
-   La clase está en el <img> (.events__img-inner), no en el <picture> (.events__img) */
+/* Flotación ambiental lenta; solo si no se pide menos movimiento.
+   - Anillo de eventos: la clase está en el <img> (.events__img-inner), no en el <picture>
+   - Forma cromada de la sección capsule (.capsule__bg), algo más lenta y a
+     contratiempo para que no se muevan a la vez */
 @media (prefers-reduced-motion: no-preference) {
 	.events__img-inner.events__img--floating {
-		animation: eventsFloat 9s ease-in-out infinite alternate;
+		animation: ambientFloat 9s ease-in-out infinite alternate;
+	}
+
+	.capsule .capsule__bg {
+		animation: ambientFloat 11s ease-in-out infinite alternate-reverse;
 	}
 }
 
-/* Con 12 px en 12 s el movimiento casi no se notaba: ahora 20 px en 9 s.
-   Se anima "translate" (no "transform") para poder reutilizarla en
-   elementos que ya usan transform para colocarse. */
-@keyframes eventsFloat {
+/* 20 px en 9 s (con 12 px en 12 s casi no se notaba).
+   Se anima "translate" (no "transform"): .capsule__bg ya usa transform
+   para colocarse y así no se pisan. */
+@keyframes ambientFloat {
 	0% {
 		translate: 0 0;
 	}
