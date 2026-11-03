@@ -1342,17 +1342,20 @@ a {
    La clase está en el <img> (.events__img-inner), no en el <picture> (.events__img) */
 @media (prefers-reduced-motion: no-preference) {
 	.events__img-inner.events__img--floating {
-		animation: eventsFloat 12s ease-in-out infinite alternate;
+		animation: eventsFloat 9s ease-in-out infinite alternate;
 	}
 }
 
+/* Con 12 px en 12 s el movimiento casi no se notaba: ahora 20 px en 9 s.
+   Se anima "translate" (no "transform") para poder reutilizarla en
+   elementos que ya usan transform para colocarse. */
 @keyframes eventsFloat {
 	0% {
-		transform: translateY(0) translateX(0);
+		translate: 0 0;
 	}
 
 	100% {
-		transform: translateY(-12px) translateX(6px);
+		translate: 10px -20px;
 	}
 }
 
