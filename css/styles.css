@@ -1770,10 +1770,11 @@ a {
 		gap: 2rem 2.5rem;
 		margin: 0 auto;
 
+		/* Móvil: una columna, todo alineado a la izquierda */
 		@media (max-width: 44rem) {
 			grid-template-columns: 1fr;
 			gap: 1rem 0;
-			justify-items: center;
+			justify-items: start;
 		}
 
 		& .footer__item {
@@ -1783,8 +1784,8 @@ a {
 			gap: var(--space-2xs);
 
 			@media (max-width: 44rem) {
-				align-items: center;
-				text-align: center;
+				align-items: flex-start;
+				text-align: start;
 			}
 
 			& ul {
@@ -1825,6 +1826,11 @@ a {
 
 			@media (max-width: 48rem) {
 				font-size: 0.625em;
+			}
+
+			/* En una columna los créditos también van a la izquierda */
+			@media (max-width: 44rem) {
+				text-align: start;
 			}
 		}
 
@@ -2886,6 +2892,11 @@ a {
 		}
 	}
 
+	/* Eyebrow + línea sobre el escenario, alineados a la izquierda */
+	& .about-hero__intro {
+		max-width: var(--size-sm);
+	}
+
 	& .about-hero__stage {
 		position: relative;
 		width: 100%;
@@ -3226,6 +3237,138 @@ a {
 	}
 }
 
+/* VISIT: "Visit the atelier" (index y about, antes del footer) */
+.visit {
+	& .visit__grid {
+		display: grid;
+		grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+		align-items: start;
+		gap: var(--space-2xl);
+
+		@media (max-width: 64rem) {
+			gap: var(--space-lg);
+		}
+
+		@media (max-width: 48rem) {
+			grid-template-columns: minmax(0, 1fr);
+		}
+	}
+
+	/* Vitrina oscura con el retrato */
+	& .visit__showcase {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-sm);
+		margin: 0;
+		padding: var(--space-md);
+		border-radius: var(--r-s);
+		background-color: var(--c-text);
+
+		@media (max-width: 40rem) {
+			padding: var(--space-sm);
+		}
+	}
+
+	& .visit__portrait {
+		aspect-ratio: 3 / 4;
+		overflow: hidden;
+
+		& img {
+			display: block;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+		}
+	}
+
+	& .visit__caption {
+		color: var(--c-text--muted-inverse);
+		text-transform: uppercase;
+	}
+
+	& .visit__content {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-lg);
+
+		@media (max-width: 48rem) {
+			gap: var(--space-md);
+		}
+
+		& > .body-text {
+			max-width: 36rem;
+		}
+	}
+
+	/* Lista con líneas finas (la línea es el ::before compartido de drawLines) */
+	& .visit__list {
+		border-bottom: 1px solid color-mix(in srgb, var(--c-text) 18%, transparent);
+	}
+
+	& .visit__row {
+		position: relative;
+		display: grid;
+		grid-template-columns: 8rem minmax(0, 1fr);
+		gap: var(--space-xs);
+		padding: var(--space-sm) 0;
+
+		&::before {
+			background-color: color-mix(in srgb, var(--c-text) 18%, transparent);
+		}
+
+		@media (max-width: 40rem) {
+			grid-template-columns: minmax(0, 1fr);
+			gap: var(--space-2xs);
+		}
+	}
+
+	& .visit__label {
+		color: var(--c-text--muted);
+		text-transform: uppercase;
+	}
+
+	& .visit__value {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-3xs);
+		margin: 0;
+		overflow-wrap: anywhere;
+	}
+
+	/* Email y usuario tal cual se escriben, sin mayúsculas */
+	& .visit__raw {
+		text-transform: none;
+	}
+
+	& .visit__actions {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: var(--space-md);
+
+		@media (max-width: 48rem) {
+			flex-direction: column;
+			align-items: stretch;
+			text-align: center;
+		}
+	}
+
+	& .visit__link {
+		text-decoration: underline;
+		text-underline-offset: var(--space-3xs);
+		border-radius: var(--r-xs);
+
+		&:hover {
+			color: var(--c-primary--dark);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--c-primary);
+			outline-offset: var(--space-3xs);
+		}
+	}
+}
+
 /* CÁPSULA: título, texto + botón y forma flotante */
 .about-capsule {
 	overflow-x: clip;
@@ -3341,7 +3484,7 @@ a {
 /* ---- Líneas divisorias que se dibujan (js/motion.js → drawLines) ----
    Vitrina "Worn in this look" y panel "The archive".
    La línea es un ::before de 1px que crece desde la izquierda. */
-:is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total)::before {
+:is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total, .visit__row)::before {
 	content: "";
 	position: absolute;
 	inset: 0 0 auto 0;
@@ -3351,18 +3494,18 @@ a {
 }
 
 @media (prefers-reduced-motion: no-preference) {
-	.has-motion :is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total)::before {
+	.has-motion :is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total, .visit__row)::before {
 		transform: scaleX(0);
 		transition: transform var(--dur-draw) var(--ease-reveal);
 		transition-delay: var(--draw-delay, 0ms);
 	}
 
-	.has-motion :is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total).is-drawn::before {
+	.has-motion :is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total, .visit__row).is-drawn::before {
 		transform: none;
 	}
 
 	/* zona ya dibujada que se vuelve a pintar: sin animación */
-	.has-motion :is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total).is-static::before {
+	.has-motion :is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total, .visit__row).is-static::before {
 		transition: none;
 	}
 }
