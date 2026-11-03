@@ -2841,12 +2841,6 @@ a {
 		color: var(--c-text);
 	}
 
-	& .about-card__icon {
-		font-size: var(--fs-lg);
-		line-height: 1;
-		color: var(--c-primary);
-	}
-
 	& .about-card__frame {
 		padding: 10%;
 		background-color: var(--c-text);
@@ -3128,7 +3122,9 @@ a {
 			padding-top: 0;
 		}
 
-		& .about-manifesto__text {
+		/* En una columna todos los textos van a la izquierda, junto a su tarjeta */
+		& .about-manifesto__item .about-manifesto__text {
+			max-width: 12.25rem;
 			text-align: left;
 		}
 	}
