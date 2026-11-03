@@ -1423,11 +1423,25 @@ a {
      contratiempo para que no se muevan a la vez */
 @media (prefers-reduced-motion: no-preference) {
 	.events__img-inner.events__img--floating {
-		animation: ambientFloat 9s ease-in-out infinite alternate;
+		animation: ringFloat 6s ease-in-out infinite alternate;
 	}
 
 	.capsule .capsule__bg {
 		animation: ambientFloat 11s ease-in-out infinite alternate-reverse;
+	}
+}
+
+/* Anillo de events: 24 px y un giro de 3° en 6 s (antes 20 px en 9 s
+   apenas se veía). "translate" y "rotate" no pisan otros transform. */
+@keyframes ringFloat {
+	0% {
+		translate: 0 0;
+		rotate: 0deg;
+	}
+
+	100% {
+		translate: 8px -24px;
+		rotate: 3deg;
 	}
 }
 
