@@ -2446,9 +2446,12 @@ a {
 
 	/* Mismo ancho que el selector: las flechas quedan alineadas entre filas */
 	& .archive-entry__status--requested,
-	& .archive-entry__toggle {
-		display: inline-block;
+	& .archive-entry__segmented {
 		min-width: 14rem;
+	}
+
+	& .archive-entry__status--requested {
+		display: inline-block;
 		text-align: center;
 	}
 
@@ -2457,33 +2460,37 @@ a {
 		white-space: nowrap;
 	}
 
-	/* Selector "Bring to viewing" ↔ "Kept for later" */
-	& .archive-entry__toggle {
-		padding: var(--space-2xs) var(--space-xs);
+	/* Selector segmentado [ Viewing | Later ]: dos botones en un mismo marco */
+	& .archive-entry__segmented {
+		display: inline-grid;
+		grid-template-columns: 1fr 1fr;
 		border: 1px solid var(--c-text);
 		border-radius: var(--r-xs);
+	}
+
+	& .archive-entry__segment {
+		padding: var(--space-2xs) var(--space-xs);
 		font: var(--f-body-sm);
 		letter-spacing: 0.08em;
 		text-transform: uppercase;
 		white-space: nowrap;
 		color: var(--c-text);
-		transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+		transition: background-color var(--transition-fast), color var(--transition-fast);
 
+		/* Segmento elegido: relleno */
 		&[aria-pressed="true"] {
 			background-color: var(--c-text);
 			color: var(--c-bg);
+			cursor: default;
 		}
 
-		&[aria-pressed="false"] {
-			border-color: var(--archive-line);
-			color: var(--c-text--muted);
-		}
-
-		&:hover {
-			border-color: var(--c-primary);
+		/* Segmento sin elegir: solo contorno (el del marco) */
+		&[aria-pressed="false"]:hover {
+			color: var(--c-primary);
 		}
 
 		&:focus-visible {
+			position: relative;
 			outline: 2px solid var(--c-primary);
 			outline-offset: 2px;
 		}
@@ -2531,12 +2538,16 @@ a {
 			grid-column: 4;
 		}
 
-		& .archive-entry__toggle,
+		& .archive-entry__segmented,
 		& .archive-entry__status--requested {
 			grid-column: 1 / 4;
 			justify-self: start;
 			min-width: 0;
 			text-align: start;
+		}
+
+		& .archive-entry__segmented {
+			width: 10rem;
 		}
 
 		& .archive-entry__release {
@@ -2739,7 +2750,7 @@ a {
 @media (prefers-reduced-motion: reduce) {
 
 	.archive-entry__move,
-	.archive-entry__toggle {
+	.archive-entry__segment {
 		transition: none;
 	}
 }

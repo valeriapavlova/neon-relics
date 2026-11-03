@@ -153,16 +153,19 @@ function emptyTemplate() {
         </div>`;
 }
 
-// Selector "Bring to viewing" ↔ "Kept for later"; las piezas ya enviadas no se cambian
+// Selector segmentado [ Viewing | Later ]; las piezas ya enviadas no se cambian
+const SEGMENTS = [['viewing', 'Viewing'], ['later', 'Later']];
+
 function statusTemplate(item, piece) {
     if (item.status === 'requested') {
         return `<span class="archive-entry__status archive-entry__status--requested">Requested · awaiting viewing</span>`;
     }
-    const viewing = item.status === 'viewing';
+    const buttons = SEGMENTS.map(([value, label]) => `
+            <button type="button" class="archive-entry__segment" data-status="${esc(item.id)}" data-value="${value}"
+                aria-pressed="${item.status === value}">${label}</button>`).join('');
     return `
-        <button type="button" class="archive-entry__toggle" data-status="${esc(item.id)}" aria-pressed="${viewing}">
-            ${viewing ? 'Bring to viewing' : 'Kept for later'}<span class="visually-hidden">: ${esc(piece.name)}</span>
-        </button>`;
+        <div class="archive-entry__segmented" role="group" aria-label="Status of ${esc(piece.name)}">${buttons}
+        </div>`;
 }
 
 function entryTemplate(item, i) {
@@ -297,12 +300,14 @@ function release(id) {
 }
 
 // viewing ↔ later; el orden de la lista no cambia
-function toggleStatus(id) {
+// Clic en el segmento ya elegido: no hace nada
+function setStatus(id, status) {
     const item = capsule.find((x) => x.id === id);
-    if (!item || item.status === 'requested') return;
-    item.status = item.status === 'viewing' ? 'later' : 'viewing';
+    if (!item || item.status === 'requested' || item.status === status) return;
+    if (status !== 'viewing' && status !== 'later') return;
+    item.status = status;
     sealed = null;
-    commit(`[data-status="${id}"]`);
+    commit(`[data-status="${id}"][data-value="${status}"]`);
     showToast(item.status === 'later'
         ? `${PIECES[id].name} kept for later`
         : `${PIECES[id].name} brought to the viewing`);
@@ -364,7 +369,7 @@ function handleClick(event) {
         const edge = to === 0 || to === capsule.length - 1;
         commit(edge ? other : same);
     } else if (btn.dataset.status) {
-        toggleStatus(btn.dataset.status);
+        setStatus(btn.dataset.status, btn.dataset.value);
     } else if (btn.dataset.remove) {
         release(btn.dataset.remove);
     } else if (btn.dataset.undo !== undefined) {
