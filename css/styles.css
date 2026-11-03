@@ -2305,6 +2305,18 @@ a {
 		box-shadow: inset 0 2px 0 var(--c-primary);
 	}
 
+	/* "Kept for later": fila apagada, el texto conserva el contraste */
+	&.archive-entry--later {
+		& .archive-entry__media img {
+			opacity: 0.4;
+		}
+
+		& .archive-entry__name,
+		& .archive-entry__price {
+			color: var(--c-text--muted);
+		}
+	}
+
 	& .archive-entry__handle {
 		grid-area: handle;
 		font-size: var(--fs-lg);
@@ -2424,6 +2436,59 @@ a {
 		text-align: right;
 	}
 
+	/* Etiqueta de estado: "Kept for later" / "Requested · awaiting viewing" */
+	& .archive-entry__status {
+		font: var(--f-body-sm);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: var(--c-text--muted);
+	}
+
+	/* Mismo ancho que el selector: las flechas quedan alineadas entre filas */
+	& .archive-entry__status--requested,
+	& .archive-entry__toggle {
+		display: inline-block;
+		min-width: 14rem;
+		text-align: center;
+	}
+
+	& .archive-entry__status--requested {
+		color: var(--c-primary--dark);
+		white-space: nowrap;
+	}
+
+	/* Selector "Bring to viewing" ↔ "Kept for later" */
+	& .archive-entry__toggle {
+		padding: var(--space-2xs) var(--space-xs);
+		border: 1px solid var(--c-text);
+		border-radius: var(--r-xs);
+		font: var(--f-body-sm);
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		white-space: nowrap;
+		color: var(--c-text);
+		transition: background-color var(--transition-fast), border-color var(--transition-fast), color var(--transition-fast);
+
+		&[aria-pressed="true"] {
+			background-color: var(--c-text);
+			color: var(--c-bg);
+		}
+
+		&[aria-pressed="false"] {
+			border-color: var(--archive-line);
+			color: var(--c-text--muted);
+		}
+
+		&:hover {
+			border-color: var(--c-primary);
+		}
+
+		&:focus-visible {
+			outline: 2px solid var(--c-primary);
+			outline-offset: 2px;
+		}
+	}
+
 	& .archive-entry__release {
 		padding: var(--space-2xs) 0;
 		font: var(--f-body-sm);
@@ -2455,12 +2520,28 @@ a {
 			display: none;
 		}
 
+		/* ↑ ↓ … precio  /  estado … Release */
 		& .archive-entry__controls {
-			justify-content: space-between;
+			display: grid;
+			grid-template-columns: auto auto minmax(0, 1fr) auto;
+			row-gap: var(--space-xs);
 		}
 
 		& .archive-entry__price {
-			margin-left: auto;
+			grid-column: 4;
+		}
+
+		& .archive-entry__toggle,
+		& .archive-entry__status--requested {
+			grid-column: 1 / 4;
+			justify-self: start;
+			min-width: 0;
+			text-align: start;
+		}
+
+		& .archive-entry__release {
+			grid-column: 4;
+			justify-self: end;
 		}
 	}
 }
@@ -2571,6 +2652,18 @@ a {
 
 	& .vitrine__btn {
 		width: 100%;
+
+		/* Sin piezas "viewing": no se puede sellar */
+		&:disabled {
+			cursor: default;
+			opacity: 0.5;
+
+			&:hover {
+				background-color: var(--c-primary--dark);
+				border-color: var(--c-primary--dark);
+				color: var(--c-bg);
+			}
+		}
 	}
 
 	/* Mensaje "Capsule sealed" */
@@ -2636,11 +2729,17 @@ a {
 		font: var(--f-body-sm);
 		color: var(--c-primary--soft);
 	}
+
+	& .seal-form__hint {
+		font: var(--f-body-sm);
+		color: color-mix(in srgb, var(--c-bg) 70%, transparent);
+	}
 }
 
 @media (prefers-reduced-motion: reduce) {
 
-	.archive-entry__move {
+	.archive-entry__move,
+	.archive-entry__toggle {
 		transition: none;
 	}
 }
