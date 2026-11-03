@@ -4,7 +4,8 @@
 // CÁPSULA
 // 1. Almacenamiento en localStorage + contador del header
 // 2. Página capsule.html: archivo ordenado, notas, release/undo,
-//    resumen "The archive" y formulario "Seal my capsule"
+//    "Bring to viewing" / "Kept for later", resumen "The archive"
+//    y formulario "Seal my capsule"
 // =============================================
 
 import { LOOKS, PIECES } from './data.js';
@@ -13,8 +14,11 @@ import { LOOKS, PIECES } from './data.js';
 // 1. ALMACENAMIENTO
 // =============================================
 
-// Formato en localStorage: [{ id, note }]  (el orden = orden de elección)
+// Formato en localStorage: [{ id, note, status }]  (el orden = orden de elección)
+// status: 'viewing' (se envía al sellar) | 'later' (se queda para después)
+//         | 'requested' (ya enviada, esperando la visita privada)
 const STORAGE_KEY = 'capsule';
+const STATUSES = ['viewing', 'later', 'requested'];
 
 // Formato antiguo: [{ id: '02', title, image, quantity, ... }]
 // Los ids viejos que tienen equivalente en la colección cápsula se migran;
@@ -36,7 +40,12 @@ function normalize(list) {
         const id = PIECES[item.id] ? item.id : LEGACY_IDS[item.id];
         if (!id || seen.has(id)) return;
         seen.add(id);
-        clean.push({ id, note: typeof item.note === 'string' ? item.note : '' });
+        clean.push({
+            id,
+            note: typeof item.note === 'string' ? item.note : '',
+            // registros antiguos sin status → 'viewing'
+            status: STATUSES.includes(item.status) ? item.status : 'viewing',
+        });
     });
 
     return clean;
@@ -71,7 +80,7 @@ export function isInCapsule(id) {
 export function addToCapsule(...ids) {
     const capsule = getCapsule();
     ids.forEach((id) => {
-        if (PIECES[id] && !capsule.some((item) => item.id === id)) capsule.push({ id, note: '' });
+        if (PIECES[id] && !capsule.some((item) => item.id === id)) capsule.push({ id, note: '', status: 'viewing' });
     });
     saveCapsule(capsule);
     updateCapsuleCounter();
@@ -144,13 +153,25 @@ function emptyTemplate() {
         </div>`;
 }
 
+// Selector "Bring to viewing" ↔ "Kept for later"; las piezas ya enviadas no se cambian
+function statusTemplate(item, piece) {
+    if (item.status === 'requested') {
+        return `<span class="archive-entry__status archive-entry__status--requested">Requested · awaiting viewing</span>`;
+    }
+    const viewing = item.status === 'viewing';
+    return `
+        <button type="button" class="archive-entry__toggle" data-status="${esc(item.id)}" aria-pressed="${viewing}">
+            ${viewing ? 'Bring to viewing' : 'Kept for later'}<span class="visually-hidden">: ${esc(piece.name)}</span>
+        </button>`;
+}
+
 function entryTemplate(item, i) {
     const piece = PIECES[item.id];
     const look = LOOKS.find((l) => l.id === piece.look);
     const last = i === capsule.length - 1;
 
     return `
-        <li class="archive-entry" draggable="true" data-index="${i}">
+        <li class="archive-entry archive-entry--${item.status}" draggable="true" data-index="${i}">
             <span class="archive-entry__handle" aria-hidden="true" title="Drag to reorder">⋮⋮</span>
             <span class="archive-entry__index">${pad(i + 1)}</span>
             <a class="archive-entry__media" href="product-card.html?look=${encodeURIComponent(piece.look)}" draggable="false">
@@ -159,6 +180,7 @@ function entryTemplate(item, i) {
             <div class="archive-entry__text">
                 <h3 class="archive-entry__name">${esc(piece.name)}</h3>
                 <p class="archive-entry__from">From ${esc(look ? look.name : '')} · ${esc(piece.edition)}</p>
+                ${item.status === 'later' ? '<p class="archive-entry__status">Kept for later</p>' : ''}
                 <textarea class="archive-entry__note" rows="1" data-note="${esc(item.id)}"
                     aria-label="Why ${esc(piece.name)} resonates with you" placeholder="Why it resonates…">${esc(item.note)}</textarea>
             </div>
@@ -168,21 +190,29 @@ function entryTemplate(item, i) {
                 <button type="button" class="archive-entry__move" data-move="${i}" data-dir="1" ${last ? 'disabled' : ''}
                     aria-label="Move ${esc(piece.name)} down">↓</button>
                 <span class="archive-entry__price">${eur(piece.price)}</span>
+                ${statusTemplate(item, piece)}
                 <button type="button" class="archive-entry__release" data-remove="${esc(item.id)}"
                     aria-label="Release ${esc(piece.name)}">Release</button>
             </div>
         </li>`;
 }
 
+const byStatus = (status) => capsule.filter((item) => item.status === status);
+const sumOf = (items) => items.reduce((sum, item) => sum + PIECES[item.id].price, 0);
+
 function ledgerTemplate() {
-    const total = capsule.reduce((sum, item) => sum + PIECES[item.id].price, 0);
     const looks = new Set(capsule.map((item) => PIECES[item.id].look)).size;
+    const viewing = byStatus('viewing');
+    const later = byStatus('later');
+    const requested = byStatus('requested');
+    const none = viewing.length === 0;
 
     const action = sealed
         ? `
             <div class="ledger__sealed" role="status" tabindex="-1" data-sealed>
                 <p class="ledger__sealed-title">Capsule sealed</p>
-                <p>${esc(sealed.name)}, your ${capsule.length} ${capsule.length === 1 ? 'relic is' : 'relics are'} set aside under your name. In the real atelier, an invitation to a private viewing would follow.</p>
+                <p>${esc(sealed.name)}, your ${sealed.count} ${sealed.count === 1 ? 'relic is' : 'relics are'} set aside under your name. In the real atelier, an invitation to a private viewing would follow.</p>
+                ${later.length ? `<p>${later.length} kept for later ${later.length === 1 ? 'stays' : 'stay'} in your capsule. Seal ${later.length === 1 ? 'it' : 'them'} whenever you are ready.</p>` : ''}
             </div>
             <button type="button" class="vitrine__btn" data-reopen>Open the capsule again</button>`
         : `
@@ -200,7 +230,8 @@ function ledgerTemplate() {
                         aria-describedby="seal-email-error">
                     <span class="seal-form__error" id="seal-email-error" hidden>Use an email like name@domain.com.</span>
                 </div>
-                <button type="submit" class="vitrine__btn vitrine__btn--filled">Seal my capsule</button>
+                <button type="submit" class="vitrine__btn vitrine__btn--filled" ${none ? 'disabled aria-describedby="seal-hint"' : ''}>Seal my capsule</button>
+                ${none ? '<p class="seal-form__hint" id="seal-hint">Choose at least one relic to bring to the viewing.</p>' : ''}
             </form>`;
 
     return `
@@ -209,7 +240,9 @@ function ledgerTemplate() {
             <dl class="ledger__list">
                 <dt>Relics kept</dt><dd>${capsule.length} of ${Object.keys(PIECES).length}</dd>
                 <dt>Looks represented</dt><dd>${looks} of ${LOOKS.length}</dd>
-                <dt class="ledger__total-label">Value of the capsule</dt><dd class="ledger__total">${eur(total)}</dd>
+                <dt>Kept for later</dt><dd>${later.length}</dd>
+                ${requested.length ? `<dt>Awaiting viewing</dt><dd>${requested.length} · ${eur(sumOf(requested))}</dd>` : ''}
+                <dt class="ledger__total-label">To be fitted</dt><dd class="ledger__total">${viewing.length} · ${eur(sumOf(viewing))}</dd>
             </dl>
             ${action}
         </aside>`;
@@ -263,6 +296,18 @@ function release(id) {
     showToast(`${PIECES[id].name} released`);
 }
 
+// viewing ↔ later; el orden de la lista no cambia
+function toggleStatus(id) {
+    const item = capsule.find((x) => x.id === id);
+    if (!item || item.status === 'requested') return;
+    item.status = item.status === 'viewing' ? 'later' : 'viewing';
+    sealed = null;
+    commit(`[data-status="${id}"]`);
+    showToast(item.status === 'later'
+        ? `${PIECES[id].name} kept for later`
+        : `${PIECES[id].name} brought to the viewing`);
+}
+
 function undo() {
     if (!removed) return;
     const { item, index } = removed;
@@ -295,7 +340,11 @@ function handleSubmit(event) {
     if (!okName) return name.focus();
     if (!okEmail) return email.focus();
 
-    sealed = { name: name.value.trim() };
+    const viewing = byStatus('viewing');
+    if (!viewing.length) return;
+    viewing.forEach((item) => { item.status = 'requested'; });
+    sealed = { name: name.value.trim(), count: viewing.length };
+    saveCapsule(capsule);
     render('[data-sealed]');
     showToast('Capsule sealed');
 }
@@ -314,6 +363,8 @@ function handleClick(event) {
         const other = `[data-move="${to}"][data-dir="${-dir}"]`;
         const edge = to === 0 || to === capsule.length - 1;
         commit(edge ? other : same);
+    } else if (btn.dataset.status) {
+        toggleStatus(btn.dataset.status);
     } else if (btn.dataset.remove) {
         release(btn.dataset.remove);
     } else if (btn.dataset.undo !== undefined) {
