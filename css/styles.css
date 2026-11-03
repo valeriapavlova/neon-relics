@@ -1324,17 +1324,18 @@ a {
 				gap: var(--space-md);
 				padding: var(--space-md) 0;
 
-				& ::after {
+				/* Línea inferior (se dibuja con drawLines, ver bloque MOTION) */
+				&::after {
 					content: "";
 					position: absolute;
 					left: 0;
 					bottom: 0;
 					width: 100%;
 					height: 1px;
-					/* Ajusta el grosor del "border" */
 					background: linear-gradient(90deg,
-							rgba(216, 223, 230, 0.2) 0%,
-							rgba(25, 16, 38, 0.7) 100%);
+							color-mix(in srgb, var(--c-bg) 40%, transparent) 0%,
+							color-mix(in srgb, var(--c-bg) 8%, transparent) 100%);
+					transform-origin: left center;
 					pointer-events: none;
 				}
 
@@ -1665,6 +1666,11 @@ a {
 			flex-direction: column;
 			gap: var(--space-xs);
 			width: 100%;
+
+			& .form__field {
+				position: relative;
+				max-width: 40rem;
+			}
 
 			& .form__input {
 				width: 100%;
@@ -3520,7 +3526,8 @@ a {
 	position: absolute;
 	inset: 0 0 auto 0;
 	height: 1px;
-	background-color: color-mix(in srgb, var(--c-bg) 14%, transparent);
+	/* algo más clara que antes (14 %): así se ve cómo se dibuja */
+	background-color: color-mix(in srgb, var(--c-bg) 28%, transparent);
 	transform-origin: left center;
 }
 
@@ -3538,6 +3545,48 @@ a {
 	/* zona ya dibujada que se vuelve a pintar: sin animación */
 	.has-motion :is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total, .visit__row).is-static::before {
 		transition: none;
+	}
+}
+
+/* Líneas de events (.event::after) y subrayado del formulario
+   "Inner frequency". El subrayado real es el borde del input; mientras
+   se dibuja lo sustituye un ::after (un input no tiene pseudoelementos)
+   y al terminar (.is-settled) vuelve el borde, que sabe mostrar errores. */
+@media (prefers-reduced-motion: no-preference) {
+	.has-motion .event::after {
+		transform: scaleX(0);
+		transition: transform var(--dur-draw) var(--ease-reveal);
+		transition-delay: var(--draw-delay, 0ms);
+	}
+
+	.has-motion .event.is-drawn::after {
+		transform: none;
+	}
+
+	.has-motion .event.is-static::after {
+		transition: none;
+	}
+
+	.has-motion .frequency .form__field:not(.is-settled) {
+		& .form__input {
+			border-bottom-color: transparent;
+		}
+
+		&::after {
+			content: "";
+			position: absolute;
+			inset: auto 0 0 0;
+			height: 1px;
+			background-color: var(--c-bg--soft);
+			transform: scaleX(0);
+			transform-origin: left center;
+			transition: transform var(--dur-draw) var(--ease-reveal);
+			transition-delay: var(--draw-delay, 0ms);
+		}
+
+		&.is-drawn::after {
+			transform: none;
+		}
 	}
 }
 

@@ -3,6 +3,8 @@
 // Validación en el cliente: nombre, email y casilla de consentimiento.
 // Los mensajes de error / éxito se muestran en .frequency__message
 
+import { drawLines } from './motion.js';
+
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 
 // Reglas de cada campo: cómo se valida y qué mensaje se muestra
@@ -18,6 +20,9 @@ export function initNewsletterForm() {
 
     const message = form.querySelector('.frequency__message');
     const fields = Object.keys(RULES).map((name) => form.elements[name]);
+
+    // Subrayado de los campos: se dibuja cuando el formulario entra en pantalla
+    drawLines(form, 'frequency');
 
     const setMessage = (text, type) => {
         message.textContent = text;

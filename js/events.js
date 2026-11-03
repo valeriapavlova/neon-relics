@@ -1,4 +1,6 @@
 // js/events.js
+import { drawLines } from './motion.js';
+
 const events = [
     {
         date: '2026-12-12',
@@ -68,6 +70,9 @@ export function renderEvents() {
             li.appendChild(article); // Append article to list item
             list.appendChild(li); // Append list item to the events list
         });
+
+    // Líneas entre eventos: se dibujan cuando la lista entra en pantalla
+    drawLines(list, 'events');
 }
 
 // Image animation on scroll

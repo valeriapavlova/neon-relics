@@ -190,7 +190,8 @@ export function initProductPage() {
     rememberLook(look.id);
     setupBackLink();
     renderLook(root, index);
-    drawLines(root.querySelector('.vitrine'), 'vitrine');
+    // "Worn in this look": las líneas, después del título (que sale por líneas)
+    drawLines(root.querySelector('.vitrine'), 'vitrine', { base: 300 });
     syncState(root, look);
     updateCapsuleCounter();
 

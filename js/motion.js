@@ -161,41 +161,38 @@ export function initTitleReveals() {
 
 // =============================================
 // LÍNEAS DIVISORIAS
-// Se dibujan (scaleX 0 → 1) al entrar en pantalla (threshold 0.4),
-// con +120 ms entre líneas vecinas. Cada grupo se dibuja una sola vez:
-// si la zona se vuelve a pintar (p. ej. "The archive" tras cada cambio),
-// las líneas nuevas aparecen ya dibujadas.
+// Se dibujan (scaleX 0 → 1) cuando el bloque entra en pantalla
+// (threshold 0.2), con +120 ms entre líneas vecinas. Cada grupo se
+// dibuja una sola vez: si la zona se vuelve a pintar (p. ej. "The archive"
+// tras cada cambio), las líneas nuevas aparecen ya dibujadas.
+// Al terminar, la línea queda .is-settled (el formulario vuelve a su borde).
 // =============================================
 
-const LINE_SELECTOR = '.piece, .vitrine__cta, .ledger__total-label, .ledger__total, .visit__row';
+const LINE_SELECTOR = '.piece, .vitrine__cta, .ledger__total-label, .ledger__total, .visit__row, .event, .form__field';
 const DRAW_STAGGER = 120;
 const drawnGroups = new Set();
 
-export function drawLines(container, group) {
+export function drawLines(container, group, { base = 0 } = {}) {
     if (!container) return;
     const lines = [...container.querySelectorAll(LINE_SELECTOR)];
     if (!lines.length) return;
 
     if (!prefersMotion() || drawnGroups.has(group) || !('IntersectionObserver' in window)) {
-        lines.forEach((line) => line.classList.add('is-drawn', 'is-static'));
+        lines.forEach((line) => line.classList.add('is-drawn', 'is-static', 'is-settled'));
         return;
     }
 
-    const observer = new IntersectionObserver((entries) => {
-        const visible = entries.filter((entry) => entry.isIntersecting).map((entry) => entry.target);
-        if (!visible.length) return;
+    onceVisible(container, () => {
         drawnGroups.add(group);
+        const duration = cssMs('--dur-draw', 900);
         // en orden del documento, cada una 120 ms después de la anterior
-        visible
-            .sort((a, b) => lines.indexOf(a) - lines.indexOf(b))
-            .forEach((line, i) => {
-                observer.unobserve(line);
-                line.style.setProperty('--draw-delay', `${i * DRAW_STAGGER}ms`);
-                line.classList.add('is-drawn');
-            });
-    }, { threshold: 0.4 });
-
-    lines.forEach((line) => observer.observe(line));
+        lines.forEach((line, i) => {
+            const delay = base + i * DRAW_STAGGER;
+            line.style.setProperty('--draw-delay', `${delay}ms`);
+            line.classList.add('is-drawn');
+            setTimeout(() => line.classList.add('is-settled'), delay + duration + 50);
+        });
+    }, 0.2);
 }
 
 // =============================================
