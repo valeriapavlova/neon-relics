@@ -149,7 +149,7 @@ export function initTitleReveals() {
 // las líneas nuevas aparecen ya dibujadas.
 // =============================================
 
-const LINE_SELECTOR = '.piece, .vitrine__cta, .ledger__total-label, .ledger__total';
+const LINE_SELECTOR = '.piece, .vitrine__cta, .ledger__total-label, .ledger__total, .visit__row';
 const DRAW_STAGGER = 120;
 const drawnGroups = new Set();
 

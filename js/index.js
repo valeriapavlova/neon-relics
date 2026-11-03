@@ -6,6 +6,7 @@ import { initProductPage } from './product.js';
 import { updateCapsuleCounter, initCapsulePage } from './capsule.js';
 import { initMotionVideos, initTitleReveals } from './motion.js';
 import { initNewsletterForm } from './newsletter.js';
+import { initVisit } from './visit.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     // Siempre ejecutar header
@@ -31,6 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Formulario "Join the inner frequency" (index.html y about.html)
     if (document.querySelector('.frequency .form')) {
         initNewsletterForm();
+    }
+
+    // Bloque "Visit the atelier" (index.html y about.html)
+    if (document.querySelector('.visit')) {
+        initVisit();
     }
 
     // Solo en capsule.html
