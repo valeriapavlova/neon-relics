@@ -32,7 +32,9 @@
 	--c-primary--soft: #E08C82;
 
 	--c-text: #0F1821;
-	--c-text--muted: #82868B;
+	--c-text--muted: #595E64;
+	/* Gris secundario sobre fondos oscuros (#0F1821): contraste 4,89:1 */
+	--c-text--muted-inverse: #82868B;
 
 	/* Typography */
 	--font-base: "Jost", system-ui, sans-serif;
@@ -1253,7 +1255,7 @@ a {
 				}
 
 				& .event__date {
-					color: var(--c-text--muted);
+					color: var(--c-text--muted-inverse);
 					min-width: 3.9rem;
 				}
 
