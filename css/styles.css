@@ -3146,17 +3146,13 @@ a {
 
 	& .about-philosophy__panel {
 		position: relative;
-		display: flex;
-		align-items: flex-end;
 		min-height: 48rem;
-		padding: var(--space-md);
 		border-radius: var(--r-s);
-		/* la figura puede salir por arriba, pero se recorta abajo y a los lados */
-		clip-path: inset(-25% 0 0 0 round var(--r-s));
+		/* la figura sale por arriba y por abajo (como en Figma); solo se recorta a los lados */
+		clip-path: inset(-25% 0 -25% 0);
 
 		@media (max-width: 48rem) {
-			min-height: 32rem;
-			padding: var(--space-sm);
+			min-height: var(--size-sm);
 		}
 	}
 
@@ -3176,30 +3172,33 @@ a {
 		}
 	}
 
+	/* Encuadre más bajo: la figura baja por debajo del fondo y se ve entera
+	   (sombrero arriba, flores y prenda abajo) */
 	& .about-philosophy__figure {
 		position: absolute;
-		top: -13.54%;
+		bottom: calc(-1 * var(--space-lg));
 		left: 50%;
 		width: 60.54%;
 		height: auto;
 		transform: translateX(-50%);
 
+		/* En móvil la figura acaba con el panel: el subtítulo oscuro queda sobre fondo claro */
 		@media (max-width: 48rem) {
-			top: -6%;
+			bottom: 0;
 			width: 90%;
 		}
 	}
 
+	/* Título bajo el panel: pisa la parte baja de la figura y se alinea
+	   a la izquierda con las columnas de texto (frame "about › philosophy") */
 	& .about-philosophy__heading {
 		position: relative;
+		z-index: 1;
+		margin-top: var(--space-xs);
 		padding-left: var(--space-4xl);
 
 		@media (max-width: 64rem) {
 			padding-left: 0;
-		}
-
-		& .subtitle {
-			color: var(--c-bg);
 		}
 
 		& h2 {
@@ -3210,7 +3209,7 @@ a {
 	& .about-philosophy__text {
 		display: flex;
 		gap: var(--space-md);
-		padding: var(--space-4xl) 0 0 var(--space-4xl);
+		padding: var(--space-xl) 0 0 var(--space-4xl);
 
 		& p:first-child {
 			max-width: 36rem;
@@ -3226,7 +3225,7 @@ a {
 
 		@media (max-width: 48rem) {
 			flex-direction: column;
-			padding-top: var(--space-2xl);
+			padding-top: var(--space-lg);
 		}
 	}
 }
