@@ -9,6 +9,7 @@
 // =============================================
 
 import { LOOKS, PIECES } from './data.js';
+import { drawLines } from './motion.js';
 
 // =============================================
 // 1. ALMACENAMIENTO
@@ -269,6 +270,7 @@ function render(focus) {
     }
 
     root.querySelectorAll('[data-note]').forEach(autosize);
+    drawLines(root.querySelector('.ledger'), 'ledger');
     if (focus) root.querySelector(focus)?.focus();
 }
 

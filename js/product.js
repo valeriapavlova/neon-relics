@@ -8,6 +8,7 @@
 
 import { LOOKS, PIECES } from './data.js';
 import { isInCapsule, addToCapsule, removeFromCapsule, updateCapsuleCounter } from './capsule.js';
+import { drawLines } from './motion.js';
 
 // ---- helpers ----
 
@@ -146,6 +147,7 @@ export function initProductPage() {
     document.title = `${look.name} — NEON RELICS`;
 
     renderLook(root, index);
+    drawLines(root.querySelector('.vitrine'), 'vitrine');
     syncState(root, look);
     updateCapsuleCounter();
 

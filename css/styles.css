@@ -2056,8 +2056,8 @@ a {
 		justify-content: space-between;
 		align-items: center;
 		gap: var(--space-xs);
+		position: relative;
 		padding: var(--space-sm);
-		border-top: 1px solid color-mix(in srgb, var(--c-bg) 14%, transparent);
 		font: var(--f-body-md);
 	}
 }
@@ -2068,8 +2068,8 @@ a {
 	grid-template-columns: 7.5rem minmax(0, 1fr) auto;
 	gap: var(--space-sm);
 	align-items: center;
+	position: relative;
 	padding: var(--space-sm);
-	border-top: 1px solid color-mix(in srgb, var(--c-bg) 14%, transparent);
 
 	& .piece__media {
 		display: grid;
@@ -2653,8 +2653,8 @@ a {
 
 		& .ledger__total-label,
 		& .ledger__total {
+			position: relative;
 			padding-top: var(--space-xs);
-			border-top: 1px solid color-mix(in srgb, var(--c-bg) 14%, transparent);
 		}
 
 		& .ledger__total {
@@ -3284,5 +3284,34 @@ a {
 				opacity: 1;
 			}
 		}
+	}
+}
+
+/* ---- Líneas divisorias que se dibujan (js/motion.js → drawLines) ----
+   Vitrina "Worn in this look" y panel "The archive".
+   La línea es un ::before de 1px que crece desde la izquierda. */
+:is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total)::before {
+	content: "";
+	position: absolute;
+	inset: 0 0 auto 0;
+	height: 1px;
+	background-color: color-mix(in srgb, var(--c-bg) 14%, transparent);
+	transform-origin: left center;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	.has-motion :is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total)::before {
+		transform: scaleX(0);
+		transition: transform var(--dur-draw) var(--ease-reveal);
+		transition-delay: var(--draw-delay, 0ms);
+	}
+
+	.has-motion :is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total).is-drawn::before {
+		transform: none;
+	}
+
+	/* zona ya dibujada que se vuelve a pintar: sin animación */
+	.has-motion :is(.piece, .vitrine__cta, .ledger__total-label, .ledger__total).is-static::before {
+		transition: none;
 	}
 }

@@ -140,3 +140,42 @@ export function initTitleReveals() {
         else revealLines(title);
     });
 }
+
+// =============================================
+// LÍNEAS DIVISORIAS
+// Se dibujan (scaleX 0 → 1) al entrar en pantalla (threshold 0.4),
+// con +120 ms entre líneas vecinas. Cada grupo se dibuja una sola vez:
+// si la zona se vuelve a pintar (p. ej. "The archive" tras cada cambio),
+// las líneas nuevas aparecen ya dibujadas.
+// =============================================
+
+const LINE_SELECTOR = '.piece, .vitrine__cta, .ledger__total-label, .ledger__total';
+const DRAW_STAGGER = 120;
+const drawnGroups = new Set();
+
+export function drawLines(container, group) {
+    if (!container) return;
+    const lines = [...container.querySelectorAll(LINE_SELECTOR)];
+    if (!lines.length) return;
+
+    if (!prefersMotion() || drawnGroups.has(group) || !('IntersectionObserver' in window)) {
+        lines.forEach((line) => line.classList.add('is-drawn', 'is-static'));
+        return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+        const visible = entries.filter((entry) => entry.isIntersecting).map((entry) => entry.target);
+        if (!visible.length) return;
+        drawnGroups.add(group);
+        // en orden del documento, cada una 120 ms después de la anterior
+        visible
+            .sort((a, b) => lines.indexOf(a) - lines.indexOf(b))
+            .forEach((line, i) => {
+                observer.unobserve(line);
+                line.style.setProperty('--draw-delay', `${i * DRAW_STAGGER}ms`);
+                line.classList.add('is-drawn');
+            });
+    }, { threshold: 0.4 });
+
+    lines.forEach((line) => observer.observe(line));
+}
