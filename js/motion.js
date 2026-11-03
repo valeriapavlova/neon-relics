@@ -28,3 +28,32 @@ export function initMotionVideos() {
     // Si el usuario cambia el ajuste con la página abierta, se aplica al momento
     reduceMotion.addEventListener('change', update);
 }
+
+// =============================================
+// HELPERS DE MOVIMIENTO
+// La clase .has-motion la pone un script en el <head> antes de pintar.
+// Todos los estados iniciales "ocultos" del CSS cuelgan de esa clase:
+// sin JS o con prefers-reduced-motion todo se ve al momento.
+// =============================================
+
+export function prefersMotion() {
+    return document.documentElement.classList.contains('has-motion')
+        && !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+// Llama a callback una sola vez, cuando el elemento entra en pantalla
+export function onceVisible(el, callback, threshold = 0.2) {
+    if (!el) return;
+    if (!('IntersectionObserver' in window)) {
+        callback(el);
+        return;
+    }
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (!entry.isIntersecting) return;
+            observer.unobserve(entry.target);
+            callback(entry.target);
+        });
+    }, { threshold });
+    observer.observe(el);
+}

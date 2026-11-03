@@ -117,6 +117,12 @@
 	--transition-fast: 150ms ease-out;
 	--transition-normal: 300ms ease-out;
 	--transition-slow: 500ms ease-out;
+
+	/* Motion: revelados, morph entre páginas y líneas */
+	--ease-reveal: cubic-bezier(.2, .7, .2, 1);
+	--dur-reveal: 700ms;
+	--dur-morph: 650ms;
+	--dur-draw: 900ms;
 }
 
 /* 3. GLOBAL (body, headings, links, imágenes) */
