@@ -9,7 +9,7 @@
 // =============================================
 
 import { LOOKS, PIECES } from './data.js';
-import { drawLines, revealStagger, flip } from './motion.js';
+import { drawLines, revealStagger, flip, collapse } from './motion.js';
 
 // =============================================
 // 1. ALMACENAMIENTO
@@ -301,14 +301,23 @@ function move(from, to) {
     return true;
 }
 
+let releasing = false; // evita dobles clics mientras la fila se pliega
+
 function release(id) {
     const index = capsule.findIndex((item) => item.id === id);
-    if (index < 0) return;
-    removed = { item: capsule[index], index };
-    capsule.splice(index, 1);
-    sealed = null;
-    commit('[data-undo]');
-    showToast(`${PIECES[id].name} released`);
+    if (index < 0 || releasing) return;
+    releasing = true;
+
+    // la fila se pliega y las de abajo suben a su sitio (FLIP)
+    const row = [...root.querySelectorAll('.archive-entry')].find((li) => li.dataset.id === id);
+    collapse(row).then(() => {
+        releasing = false;
+        removed = { item: capsule[index], index };
+        capsule.splice(index, 1);
+        sealed = null;
+        commitWithFlip('[data-undo]');
+        showToast(`${PIECES[id].name} released`);
+    });
 }
 
 // viewing ↔ later; el orden de la lista no cambia

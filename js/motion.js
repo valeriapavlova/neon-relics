@@ -254,3 +254,15 @@ export function flip(container, selector, key, change, duration = 200) {
         el.animate([{ transform: `translateY(${dy}px)` }, { transform: 'none' }], { duration, easing });
     });
 }
+
+// Plegar un elemento antes de quitarlo (opacity + scaleY, 200 ms).
+// Devuelve una promesa; sin movimiento se resuelve al momento.
+export function collapse(el, duration = 200) {
+    if (!el || !prefersMotion()) return Promise.resolve();
+    el.style.transformOrigin = 'center top';
+    const animation = el.animate(
+        [{ opacity: 1, transform: 'none' }, { opacity: 0, transform: 'scaleY(0.6)' }],
+        { duration, easing: easeReveal(), fill: 'forwards' },
+    );
+    return animation.finished.catch(() => {});
+}
