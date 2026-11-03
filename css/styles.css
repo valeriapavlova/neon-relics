@@ -516,6 +516,29 @@ a {
 	/* Elimina el padding horizontal aquí */
 	backdrop-filter: blur(10px);
 
+	/* Enlaces del header: el color cambia suavemente al pasar sobre
+	   secciones rojas u oscuras (ver js/header.js) */
+	& .nav__link,
+	& .header__menu-btn,
+	& .wishlist-counter__label,
+	& .header__logo img {
+		transition: color var(--transition-normal), filter var(--transition-normal);
+	}
+
+	/* Sobre [data-header="inverse"]: texto claro (contraste ≥ 5,8:1 sobre rojo y oscuro)
+	   y logotipo invertido (queda plateado, como el círculo de la cápsula) */
+	&.header--inverse {
+		& .nav__link,
+		& .header__menu-btn,
+		& .wishlist-counter__label {
+			color: var(--c-bg);
+		}
+
+		& .header__logo img {
+			filter: invert(1);
+		}
+	}
+
 	& .container {
 		padding: 0 var(--space-md);
 		max-width: 100vw;
