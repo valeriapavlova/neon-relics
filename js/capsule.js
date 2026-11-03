@@ -9,7 +9,7 @@
 // =============================================
 
 import { LOOKS, PIECES } from './data.js';
-import { drawLines, revealStagger, flip, collapse } from './motion.js';
+import { drawLines, revealStagger, flip, collapse, prefersMotion } from './motion.js';
 
 // =============================================
 // 1. ALMACENAMIENTO
@@ -94,13 +94,25 @@ export function removeFromCapsule(id) {
 
 // Contador del header: número de reliquias
 // Enlace .wishlist-counter → texto "Capsule" + círculo metálico con el número
+let lastCount = null; // para saber si se acaba de añadir una reliquia
+
 export function updateCapsuleCounter() {
     const counterLink = document.querySelector('.wishlist-counter');
     if (!counterLink) return;
 
     const count = getCapsule().length;
     const badge = counterLink.querySelector('.wishlist-counter__badge');
-    if (badge) badge.textContent = count;
+    if (badge) {
+        badge.textContent = count;
+        // al añadir: un pulso suave del círculo (1 → 1.15 → 1, 300 ms)
+        if (lastCount !== null && count > lastCount && prefersMotion()) {
+            badge.animate(
+                [{ transform: 'scale(1)' }, { transform: 'scale(1.15)' }, { transform: 'scale(1)' }],
+                { duration: 300, easing: 'ease-out' },
+            );
+        }
+    }
+    lastCount = count;
 
     counterLink.setAttribute('aria-label', `Capsule, ${count} ${count === 1 ? 'relic' : 'relics'}`);
 }
