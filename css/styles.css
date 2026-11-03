@@ -3336,3 +3336,30 @@ a {
 		}
 	}
 }
+
+/* ---- Tarjeta → retrato: View Transitions entre páginas ----
+   La foto de la tarjeta (Featured) y el retrato de product-card.html
+   comparten view-transition-name: look-<id> (lo ponen featured.js y product.js).
+   Firefox aún no lo soporta: navega sin animación. */
+@view-transition {
+	navigation: auto;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	@view-transition {
+		navigation: none;
+	}
+}
+
+/* la foto del look: morph */
+::view-transition-group(*) {
+	animation-duration: var(--dur-morph);
+	animation-timing-function: var(--ease-reveal);
+}
+
+/* resto de la página: crossfade de 300 ms */
+::view-transition-group(root),
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 300ms;
+}

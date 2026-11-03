@@ -60,7 +60,8 @@ function renderLook(root, index) {
 
     root.innerHTML = `
         <div class="look__portrait">
-            <img src="${esc(look.img)}" alt="${esc(look.character)}, wearing the ${esc(look.name)} look">
+            <img src="${esc(look.img)}" alt="${esc(look.character)}, wearing the ${esc(look.name)} look"
+                style="view-transition-name: look-${esc(look.id)}">
             <span class="look__num">Look ${esc(look.n)} / ${pad(LOOKS.length)}</span>
         </div>
 

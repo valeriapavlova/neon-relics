@@ -187,11 +187,11 @@ export function drawLines(container, group) {
 // visible. Se usa en "Featured" y en las filas de la cápsula.
 // =============================================
 
-export function revealStagger(items, { base = 0, step = 80, threshold = 0.15 } = {}) {
+export function revealStagger(items, { base = 0, step = 80, threshold = 0.15, instant = false } = {}) {
     const list = [...items];
     if (!list.length) return;
 
-    if (!prefersMotion() || !('IntersectionObserver' in window)) {
+    if (instant || !prefersMotion() || !('IntersectionObserver' in window)) {
         list.forEach((item) => item.classList.add('is-revealed', 'is-static'));
         return;
     }
