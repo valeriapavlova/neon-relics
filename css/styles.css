@@ -488,13 +488,6 @@ a {
 	}
 }
 
-/* Specific padding for certain relic card images */
-.relic-card__media img[src*="03.webp"],
-.relic-card__media img[src*="05.webp"] {
-	padding-left: var(--space-sm);
-	padding-right: var(--space-sm);
-}
-
 /* Text alignment utilities */
 .t-align--end {
 	text-align: end;
