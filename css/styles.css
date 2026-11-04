@@ -98,6 +98,8 @@
 	--size-xxl: 64rem;
 	--size-xxxl: 75rem;
 	--size-xxxxl: 87.125rem;
+	/* Ancho cómodo de lectura para párrafos (600 px) */
+	--size-measure: 37.5rem;
 
 	/* screen size */
 	--screen-sm: 23.4375rem;
@@ -3197,6 +3199,11 @@ a {
 
 		@media (max-width: 35rem) {
 			grid-template-columns: minmax(0, 1fr);
+		}
+
+		/* Cada párrafo, como mucho 600 px (no media pantalla) */
+		& p {
+			max-width: var(--size-measure);
 		}
 	}
 }
