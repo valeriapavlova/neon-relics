@@ -242,6 +242,22 @@ a {
 	border: 0;
 }
 
+/* Saltos de línea por breakpoint en los títulos: br.m solo en móvil (≤560),
+   br.d solo en escritorio */
+br.m {
+	display: none;
+}
+
+@media (max-width: 35rem) {
+	br.m {
+		display: inline;
+	}
+
+	br.d {
+		display: none;
+	}
+}
+
 /* Text styles */
 
 .t--lg,
@@ -893,6 +909,124 @@ a {
 }
 
 
+
+/* HERO en móvil (≤560): eyebrow, h1 en tres líneas y un solo collage:
+   el vídeo 04 grande, la tarjeta 01 encima a la izquierda (arriba) y la 03
+   a la derecha (abajo); la 02 no se muestra. Después texto y botones a todo
+   el ancho. Los envoltorios pasan a display: contents y cada pieza se coloca
+   en la rejilla de .container; las tres tarjetas comparten la celda "collage". */
+@media (max-width: 35rem) {
+	.hero .container {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-areas:
+			"eyebrow"
+			"title"
+			"collage"
+			"text";
+		gap: 0;
+
+		/* misma especificidad que las reglas de escritorio (que van antes) */
+		& .hero__images,
+		& .hero__content,
+		& .hero__content .hero__title-block-wrapper,
+		& .hero__content .hero__title-block,
+		& .hero__content .hero__heading {
+			display: contents;
+		}
+
+		& .hero__eyebrow {
+			grid-area: eyebrow;
+			margin-bottom: var(--space-2xs);
+		}
+
+		& .hero__content .hero__title-block .hero__title {
+			grid-area: title;
+			max-width: none;
+		}
+
+		/* Tarjetas del collage: número dentro de la foto, vídeo a sangre */
+		& .relic-card {
+			grid-area: collage;
+			position: relative;
+			display: block;
+			overflow: hidden;
+			background-color: var(--c-vitrine);
+
+			& .t--card {
+				position: absolute;
+				top: var(--space-2xs);
+				left: var(--space-2xs);
+				z-index: 1;
+				color: var(--c-bg);
+			}
+
+			& .media-video {
+				display: block;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+		}
+
+		/* 04: la grande, desde el 12 % hasta el borde derecho */
+		& .hero__content .hero__title-block-wrapper .relic-card.hero__title-bg-card {
+			position: relative;
+			top: auto;
+			left: auto;
+			z-index: 0;
+			justify-self: end;
+			width: 88%;
+			max-width: none;
+			aspect-ratio: 302 / 440;
+			margin-top: var(--space-md);
+			transform: none;
+		}
+
+		/* 01 y 03: verticales 3:4, con sombra, encima de la 04 */
+		& .hero__images .relic-card {
+			z-index: 1;
+			aspect-ratio: 3 / 4;
+			box-shadow: 0 0.75rem 1.875rem color-mix(in srgb, var(--c-text) 30%, transparent);
+		}
+
+		& .hero__images .relic-card--md {
+			justify-self: start;
+			align-self: start;
+			width: 38%;
+			/* 10 % del alto del collage, contando desde el margen de la 04 */
+			margin-top: calc(var(--space-md) + 14%);
+		}
+
+		& .hero__images .relic-card--sm {
+			justify-self: end;
+			align-self: end;
+			width: 32%;
+			margin: 0 4% -8% 0;
+		}
+
+		/* 02: no se muestra en móvil */
+		& .hero__title-block .relic-card--xs {
+			display: none;
+		}
+
+		/* Texto y botones a todo el ancho */
+		& .hero__text-wrapper {
+			grid-area: text;
+			flex-direction: column;
+			align-items: stretch;
+			margin-top: var(--space-lg);
+
+			& .hero__buttons {
+				gap: var(--space-2xs);
+
+				& .btn {
+					width: 100%;
+				}
+			}
+		}
+	}
+}
 
 /* MANIFEST Section */
 
@@ -3269,20 +3403,6 @@ a {
 	}
 }
 
-/* Saltos de línea por breakpoint en los títulos: br.m solo en móvil, br.d solo en escritorio */
-.about-page br.m {
-	display: none;
-}
-
-@media (max-width: 35rem) {
-	.about-page br.m {
-		display: inline;
-	}
-
-	.about-page br.d {
-		display: none;
-	}
-}
 
 /* Línea fina de separación (la misma que en Visit) */
 .about-page {
