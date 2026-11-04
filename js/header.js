@@ -72,16 +72,23 @@ export function setupHeaderMenu() {
 
 // Header sobre secciones rojas u oscuras ([data-header="inverse"]):
 // una "línea" a media altura del header detecta qué sección pasa por debajo
-// y el header cambia el color del menú (.header--inverse)
+// y el header cambia el color del menú (.header--inverse).
+// En ≤900 el header tiene fondo opaco: sobre las secciones rojas se queda
+// claro (fondo --c-bg, texto oscuro) y solo se invierte sobre las oscuras.
 function initHeaderInverse() {
     const header = document.querySelector('.header');
     const sections = [...document.querySelectorAll('[data-header="inverse"]')];
     if (!header || !sections.length || !('IntersectionObserver' in window)) return;
 
     const under = new Set();
+    const mobile = window.matchMedia('(max-width: 56.25rem)');
     let observer;
 
-    const update = () => header.classList.toggle('header--inverse', under.size > 0);
+    const update = () => {
+        const inverse = [...under].some((section) => !mobile.matches || !section.matches('.wrapper--red'));
+        header.classList.toggle('header--inverse', inverse);
+    };
+    mobile.addEventListener('change', update);
 
     const observe = () => {
         observer?.disconnect();

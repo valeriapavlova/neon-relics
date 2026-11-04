@@ -65,7 +65,7 @@ function renderLook(root, index) {
             <span class="look__num">Look ${esc(look.n)} / ${pad(LOOKS.length)}</span>
         </div>
 
-        <div class="look__info">
+        <div class="look__info" data-reveal-group>
             <header class="look__header">
                 <p class="look__character">${esc(look.character)}</p>
                 <h1 class="look__title" data-reveal-lines>${esc(look.name)}</h1>
@@ -75,7 +75,7 @@ function renderLook(root, index) {
                 ${look.mood.map((m) => `<li class="tag body-text--small">${esc(m)}</li>`).join('')}
             </ul>
 
-            <p class="look__story body-text">${esc(look.story)}</p>
+            <p class="look__story body-text" data-reveal-fade>${esc(look.story)}</p>
 
             <section class="vitrine" aria-labelledby="vitrine-title" data-reveal>
                 <div class="vitrine__head">
