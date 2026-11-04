@@ -3313,41 +3313,44 @@ a {
 	}
 }
 
-/* VISIT: "Visit the atelier" (index y about, antes del footer) */
+/* VISIT: "Visit the atelier" (index y about, antes del footer).
+   Versión ligera: título arriba, retrato pequeño en marco oscuro y datos 2 × 2 */
 .visit {
 	& .visit__grid {
 		display: grid;
-		grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+		grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
 		align-items: start;
-		gap: var(--space-2xl);
+		gap: var(--space-xl) var(--space-lg);
+		margin-top: var(--space-lg);
 
-		@media (max-width: 64rem) {
-			gap: var(--space-lg);
-		}
-
-		@media (max-width: 48rem) {
+		@media (max-width: 56.25rem) {
 			grid-template-columns: minmax(0, 1fr);
 		}
 	}
 
-	/* Vitrina oscura con el retrato */
-	& .visit__showcase {
+	& .visit__card {
 		display: flex;
 		flex-direction: column;
-		gap: var(--space-sm);
+		gap: var(--space-2xs);
+		width: min(100%, 18.75rem);
 		margin: 0;
-		padding: var(--space-md);
-		border-radius: var(--r-s);
-		background-color: var(--c-text);
 
-		@media (max-width: 40rem) {
-			padding: var(--space-sm);
+		/* Móvil: retrato a todo el ancho, formato más bajo */
+		@media (max-width: 35rem) {
+			width: 100%;
 		}
 	}
 
 	& .visit__portrait {
-		aspect-ratio: 3 / 4;
+		aspect-ratio: 4 / 5;
+		padding: var(--space-xs);
 		overflow: hidden;
+		border-radius: var(--r-xs);
+		background-color: var(--c-text);
+
+		@media (max-width: 35rem) {
+			aspect-ratio: 1 / 1;
+		}
 
 		& img {
 			display: block;
@@ -3358,7 +3361,8 @@ a {
 	}
 
 	& .visit__caption {
-		color: var(--c-text--muted-inverse);
+		margin-top: var(--space-2xs);
+		color: var(--c-text--muted);
 		text-transform: uppercase;
 	}
 
@@ -3372,29 +3376,30 @@ a {
 		}
 
 		& > .body-text {
-			max-width: 36rem;
+			max-width: 46ch;
 		}
 	}
 
-	/* Lista con líneas finas (la línea es el ::before compartido de drawLines) */
+	/* Datos 2 × 2; cada uno con línea arriba (::before compartido de drawLines) */
 	& .visit__list {
-		border-bottom: 1px solid color-mix(in srgb, var(--c-text) 18%, transparent);
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0 var(--space-xl);
+
+		@media (max-width: 35rem) {
+			grid-template-columns: minmax(0, 1fr);
+		}
 	}
 
 	& .visit__row {
 		position: relative;
-		display: grid;
-		grid-template-columns: 8rem minmax(0, 1fr);
-		gap: var(--space-xs);
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-2xs);
 		padding: var(--space-sm) 0;
 
 		&::before {
 			background-color: color-mix(in srgb, var(--c-text) 18%, transparent);
-		}
-
-		@media (max-width: 40rem) {
-			grid-template-columns: minmax(0, 1fr);
-			gap: var(--space-2xs);
 		}
 	}
 
