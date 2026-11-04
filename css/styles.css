@@ -2276,10 +2276,19 @@ br.m {
 
 @media (max-width: 56.25rem) {
 	.header {
+		/* Fondo opaco: el contenido no se transparenta bajo el header.
+		   Sobre las secciones oscuras (.header--inverse) el fondo es oscuro;
+		   sobre las rojas se queda claro (js/header.js) */
 		& .header__container {
 			display: flex;
 			justify-content: space-between;
 			align-items: center;
+			background-color: var(--c-bg);
+			transition: background-color var(--transition-normal);
+		}
+
+		&.header--inverse .header__container {
+			background-color: var(--c-text);
 		}
 
 		& .header__logo img {
