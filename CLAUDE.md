@@ -51,13 +51,15 @@
 Еталон — **`docs/about-mockup.html`** (структура й розміри; CSS не копіювати). Зображення в `assets/img/about-page/`, відео карток 006 і 008 у `assets/videos/about-page/` (WebM + MP4, відтворюються тільки без `prefers-reduced-motion`, інакше постер).
 
 Порядок секцій:
-1. **Hero** (`.about-hero`): eyebrow «about · the house», h1 на всю ширину рівно у 2 рядки (два `<span>`), під ним праворуч текст + кнопка «Explore collection» → `index.html#collection`. Стрічка карток 03, 006, 04, 05, 008 «сходинками» (`.about-hero__card`, 006 і 008 — відео). На ≤900 — горизонтальна карусель зі scroll-snap без JS (`tabindex="0"`, підпис «01 — 05 · Swipe →»). Під стрічкою 3 факти (`<dl>`); на ≤560 рядки «підпис | значення».
-2. **How a relic is made** (`.about-process`): 3 кроки з лінією зверху.
-3. **Philosophy** (`.about-philosophy`): панель з хромовим фоном з паралаксом (`background-attachment: fixed`, як секція manifest на головній; на ≤900 і з `prefers-reduced-motion` звичайний фон), фігура з капелюхом виходить над панеллю. На ≤560 фон квадратний на всю ширину, заголовок під фігурою, 3 рядки через `<br class="m">` (`br.m` — тільки на мобільному, `br.d` — тільки на десктопі).
+1. **Hero** (`.about-hero`): eyebrow «about · the house», h1 на всю ширину рівно у 2 рядки (два `<span class="about-hero__line">`), під ним праворуч текст + кнопка «Explore collection» → `index.html#collection`. Стрічка карток 03, 006, 04, 05, 008 «сходинками» (`.about-hero__card`, 006 і 008 — відео). На ≤900 — горизонтальна карусель зі scroll-snap без JS (`tabindex="0"`, підпис «01 — 05 · Swipe →»). Під стрічкою 3 факти (`<dl>`) у 3 рівні колонки: на >1200 — ліва частина контейнера до початку стрічки (`--strip-w`), відступ `--space-hero-facts` (120 px); на 561–1200 — на всю ширину; на ≤560 рядки «підпис | значення».
+2. **How a relic is made** (`.about-process`): 3 кроки, без лінії зверху.
+3. **Philosophy** (`.manifest.manifest--about`): той самий блок, що manifest на головній (фон на всю ширину контейнера з паралаксом, з `prefers-reduced-motion` звичайний фон; фігура з капелюхом по центру виходить над панеллю). Модифікатор міняє тільки зображення й ставить eyebrow + заголовок + 2 абзаци під панеллю. На ≤560 заголовок у 3 рядки через `<br class="m">` (`br.m` — тільки на мобільному, `br.d` — тільки на десктопі).
 4. **Manifesto** «We design for the ones who…» (`.about-manifesto`): 4 портрети сходинками; на ≤560 зигзагом ліворуч/праворуч.
 5. **Join the inner frequency** — той самий блок форми, що на `index.html` (розмітка, стилі, `js/newsletter.js`), без змін.
 6. **Visit the atelier** — спільний легкий блок (`.visit`, `js/visit.js`) як на головній: маленький портрет 03 у темній рамці + факти 2×2, email звичайним текстом.
 7. Спільний футер.
+
+- Відступи між секціями — звичайний padding `.container`, як на index (у hero тільки менший `padding-top` під хедером).
 
 - Усі h2 — `.t--md`, переноси як у макеті («How a relic / is made», «Visit the / atelier»).
 - Motion тільки з наявних хелперів `js/motion.js`: h1 по рядках, потім картки стрічки (rise); секції з `data-reveal`.
