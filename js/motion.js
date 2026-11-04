@@ -94,12 +94,19 @@ const LINE_STAGGER = 110;
 const HERO_VIDEO_FADE = 400;
 const HERO_VIDEO_WAIT = 1000; // si el vídeo no arranca (móvil, red lenta), no esperar más
 
-// Palabras del título; los <br> se guardan como null (salto forzado)
+// Palabras del título; los <br> se guardan como null (salto forzado).
+// Un <br> oculto (p. ej. br.m en escritorio) no cuenta, y un <span> en
+// bloque es una línea fija (h1 de about): tras él también hay salto.
 function wordsOf(el) {
     const words = [];
     el.childNodes.forEach((node) => {
-        if (node.nodeName === 'BR') words.push(null);
-        else node.textContent.split(/\s+/).filter(Boolean).forEach((w) => words.push(w));
+        const display = node.nodeType === Node.ELEMENT_NODE ? getComputedStyle(node).display : 'inline';
+        if (node.nodeName === 'BR') {
+            if (display !== 'none') words.push(null);
+            return;
+        }
+        node.textContent.split(/\s+/).filter(Boolean).forEach((w) => words.push(w));
+        if (display === 'block') words.push(null);
     });
     return words;
 }

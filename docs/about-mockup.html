@@ -1,0 +1,306 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<!-- Maqueta de referencia para about.html (no es parte del sitio). Abrir desde docs/. -->
+<title>Neon Relics About</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=Unbounded:wght@500;600&display=swap">
+</head><body>
+<style>
+/* Layout: full About page proposal. Rhythm light → heavy (Philosophy) → light → text → band → Visit. Single brand theme by choice. */
+:root{
+  --bg:#D8DFE6; --ink:#0F1821; --muted:#595E64; --red:#CC230F;
+  --vitrine:#0B1118; --line:rgba(15,24,33,.2); --grid:rgba(60,80,200,.09);
+  --f-display:"Unbounded","Arial Black",system-ui,sans-serif;
+  --f-body:"Jost","Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html{background:var(--bg)}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.45;margin:0;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:0}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px}
+.wrap{max-width:1312px;margin-inline:auto}
+.sub{font-size:14px;margin:0 0 8px}
+h2{font-size:clamp(34px,5.4vw,80px)}
+h1,h2{font-family:var(--f-display);font-weight:600;text-transform:uppercase;color:var(--red);line-height:.95;margin:0;letter-spacing:-.01em;text-wrap:balance}
+.upper{text-transform:uppercase;letter-spacing:.03em}
+.note{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding-block:10px;border-bottom:1px solid var(--line)}
+.note b{color:var(--red);font-weight:600}
+section{padding-block:120px 0}
+
+/* Header */
+.top{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:20px}
+.logo{font-family:var(--f-display);font-weight:600;font-size:15px;line-height:1}
+.nav{display:flex;gap:48px}
+.nav a{font-family:var(--f-display);font-weight:500;font-size:12px;text-transform:uppercase;color:var(--red);text-decoration:none}
+.nav a[aria-current="page"]{color:var(--ink)}
+.cap{display:flex;align-items:center;gap:8px;font-family:var(--f-display);font-weight:500;font-size:12px;text-transform:uppercase;color:var(--red);text-decoration:none}
+.cap i{font-style:normal;width:2rem;height:2rem;border-radius:50%;display:grid;place-items:center;color:var(--ink);font-weight:600;
+  background:radial-gradient(circle at 35% 30%,#fff 0 10%,#c9ced4 30%,#7d848c 60%,#e7eaee 85%);box-shadow:0 4px 12px rgba(15,24,33,.2)}
+
+/* 1 · Hero (light) */
+.hero{padding-top:72px}
+.hero__top{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:32px 64px;align-items:end}
+.hero h1{font-size:clamp(40px,7vw,104px)}
+.hero__side{display:flex;flex-direction:column;align-items:flex-start;gap:28px}
+.hero__intro{margin:0;font-size:15px;max-width:40ch}
+.strip{list-style:none;margin:72px 0 0 auto;max-width:780px;padding:0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px;align-items:start}
+.strip li{margin-top:var(--o,0)}
+.num{display:block;font-family:var(--f-display);font-size:11px;margin-bottom:8px}
+.strip img{width:100%;aspect-ratio:3/4;object-fit:cover;background:var(--vitrine)}
+.facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:0 40px;margin:64px 0 0}
+.facts div{border-top:1px solid var(--line);padding-top:16px}
+dt{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+dd{margin:0;font-size:16px}
+dd small{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+
+/* 2 · Philosophy (the big image) */
+.phil{padding-block:120px 0}
+.phil .stage{position:relative;max-width:1100px;margin-inline:auto}
+.phil .bg{width:100%;aspect-ratio:16/8;object-fit:cover}
+.phil .fig{position:absolute;left:50%;translate:-50% 0;bottom:-6%;width:46%}
+.phil .head{position:relative;max-width:1100px;margin:-40px auto 0;padding-left:9%;z-index:1}
+
+.phil .cols{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 48px;padding:40px 9% 0;max-width:1100px;margin-inline:auto}
+.phil .cols p{margin:0;font-size:14px}
+
+/* 3 · Manifesto (light) */
+
+.man ul{list-style:none;margin:64px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:32px}
+.man li{display:flex;flex-direction:column;gap:14px}
+.man li:nth-child(2){margin-top:80px}.man li:nth-child(3){margin-top:24px}.man li:nth-child(4){margin-top:56px}
+.man .frame{background:var(--vitrine);aspect-ratio:4/5;overflow:hidden;width:72%;max-width:100%}
+.man .frame img{width:100%;height:100%;object-fit:cover}
+.man p{margin:0;font-size:14px;max-width:24ch}
+
+/* 4 · How a relic is made (text) */
+
+.steps{list-style:none;margin:56px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:40px;border-top:1px solid var(--ink)}
+.steps li{padding-top:24px}
+.steps span{font-family:var(--f-display);font-size:12px;color:var(--red)}
+.steps b{display:block;font-family:var(--f-display);font-weight:500;text-transform:uppercase;font-size:18px;margin:12px 0 10px}
+.steps p{margin:0;font-size:15px;color:var(--muted);max-width:34ch}
+
+/* 5 · Capsule band */
+.band{border-top:1px solid var(--ink);border-bottom:1px solid var(--line);display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:16px 48px;align-items:center;padding-block:36px}
+.band .k{font-family:var(--f-display);font-weight:600;font-size:clamp(22px,2.6vw,34px);color:var(--red);text-transform:uppercase}
+.band p{margin:0;font-size:14px;max-width:52ch}
+.btn{display:inline-block;background:var(--ink);color:var(--bg);text-decoration:none;padding:16px 28px;font-size:14px}
+.btn:hover{background:var(--red)}
+
+
+/* 5 · Inner frequency (instead of the capsule band) */
+.freq{background:#982B1E;color:var(--bg);padding:72px max(24px,7%) 80px}
+.freq .sub{color:var(--bg)}
+.freq h2{color:#E08C82}
+.freq__top{display:grid;grid-template-columns:minmax(0,7fr) minmax(0,4fr);gap:24px 48px;align-items:end}
+.freq__note{margin:0;font-size:14px;max-width:44ch}
+.freq__form{display:grid;gap:36px;max-width:640px;margin:72px 0 0 auto}
+.field input{width:100%;background:transparent;border:0;border-bottom:1px solid var(--bg);color:var(--bg);font:inherit;font-size:16px;text-transform:uppercase;padding:8px 0}
+.field input::placeholder{color:var(--bg);opacity:.9}
+.check{display:flex;gap:12px;align-items:center;font-size:13px;margin-top:-16px}
+.check input{width:18px;height:18px;accent-color:var(--ink)}
+.freq__btn{justify-self:end;background:var(--bg);color:#982B1E;border:0;padding:16px 32px;font:inherit;font-size:15px;cursor:pointer}
+.freq__btn:hover{background:var(--ink);color:var(--bg)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+@media (max-width:900px){.freq__top{grid-template-columns:minmax(0,1fr)}.freq__form{margin-left:0}}
+
+/* 6 · Visit */
+
+.visit-grid{display:grid;grid-template-columns:minmax(0,4fr) minmax(0,8fr);gap:48px 64px;margin-top:64px;align-items:start}
+.card{width:min(100%,300px);margin:0}
+.card .frame{background:var(--vitrine);padding:14px;aspect-ratio:4/5;max-width:100%}
+.card .frame img{width:100%;height:100%;object-fit:cover}
+.card figcaption{margin:14px 0 0;font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.lead{margin:0 0 40px;font-size:16px;max-width:46ch}
+.vfacts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:0 40px;margin:0}
+.vfacts div{border-top:1px solid var(--line);padding-block:18px 22px}
+.actions{display:flex;flex-wrap:wrap;gap:16px 28px;align-items:center;margin-top:36px}
+.link{font-family:var(--f-display);font-size:11px;text-transform:uppercase;color:var(--red);text-underline-offset:4px}
+.concept{font-size:12px;color:var(--muted);margin:28px 0 0}
+
+footer{margin-top:120px;border-top:1px solid var(--line);padding-block:24px 40px;display:flex;flex-wrap:wrap;gap:12px 32px;justify-content:space-between;font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+
+@media (max-width:900px){
+  .nav{display:none}
+  .hero__top,.visit-grid{grid-template-columns:minmax(0,1fr)}
+  .strip{grid-template-columns:repeat(3,minmax(0,1fr));margin-left:0}.strip li{margin-top:0}
+  .facts,.steps{grid-template-columns:minmax(0,1fr)}
+  .man ul{grid-template-columns:repeat(2,minmax(0,1fr))}.man li:nth-child(n){margin-top:0}.man li:nth-child(even){margin-top:48px}
+  .band{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:560px){
+  section{padding-top:80px}
+  .vfacts,.phil .cols{grid-template-columns:minmax(0,1fr)}
+  .phil .fig{width:62%}.phil .head{padding-left:0;margin-top:-16px}.phil .cols{padding-inline:0}
+  .man ul{grid-template-columns:minmax(0,1fr)}.man li:nth-child(even){margin-top:0}
+}
+
+/* Móvil y tablet: tira del hero como carrusel con scroll-snap (sin JS) */
+.hint{display:none}
+@media (max-width:900px){
+  .strip{display:flex;gap:16px;max-width:none;margin:56px calc(-1 * max(16px,env(safe-area-inset-left,0px))) 0;
+    padding:0 max(16px,env(safe-area-inset-left,0px)) 8px;overflow-x:auto;scroll-snap-type:x mandatory;scroll-padding-inline:max(16px,env(safe-area-inset-left,0px));scrollbar-width:none}
+  .strip::-webkit-scrollbar{display:none}
+  .strip li{flex:0 0 clamp(200px,58vw,300px);scroll-snap-align:start}
+  .strip li:nth-child(n){margin-top:var(--o,0)}
+  .hint{display:flex;justify-content:space-between;margin:12px 0 0;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
+}
+@media (max-width:560px){
+  /* Manifiesto en zigzag: los retratos alternan izquierda / derecha */
+  .man ul{gap:56px}
+  .man li{width:78%}
+  .man li:nth-child(even){margin-left:auto}
+  .man .frame{width:100%}
+  /* Pasos más compactos */
+  .steps{gap:40px}
+  /* Visit: retrato a todo el ancho, formato más bajo */
+  .card{width:100%}
+  .card .frame{aspect-ratio:1/1}
+}
+
+/* Hero: h1 a todo el ancho, dos líneas fijas */
+.hero__top > div:first-child{grid-column:1/-1}
+.hero__side{grid-column:2}
+.hero h1{font-size:clamp(32px,9.2vw,104px)}
+.hero h1 span{display:block}
+/* Saltos de línea por breakpoint */
+br.m{display:none}
+@media (max-width:900px){
+  .hero__side{grid-column:1}
+}
+@media (max-width:560px){
+  br.m{display:inline}
+  br.d{display:none}
+  /* Datos en filas: etiqueta | valor */
+  .facts{margin-top:48px;border-bottom:1px solid var(--line)}
+  .facts div{display:grid;grid-template-columns:minmax(0,7.5rem) minmax(0,1fr);gap:12px;align-items:baseline;padding-block:18px}
+  .facts dt{margin:0}
+  /* Philosophy: fondo más grande a sangre, titular más abajo */
+  .phil .stage{margin-inline:calc(-1 * max(16px,env(safe-area-inset-left,0px)))}
+  .phil .bg{aspect-ratio:1/1}
+  .phil .fig{width:76%}
+  .phil .head{margin-top:56px}
+  /* Botones a todo el ancho en móvil (hero, formulario, visit) */
+  .btn,.freq__btn{display:block;width:100%;text-align:center}
+  .actions{flex-direction:column;align-items:stretch;text-align:center}
+}
+</style>
+
+<div class="wrap">
+  <p class="note"><b>Mockup</b> · the whole About page, new structure · resize to see 375 px</p>
+
+  <header class="top">
+    <span class="logo">NEON<br>RELICS</span>
+    <nav class="nav" aria-label="Main"><a href="#h">Collection</a><a href="#h" aria-current="page">About</a><a href="#visit">Contact</a></nav>
+    <a class="cap" href="#h" aria-label="Capsule, 3 relics">Capsule <i>3</i></a>
+  </header>
+
+  <!-- 1 Hero -->
+  <section class="hero" id="h" aria-labelledby="h-title">
+    <div class="hero__top">
+      <div><p class="sub">about · the house</p><h1 id="h-title"><span>The house of</span> <span>Neon Relics</span></h1></div>
+      <div class="hero__side"><p class="upper hero__intro">A small jewelry house in SoHo, New York. Four characters, six relics. Every piece is made once and fitted in person.</p><a class="btn" href="#h">Explore collection</a></div>
+    </div>
+    <ul class="strip" aria-label="Index of materials, scroll sideways" tabindex="0">
+      <li style="--o:0"><span class="num">03</span><img src="../assets/img/about-page/card-03.webp" alt=""></li>
+      <li style="--o:48px"><span class="num">006</span><img src="../assets/img/about-page/card-006.webp" alt=""></li>
+      <li style="--o:16px"><span class="num">04</span><img src="../assets/img/about-page/card-04.webp" alt=""></li>
+      <li style="--o:72px"><span class="num">05</span><img src="../assets/img/about-page/card-05.webp" alt=""></li>
+      <li style="--o:28px"><span class="num">008</span><img src="../assets/img/about-page/card-008.webp" alt=""></li>
+    </ul>
+    <p class="hint" aria-hidden="true"><span>01 — 05</span><span>Swipe →</span></p>
+    <dl class="facts">
+      <div><dt>The capsule</dt><dd>4 looks · 6 relics</dd></div>
+      <div><dt>Editions</dt><dd>Every piece exists once</dd></div>
+      <div><dt>The atelier</dt><dd>By appointment · SoHo, New York</dd></div>
+    </dl>
+  </section>
+</div>
+
+  <!-- 2 How a relic is made -->
+  <section class="made" aria-labelledby="mk-title">
+    <p class="sub">the process</p>
+    <h2 id="mk-title">How a relic<br>is made</h2>
+    <ol class="steps">
+      <li><span>01</span><b>The character</b><p>Every relic starts as a person, not as a jewel. Who wears it, and what should a room feel when they walk in?</p></li>
+      <li><span>02</span><b>The material</b><p>Gold-plated brass, freshwater pearls, black glass. Each one is chosen for how it holds a single hard light.</p></li>
+      <li><span>03</span><b>The fitting</b><p>The piece is finished on the wearer, in the atelier. It leaves only when it sits exactly right.</p></li>
+    </ol>
+  </section>
+
+<!-- 3 Philosophy -->
+<section class="phil" aria-labelledby="p-title">
+  <div class="stage">
+    <img class="bg" src="../assets/img/about-page/philosophy-bg.webp" alt="">
+    <img class="fig" src="../assets/img/about-page/philosophy-figure.webp" alt="A man in a wide black hat with a red bouquet at his collar">
+  </div>
+  <div class="head"><p class="sub" style="font-weight:600">philosophy</p><h2 id="p-title">A private<br class="m"> ritual<br class="d"> of<br class="m"> adornment</h2></div>
+  <div class="cols upper">
+    <p>Neon Relics exists in the space where high fashion crosses over with interface design. Each piece is a silent signal: it states something without saying it, occupying space without asking permission.</p>
+    <p>We don't follow seasons or trends. We create relics, objects that amplify what already exists inside the wearer.</p>
+  </div>
+</section>
+
+<div class="wrap">
+
+  <!-- 4 Manifesto -->
+  <section class="man" aria-labelledby="m-title">
+    <p class="sub">manifesto</p>
+    <h2 id="m-title">We design for the ones who…</h2>
+    <ul>
+      <li><span class="num">01</span><div class="frame"><img src="../assets/img/relics/08.webp" alt="Portrait with a magenta veil of light across the eyes"></div><p class="upper">→ Choose presence over noise.</p></li>
+      <li><span class="num">02</span><div class="frame"><img src="../assets/img/relics/11.webp" alt="Portrait with a red band painted over the eyes"></div><p class="upper">→ Prefer mystery to explanation.</p></li>
+      <li><span class="num">03</span><div class="frame"><img src="../assets/img/about-page/manifesto-silhouette.webp" alt="Silver-haired man in profile, high blue satin collar"></div><p class="upper">→ Know that one piece is enough to shift the entire reading of a silhouette.</p></li>
+      <li><span class="num">04</span><div class="frame"><img src="../assets/img/relics/04.webp" alt="Portrait with a blue face, gold beads and a thin halo"></div><p class="upper">→ Want their style to be a code, not an algorithm.</p></li>
+    </ul>
+  </section>
+
+
+  <!-- 5 Inner frequency -->
+  <section aria-labelledby="f-title" style="padding-top:120px">
+    <div class="freq">
+      <div class="freq__top">
+        <div><p class="sub">stay in the orbit</p><h2 id="f-title">Join the inner<br>frequency</h2></div>
+        <p class="upper freq__note">No spam, no algorithms. Just a notice when a new chapter of the collection opens.</p>
+      </div>
+      <form class="freq__form" onsubmit="event.preventDefault()">
+        <label class="field"><span class="sr">Name</span><input id="f-name" placeholder="Enter your name" autocomplete="name"></label>
+        <label class="field"><span class="sr">Email</span><input id="f-mail" type="email" placeholder="Enter your transmission point" autocomplete="email"></label>
+        <label class="check"><input id="f-ok" type="checkbox"> I agree to receive transmissions about Neon Relics chapters.</label>
+        <button class="freq__btn" type="submit">Notify me</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- 6 Visit -->
+  <section class="visit" id="visit" aria-labelledby="v-title">
+    <p class="sub">by appointment</p>
+    <h2 id="v-title">Visit the<br>atelier</h2>
+    <div class="visit-grid">
+      <figure class="card"><span class="num">03</span><div class="frame"><img src="../assets/img/product/product-5/modelo_05.webp" alt="The Archivist of Shadows wearing the Obsidian Coil Choker"></div><figcaption>Each relic is fitted in person</figcaption></figure>
+      <div>
+        <p class="lead upper">There is no shop window. Relics are shown one visitor at a time, in a private room, after the capsule is sealed.</p>
+        <dl class="vfacts">
+          <div><dt>Where</dt><dd>SoHo, New York<small>The exact address comes with your invitation</small></dd></div>
+          <div><dt>When</dt><dd>Thu–Sat, 12:00–19:00<small>By appointment only</small></dd></div>
+          <div><dt>Write</dt><dd>atelier@neonrelics.example<small>We reply within two days</small></dd></div>
+          <div><dt>Follow</dt><dd>@neonrelics<small>New chapters are announced here first</small></dd></div>
+        </dl>
+        <div class="actions"><a class="btn" href="#h">Request a private viewing</a><a class="link" href="#h">Join the inner frequency</a></div>
+        <p class="concept">Neon Relics is a concept project. The atelier, address and email are fictional.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span>Concept website created as a CEI final project</span>
+    <span>Photography: Max Shirko (free to use) · Look portraits and relics: AI-generated by Valeriia Pavlova</span>
+    <span>All rights reserved · Valeriia Pavlova</span>
+  </footer>
+</div>
+
+</body></html>
