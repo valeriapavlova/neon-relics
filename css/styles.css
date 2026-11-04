@@ -2361,14 +2361,22 @@ br.m {
 	}
 
 	.header {
+		/* Alto del header en ≤900: botón de 40 px + su padding vertical */
+		--header-h: calc(var(--size-control) + 2 * var(--space-sm));
+
 		/* El contenido del header siempre por encima del panel */
 		& .header__container {
 			position: relative;
 			z-index: 1;
 		}
 
-		/* Menú abierto: header claro sobre el panel oscuro */
+		/* Menú abierto: header sólido (mismo fondo que el panel) y texto claro;
+		   lo que se desplaza en el panel pasa por debajo sin verse */
 		&.header--menu-open {
+			& .header__container {
+				background-color: var(--c-text);
+			}
+
 			& .header__menu-btn {
 				color: var(--c-bg);
 
@@ -2410,8 +2418,8 @@ br.m {
 		flex-direction: column;
 		width: 100%;
 		height: 100dvh;
-		/* debajo del header: botón de 40 px + su padding vertical */
-		padding-top: calc(var(--size-control) + 2 * var(--space-sm));
+		/* el contenido empieza debajo del header */
+		padding-top: var(--header-h);
 		/* solo scroll vertical: la fila de looks nunca arrastra el panel */
 		overflow-x: clip;
 		overflow-y: auto;
