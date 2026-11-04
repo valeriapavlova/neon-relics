@@ -1,37 +1,73 @@
 // js/header.js
-export function setupHeaderMenu() {
-    const menuBtn = document.querySelector('.header__menu-btn');
-    const menuOverlay = document.getElementById('menuOverlay');
-    const closeBtn = document.getElementById('menuClose');
-    const menuLinks = menuOverlay?.querySelectorAll('.header__menu-nav a') || [];
+import { renderMenuLooks, updateMenuCounts } from './menu.js';
 
+// =============================================
+// MENÚ MÓVIL (≤900)
+// El botón "Menu ≡" abre un panel oscuro a pantalla completa; el header
+// sigue encima (claro) y el botón pasa a "Close ✕".
+// Accesibilidad: aria-expanded en el botón, el foco entra en el menú y
+// vuelve al botón al cerrar, Esc cierra, el resto de la página queda
+// inerte (inert) y sin scroll mientras el menú está abierto.
+// =============================================
+
+export function setupHeaderMenu() {
     initHeaderInverse();
 
-    if (!menuBtn || !menuOverlay || !closeBtn) return;
+    const header = document.querySelector('.header');
+    const menuBtn = header?.querySelector('.header__menu-btn');
+    const overlay = document.getElementById('menuOverlay');
+    if (!menuBtn || !overlay) return;
 
-    // aria-expanded: el lector de pantalla sabe si el menú está abierto
-    const openMenu = () => {
-        menuOverlay.classList.add('is-open');
+    const label = menuBtn.querySelector('.header__menu-label');
+    // lo que queda fuera del header: no se puede tabular ni leer con el menú abierto
+    const outside = [...document.querySelectorAll('body > main, body > footer')];
+    // a partir de 901 px el menú no existe: si se ensancha la ventana, se cierra
+    const desktop = window.matchMedia('(min-width: 56.3125rem)');
+
+    renderMenuLooks(overlay);
+
+    const isOpen = () => menuBtn.getAttribute('aria-expanded') === 'true';
+
+    function onKeydown(event) {
+        if (event.key === 'Escape') closeMenu();
+    }
+
+    function openMenu() {
+        updateMenuCounts(overlay);
+        overlay.classList.add('is-open');
+        header.classList.add('header--menu-open');
+        document.documentElement.classList.add('is-menu-locked');
+        outside.forEach((el) => { el.inert = true; });
         menuBtn.setAttribute('aria-expanded', 'true');
-    };
-    const closeMenu = () => {
-        menuOverlay.classList.remove('is-open');
+        if (label) label.textContent = 'Close';
+        document.addEventListener('keydown', onKeydown);
+        // el foco entra en el menú (primer enlace)
+        overlay.querySelector('a')?.focus();
+    }
+
+    function closeMenu({ restoreFocus = true } = {}) {
+        if (!isOpen()) return;
+        overlay.classList.remove('is-open');
+        header.classList.remove('header--menu-open');
+        document.documentElement.classList.remove('is-menu-locked');
+        outside.forEach((el) => { el.inert = false; });
         menuBtn.setAttribute('aria-expanded', 'false');
-    };
+        if (label) label.textContent = 'Menu';
+        document.removeEventListener('keydown', onKeydown);
+        if (restoreFocus) menuBtn.focus();
+    }
 
-    menuBtn.addEventListener('click', openMenu);
-    closeBtn.addEventListener('click', closeMenu);
-    menuLinks.forEach(link => link.addEventListener('click', closeMenu));
+    menuBtn.addEventListener('click', () => (isOpen() ? closeMenu() : openMenu()));
 
-        menuOverlay.addEventListener('click', (e) => {
-        const isTablet = window.innerWidth <= 1024 && window.innerWidth >= 769;
-        if (!isTablet) return;
-        // Si el click es directamente en el overlay y no en el menú
-        if (e.target === menuOverlay) {
-            closeMenu();
-        }
+    // Un enlace del menú (también los anclas de la misma página) cierra el menú;
+    // el foco sigue al destino del enlace
+    overlay.addEventListener('click', (event) => {
+        if (event.target.closest('a')) closeMenu({ restoreFocus: false });
     });
 
+    desktop.addEventListener('change', (event) => {
+        if (event.matches) closeMenu({ restoreFocus: false });
+    });
 }
 
 // Header sobre secciones rojas u oscuras ([data-header="inverse"]):

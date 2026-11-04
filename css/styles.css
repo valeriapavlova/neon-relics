@@ -35,6 +35,8 @@
 	--c-text--muted: #595E64;
 	/* Gris secundario sobre fondos oscuros (#0F1821): contraste 4,89:1 */
 	--c-text--muted-inverse: #82868B;
+	/* Fondo oscuro de las fotos ("vitrina") */
+	--c-vitrine: #0B1118;
 
 	/* Cromo para el hover de los botones: franjas grises y blancas.
 	   El dibujo se repite dos veces (0–50 % y 50–100 %), así al desplazarlo
@@ -618,8 +620,8 @@ a {
 		}
 	}
 
-	.header__menu-btn,
-	.header__menu-overlay {
+	/* Botón Menu solo en ≤900 (el panel .menu se oculta en el bloque del menú) */
+	& .header__menu-btn {
 		display: none;
 	}
 }
@@ -2067,68 +2069,258 @@ a {
 			display: none;
 		}
 
-		/* Overlay debajo del header (tablet) */
-		& .header__menu-overlay {
-			position: fixed;
-			left: 50%;
-			transform: translateX(-50%);
-			top: calc(4rem + 2 * var(--space-xs));
-			display: none;
-			align-items: center;
-			justify-content: center;
-			max-width: 28rem;
-			border-radius: var(--r-xs);
-			z-index: 3;
-			backdrop-filter: blur(10px);
-			box-shadow: 0 2px 16px 0 rgba(25, 16, 38, 0.08);
+	}
+}
 
-			& .header__menu-nav {
-				display: flex;
-				flex-direction: row;
-				justify-content: space-between;
-				gap: var(--space-xs);
-				padding: var(--space-sm) var(--space-md);
+/* ===== MENÚ MÓVIL (≤900, js/header.js + js/menu.js) =====
+   Panel oscuro a pantalla completa debajo del header. El header (logo,
+   cápsula y botón "Close ✕") queda encima, en claro. Arriba los cuatro
+   enlaces grandes con número y contador; debajo la fila de looks
+   (scroll-snap), el botón de visita, el atelier y las redes. */
+@media (max-width: 56.25rem) {
+
+	/* Sin scroll de la página mientras el menú está abierto */
+	html.is-menu-locked {
+		overflow: hidden;
+	}
+
+	.header {
+		/* El contenido del header siempre por encima del panel */
+		& .header__container {
+			position: relative;
+			z-index: 1;
+		}
+
+		/* Menú abierto: header claro sobre el panel oscuro */
+		&.header--menu-open {
+			& .header__menu-btn {
+				color: var(--c-bg);
+
+				&:is(:hover, :focus-visible, :active) {
+					color: var(--c-text);
+				}
+			}
+
+			& .header__logo img {
+				filter: invert(1);
 			}
 		}
 
-		& .is-open {
-			display: flex;
+		/* Icono ✕: las dos líneas se cruzan (sin animación) */
+		& .header__menu-btn[aria-expanded="true"] .header__menu-icon {
+			& i {
+				grid-area: 1 / 1;
+				width: 0.9375rem;
+				justify-self: center;
+				rotate: 45deg;
+			}
+
+			& i:last-child {
+				width: 0.9375rem;
+				rotate: -45deg;
+			}
+		}
+	}
+
+	/* El header (backdrop-filter) es el bloque contenedor: el panel ocupa
+	   toda la pantalla desde su esquina superior izquierda */
+	.menu {
+		--menu-pad: var(--space-md);
+		--menu-line: color-mix(in srgb, var(--c-bg) 16%, transparent);
+
+		position: fixed;
+		inset: 0 auto auto 0;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: 100dvh;
+		/* debajo del header: botón de 40 px + su padding vertical */
+		padding-top: calc(var(--size-control) + 2 * var(--space-sm));
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		background-color: var(--c-text);
+		color: var(--c-bg);
+		/* cerrado: invisible y fuera del orden de tabulación */
+		visibility: hidden;
+		opacity: 0;
+		transition:
+			opacity var(--transition-normal),
+			visibility 0s var(--transition-normal);
+
+		&.is-open {
+			visibility: visible;
+			opacity: 1;
+			transition: opacity var(--transition-normal);
 		}
 
-		& .header__menu-close {
-			display: none;
+		@media (prefers-reduced-motion: reduce) {
+			&,
+			&.is-open {
+				transition: none;
+			}
+		}
+
+		@media (max-width: 40rem) {
+			--menu-pad: var(--space-sm);
+		}
+
+		& a:focus-visible,
+		& .menu__strip:focus-visible {
+			outline: 2px solid var(--c-primary--soft);
+			outline-offset: var(--space-3xs);
+		}
+
+		/* Enlaces grandes: número | nombre | contador */
+		& .menu__nav {
+			display: flex;
+			flex-direction: column;
+			padding: 0 var(--menu-pad);
+			border-top: 1px solid var(--menu-line);
+		}
+
+		& .menu__link {
+			display: grid;
+			grid-template-columns: 1.75rem minmax(0, 1fr) auto;
+			align-items: baseline;
+			gap: var(--space-2xs);
+			padding-block: var(--space-xs);
+			border-bottom: 1px solid var(--menu-line);
+		}
+
+		& .menu__num {
+			font: var(--fw-semibold) 0.625rem/1 var(--font-heading);
+			/* rojo suave: legible sobre el fondo oscuro */
+			color: var(--c-primary--soft);
+		}
+
+		& .menu__name {
+			min-width: 0;
+			font: var(--fw-semibold) clamp(1.375rem, 7vw, 1.875rem)/1 var(--font-heading);
+			letter-spacing: -0.01em;
+			text-transform: uppercase;
+			white-space: nowrap;
+			transition: color var(--transition-normal);
+		}
+
+		& .menu__link:hover .menu__name {
+			color: var(--c-primary--soft);
+		}
+
+		/* Página actual en rojo */
+		& .menu__link[aria-current="page"] .menu__name {
+			color: var(--c-primary);
+		}
+
+		& .menu__meta {
+			font: var(--f-body-sm);
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			white-space: nowrap;
+			color: var(--c-text--muted-inverse);
+		}
+
+		/* Fila de looks */
+		& .menu__looks {
+			padding: var(--space-md) 0 0 var(--menu-pad);
+		}
+
+		& .menu__label {
+			display: flex;
+			justify-content: space-between;
+			margin-bottom: var(--space-xs);
+			padding-right: var(--menu-pad);
+			color: var(--c-text--muted-inverse);
+			letter-spacing: 0.14em;
+			text-transform: uppercase;
+		}
+
+		& .menu__strip {
+			display: flex;
+			gap: var(--space-xs);
+			padding-right: var(--menu-pad);
+			overflow-x: auto;
+			scroll-snap-type: x mandatory;
+			scroll-padding-inline: 0 var(--menu-pad);
+			scrollbar-width: none;
+
+			&::-webkit-scrollbar {
+				display: none;
+			}
+		}
+
+		& .menu__look {
+			flex: 0 0 8rem;
+			scroll-snap-align: start;
+		}
+
+		& .menu__look-link {
+			display: flex;
+			flex-direction: column;
+			gap: var(--space-3xs);
+		}
+
+		& .menu__look-photo {
+			display: block;
+			aspect-ratio: 3 / 4;
+			overflow: hidden;
+			background-color: var(--c-vitrine);
+
+			& img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				border-radius: 0;
+			}
+		}
+
+		& .menu__look-name {
+			margin-top: var(--space-2xs);
+			font: var(--f-link-sm);
+			text-transform: uppercase;
+		}
+
+		& .menu__look-count {
+			font: var(--f-body-sm);
+			color: var(--c-text--muted-inverse);
+		}
+
+		/* Abajo: visita, atelier y redes */
+		& .menu__foot {
+			display: grid;
+			gap: var(--space-xs);
+			margin-top: auto;
+			padding: var(--space-md) var(--menu-pad) var(--space-sm);
+		}
+
+		& .menu__visit {
+			font: var(--f-body-sm);
+			letter-spacing: 0.06em;
+			text-transform: uppercase;
+			color: var(--c-text--muted-inverse);
+
+			& span {
+				display: block;
+				margin-top: var(--space-3xs);
+				font-weight: var(--fw-medium);
+				color: var(--c-bg);
+			}
+		}
+
+		& .menu__social {
+			display: flex;
+			flex-wrap: wrap;
+			gap: var(--space-2xs) var(--space-sm);
+			font: var(--f-body-sm);
+			letter-spacing: 0.12em;
+			text-transform: uppercase;
 		}
 	}
 }
 
-/* ===== MOBILE < 768 ===== */
-@media (max-width: 768px) {
-	.header {
-		& .header__menu-overlay {
-			left: 0;
-			right: 0;
-			transform: none;
-			width: 100vw;
-			height: 100vh;
-			top: 0;
-			background-color: var(--c-bg);
-			max-width: none;
-
-			& .header__menu-nav {
-				flex-direction: column;
-				gap: var(--space-md);
-				padding: var(--space-lg) var(--space-2xl);
-			}
-		}
-
-		& .header__menu-close {
-			display: block;
-			position: absolute;
-			top: var(--space-2xs);
-			right: var(--space-xs);
-			font-size: 1rem;
-			color: var(--c-text);
-		}
+/* En escritorio el menú no existe */
+@media (min-width: 56.3125rem) {
+	.menu {
+		display: none;
 	}
 }
 

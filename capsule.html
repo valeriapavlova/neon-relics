@@ -52,14 +52,30 @@
             </div>
         </div>
 
-        <!-- OVERLAY MENU -->
-        <div class="header__menu-overlay" id="menuOverlay">
-            <button class="header__menu-close" id="menuClose" aria-label="Close menu">✕</button>
-            <nav class="header__menu-nav">
-                <a href="index.html#collection" class="t--link">Collection</a>
-                <a href="about.html" class="t--link">About</a>
-                <a href="index.html#visit" class="t--link">Contact</a>
+        <!-- MENÚ MÓVIL (≤900): panel oscuro a pantalla completa debajo del header.
+             Los contadores y la fila de looks los rellena js/menu.js (desde js/data.js) -->
+        <div class="header__menu-overlay menu" id="menuOverlay">
+            <nav class="menu__nav" aria-label="Main">
+                <a class="menu__link" href="index.html#collection"><small class="menu__num">01</small><span class="menu__name">Collection</span><span class="menu__meta" data-menu-count="looks"></span></a>
+                <a class="menu__link" href="capsule.html" aria-current="page"><small class="menu__num">02</small><span class="menu__name">Capsule</span><span class="menu__meta" data-menu-count="relics"></span></a>
+                <a class="menu__link" href="about.html"><small class="menu__num">03</small><span class="menu__name">About</span></a>
+                <a class="menu__link" href="index.html#visit"><small class="menu__num">04</small><span class="menu__name">Contact</span></a>
             </nav>
+
+            <div class="menu__looks">
+                <p class="menu__label t--card"><span>The looks</span><span aria-hidden="true">Swipe →</span></p>
+                <ul class="menu__strip" aria-label="The looks" tabindex="0" data-menu-looks></ul>
+            </div>
+
+            <div class="menu__foot">
+                <a class="btn btn--light" href="index.html#visit">Request a private viewing</a>
+                <p class="menu__visit">The atelier <span>By appointment · SoHo, New York</span></p>
+                <ul class="menu__social" aria-label="Social links">
+                    <li><a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram</a></li>
+                    <li><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a></li>
+                    <li><a href="https://github.com/valeriapavlova" target="_blank" rel="noreferrer">GitHub</a></li>
+                </ul>
+            </div>
         </div>
     </header>
     <!-- / HEADER -->
