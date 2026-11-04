@@ -187,7 +187,9 @@ function revealHeroTitle(title, hero) {
 
 // =============================================
 // HERO DE ABOUT
-// Primero el h1 (por líneas) y después las tarjetas, una a una:
+// Primero el h1 (por líneas); después, uno a uno, el eyebrow, el texto
+// y el botón (suben 20 px, --dur-text, como los textos de las secciones),
+// y al final las tarjetas, una a una:
 // suben 32 px con 140 ms entre ellas y un pequeño desfase distinto
 // para cada una, así "flotan" en vez de salir en fila. Todo en ~1,6 s.
 // Empieza cuando el h1 está de verdad en pantalla (en escritorio
@@ -198,22 +200,29 @@ const CARD_STEP = 140;
 // desfase de cada tarjeta (ms): menor que el paso, el orden se mantiene
 const CARD_JITTER = [0, 40, -20, 30, -10, 20];
 const HERO_CARDS_AFTER = 200;
+// textos del hero que suben después del h1 (en este orden)
+const HERO_TEXT = '.subtitle, .about-hero__intro, .about-hero__side .btn';
 
 const cardDelay = (i, base = 0) => base + i * CARD_STEP + CARD_JITTER[i % CARD_JITTER.length];
 
 function initAboutHero(hero) {
     const title = hero.querySelector('[data-reveal-lines]');
+    const texts = [...hero.querySelectorAll(HERO_TEXT)];
     const cards = [...hero.querySelectorAll('.about-hero__card')];
 
     if (!prefersMotion() || !('IntersectionObserver' in window)) {
-        cards.forEach((card) => card.classList.add('is-settled'));
+        [...texts, ...cards].forEach((el) => el.classList.add('is-settled'));
         return;
     }
 
     onceVisible(title, () => {
         revealLines(title).then(() => {
-            const duration = cssMs('--dur-card', 900);
-            cards.forEach((card, i) => breathe(card, cardDelay(i, HERO_CARDS_AFTER), duration));
+            const durText = cssMs('--dur-text', 800);
+            const durCard = cssMs('--dur-card', 900);
+            texts.forEach((text, i) => breathe(text, TEXT_AFTER_TITLE + i * TEXT_STEP, durText));
+            // las tarjetas, cuando ya ha empezado el último texto
+            const cardsAfter = TEXT_AFTER_TITLE + (texts.length - 1) * TEXT_STEP + HERO_CARDS_AFTER;
+            cards.forEach((card, i) => breathe(card, cardDelay(i, cardsAfter), durCard));
         });
     }, 0.5);
 }
