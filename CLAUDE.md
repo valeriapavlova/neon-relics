@@ -64,6 +64,20 @@
 - Усі h2 — `.t--md`, переноси як у макеті («How a relic / is made», «Visit the / atelier»).
 - Motion тільки з наявних хелперів `js/motion.js`: h1 по рядках, потім картки стрічки (rise); секції з `data-reveal`.
 
+### 5. Мобільна версія (≤900)
+Еталон — **`docs/mobile-mockup.html`**.
+- **Хедер:** на ≤900 непрозорий фон (`.header__container`): `--c-bg`, над темними секціями `[data-header="inverse"]` — `--c-text`; над червоними (`.wrapper--red`, форма «Join the inner frequency») лишається світлим (`js/header.js` → `initHeaderInverse`). На десктопі як було.
+- **Меню** (кнопка «Menu ≡» ↔ «Close ✕»): розмітка панелі `#menuOverlay` у HTML кожної сторінки; `js/header.js` відкриває/закриває (`aria-expanded`, фокус у меню й назад, Esc, `inert` для `main`/`footer`, без скролу сторінки); `js/menu.js` заповнює стрічку образів і лічильники з `js/data.js`. У відкритому меню хедер суцільний (`--c-text`), контент панелі починається під ним (`padding-top: var(--header-h)`). Панель скролиться тільки вертикально (`overflow-x: clip`), стрічка образів — `overscroll-behavior-x: contain`, `touch-action: pan-x pan-y`; `.menu__look-link` має `position: relative`, щоб `.visually-hidden` не розширював панель.
+
+### Хромовий hover
+`::before` з `--g-chrome` (styles.css, «Hover cromo»). **Є:** `.btn` (крім `.btn--card`), «Menu» у хедері, соцмережі футера на мобільному, `.vitrine__btn` «Keep in capsule» (`aria-pressed="false"`), «Keep the whole look» (`[data-all]`), «Seal my capsule» (`type="submit"`). **Немає:** `.btn--card` (іконки), «In capsule ✓» (`aria-pressed="true"`), `disabled` / `aria-disabled="true"` — це стан, а не дія.
+
+### Motion текстів
+- `revealLines(el, delay, { text: true })` — вступні абзаци по рядках (менший зсув, fade, 60 мс між рядками). Позначаються `data-reveal-text`: текст hero на home і about, вступ capsule.html, manifest / Philosophy, текст форми «Join the inner frequency». Скрінрідер читає схований повний текст; при reduce motion усе видно одразу.
+- Довгі тексти (`.body-text` у `[data-reveal]`, `.piece__desc`, `.look__story` з `data-reveal-fade`) — тільки fade (opacity).
+- Тексти після h1 поза `[data-reveal]` (capsule, картка образу) шукаються в найближчому `[data-reveal-group]`.
+- Hero home: на ≤900 (або без відео) h1 стартує одразу після шрифтів, не чекаючи відео; потім eyebrow, текст, кнопки.
+
 ### Дані
 Один файл даних `js/data.js` з масивами `LOOKS` і `PIECES`, як у прототипі. Усі сторінки читають звідти. Фото поки старі (заглушки), потім Валерія підставить нових AI-персонажів, тому шляхи до зображень мають бути тільки в даних.
 
