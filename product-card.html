@@ -28,8 +28,6 @@
                 <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
             </div>
 
-            <!-- header menu responsive button-->
-            <button type="button" class="header__menu-btn t--link">Menu</button>
 
             <!-- header nav-->
             <nav class="header__nav nav">
@@ -46,17 +44,38 @@
                     <span class="wishlist-counter__label t--link">Capsule</span>
                     <span class="wishlist-counter__badge" aria-hidden="true">0</span>
                 </a>
+                <!-- Botón del menú móvil (≤900): abre el panel #menuOverlay -->
+                <button type="button" class="header__menu-btn" aria-expanded="false" aria-controls="menuOverlay">
+                    <span class="header__menu-label">Menu</span>
+                    <span class="header__menu-icon" aria-hidden="true"><i></i><i></i></span>
+                </button>
             </div>
         </div>
 
-        <!-- OVERLAY MENU -->
-        <div class="header__menu-overlay" id="menuOverlay">
-            <button class="header__menu-close" id="menuClose" aria-label="Close menu">✕</button>
-            <nav class="header__menu-nav">
-                <a href="index.html#collection" class="t--link">Collection</a>
-                <a href="about.html" class="t--link">About</a>
-                <a href="index.html#visit" class="t--link">Contact</a>
+        <!-- MENÚ MÓVIL (≤900): panel oscuro a pantalla completa debajo del header.
+             Los contadores y la fila de looks los rellena js/menu.js (desde js/data.js) -->
+        <div class="header__menu-overlay menu" id="menuOverlay">
+            <nav class="menu__nav" aria-label="Main">
+                <a class="menu__link" href="index.html#collection"><small class="menu__num">01</small><span class="menu__name">Collection</span><span class="menu__meta" data-menu-count="looks"></span></a>
+                <a class="menu__link" href="capsule.html"><small class="menu__num">02</small><span class="menu__name">Capsule</span><span class="menu__meta" data-menu-count="relics"></span></a>
+                <a class="menu__link" href="about.html"><small class="menu__num">03</small><span class="menu__name">About</span></a>
+                <a class="menu__link" href="index.html#visit"><small class="menu__num">04</small><span class="menu__name">Contact</span></a>
             </nav>
+
+            <div class="menu__looks">
+                <p class="menu__label t--card"><span>The looks</span><span aria-hidden="true">Swipe →</span></p>
+                <ul class="menu__strip" aria-label="The looks" tabindex="0" data-menu-looks></ul>
+            </div>
+
+            <div class="menu__foot">
+                <a class="btn btn--light" href="index.html#visit">Request a private viewing</a>
+                <p class="menu__visit">The atelier <span>By appointment · SoHo, New York</span></p>
+                <ul class="menu__social" aria-label="Social links">
+                    <li><a href="https://www.instagram.com/" target="_blank" rel="noreferrer">Instagram</a></li>
+                    <li><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn</a></li>
+                    <li><a href="https://github.com/valeriapavlova" target="_blank" rel="noreferrer">GitHub</a></li>
+                </ul>
+            </div>
         </div>
     </header>
     <!-- / HEADER -->
@@ -91,33 +110,42 @@
                     <p class="footer__claim">Limited relics for unlimited futures.</p>
                 </div>
 
-                <!-- Navigation -->
+                <!-- Navigation: dos grupos (Shop / House). En escritorio los títulos
+                     solo los oye el lector de pantalla y los enlaces van en una columna -->
                 <nav class="footer__item footer__item--nav" aria-label="Footer navigation">
-                    <ul class="footer-nav__list">
-                        <li><a href="capsule.html" class="footer-nav__link t--link-big">Capsule</a></li>
-                        <li><a href="about.html" class="footer-nav__link t--link-big">About</a></li>
-                        <li><a href="index.html#collection" class="footer-nav__link t--link-big">Collection</a></li>
-                        <li><a href="index.html#visit" class="footer-nav__link t--link-big">Contact</a></li>
-                    </ul>
+                    <div class="footer-nav__group">
+                        <h2 class="footer-nav__title">Shop</h2>
+                        <ul class="footer-nav__list">
+                            <li><a href="index.html#collection" class="footer-nav__link t--link-big">Collection</a></li>
+                            <li><a href="capsule.html" class="footer-nav__link t--link-big">Capsule</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-nav__group">
+                        <h2 class="footer-nav__title">House</h2>
+                        <ul class="footer-nav__list">
+                            <li><a href="about.html" class="footer-nav__link t--link-big">About</a></li>
+                            <li><a href="index.html#visit" class="footer-nav__link t--link-big">Contact</a></li>
+                        </ul>
+                    </div>
                 </nav>
 
                 <!-- Social links -->
                 <nav class="footer__item footer__item--social t-align--end" aria-label="Social links">
                     <ul class="footer-nav__list">
                         <li>
-                            <a href="https://github.com/valeriapavlova" class="footer-nav__link t--link-big"
+                            <a href="https://github.com/valeriapavlova" class="footer-nav__link footer__social-link t--link-big"
                                 target="_blank" rel="noreferrer" title="GitHub">
                                 GitHub
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.instagram.com/" class="footer-nav__link t--link-big" target="_blank"
+                            <a href="https://www.instagram.com/" class="footer-nav__link footer__social-link t--link-big" target="_blank"
                                 rel="noreferrer" title="Instagram">
                                 Instagram
                             </a>
                         </li>
                         <li>
-                            <a href="https://www.linkedin.com/" class="footer-nav__link t--link-big" target="_blank"
+                            <a href="https://www.linkedin.com/" class="footer-nav__link footer__social-link t--link-big" target="_blank"
                                 rel="noreferrer" title="LinkedIn">
                                 LinkedIn
                             </a>

@@ -35,6 +35,8 @@
 	--c-text--muted: #595E64;
 	/* Gris secundario sobre fondos oscuros (#0F1821): contraste 4,89:1 */
 	--c-text--muted-inverse: #82868B;
+	/* Fondo oscuro de las fotos ("vitrina") */
+	--c-vitrine: #0B1118;
 
 	/* Cromo para el hover de los botones: franjas grises y blancas.
 	   El dibujo se repite dos veces (0–50 % y 50–100 %), así al desplazarlo
@@ -109,6 +111,8 @@
 	--size-xxxxl: 87.125rem;
 	/* Ancho cómodo de lectura para párrafos (600 px) */
 	--size-measure: 37.5rem;
+	/* Alto de los controles del header en móvil (botón Menu, círculo de la cápsula) */
+	--size-control: 2.5rem;
 
 	/* screen size */
 	--screen-sm: 23.4375rem;
@@ -125,6 +129,8 @@
 	/* Border radius */
 	--r-xs: 0.125rem;
 	--r-s: 0.25rem;
+	/* Píldora (botón Menu, redes del footer en móvil) */
+	--r-pill: 999px;
 
 	/* Motion */
 	--transition-fast: 150ms ease-out;
@@ -236,6 +242,22 @@ a {
 	border: 0;
 }
 
+/* Saltos de línea por breakpoint en los títulos: br.m solo en móvil (≤560),
+   br.d solo en escritorio */
+br.m {
+	display: none;
+}
+
+@media (max-width: 35rem) {
+	br.m {
+		display: inline;
+	}
+
+	br.d {
+		display: none;
+	}
+}
+
 /* Text styles */
 
 .t--lg,
@@ -324,8 +346,9 @@ a {
 /* Hover "cromo que se desliza": un ::before con --g-chrome (200 % de ancho)
    aparece y se desplaza -50 % una sola vez. Solo opacity y transform.
    Al salir se apaga y, ya invisible, vuelve a su sitio sin moverse.
-   Los botones de icono (.btn--card) no lo llevan */
-.btn:not(.btn--card) {
+   Los botones de icono (.btn--card) no lo llevan; el botón Menu del header
+   y las redes del footer en móvil (píldoras), sí */
+:is(.btn:not(.btn--card), .header__menu-btn, .footer__social-link) {
 	position: relative;
 	isolation: isolate;
 	overflow: hidden;
@@ -614,8 +637,8 @@ a {
 		}
 	}
 
-	.header__menu-btn,
-	.header__menu-overlay {
+	/* Botón Menu solo en ≤900 (el panel .menu se oculta en el bloque del menú) */
+	& .header__menu-btn {
 		display: none;
 	}
 }
@@ -652,8 +675,8 @@ a {
 		line-height: 1;
 	}
 
-	/* En móvil solo el círculo; el aria-label mantiene el texto completo */
-	@media (max-width: 48rem) {
+	/* En tablet y móvil (≤900) solo el círculo; el aria-label mantiene el texto completo */
+	@media (max-width: 56.25rem) {
 		& .wishlist-counter__label {
 			display: none;
 		}
@@ -888,6 +911,124 @@ a {
 
 
 
+/* HERO en móvil (≤560): eyebrow, h1 en tres líneas y un solo collage:
+   el vídeo 04 grande, la tarjeta 01 encima a la izquierda (arriba) y la 03
+   a la derecha (abajo); la 02 no se muestra. Después texto y botones a todo
+   el ancho. Los envoltorios pasan a display: contents y cada pieza se coloca
+   en la rejilla de .container; las tres tarjetas comparten la celda "collage". */
+@media (max-width: 35rem) {
+	.hero .container {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr);
+		grid-template-areas:
+			"eyebrow"
+			"title"
+			"collage"
+			"text";
+		gap: 0;
+
+		/* misma especificidad que las reglas de escritorio (que van antes) */
+		& .hero__images,
+		& .hero__content,
+		& .hero__content .hero__title-block-wrapper,
+		& .hero__content .hero__title-block,
+		& .hero__content .hero__heading {
+			display: contents;
+		}
+
+		& .hero__eyebrow {
+			grid-area: eyebrow;
+			margin-bottom: var(--space-2xs);
+		}
+
+		& .hero__content .hero__title-block .hero__title {
+			grid-area: title;
+			max-width: none;
+		}
+
+		/* Tarjetas del collage: número dentro de la foto, vídeo a sangre */
+		& .relic-card {
+			grid-area: collage;
+			position: relative;
+			display: block;
+			overflow: hidden;
+			background-color: var(--c-vitrine);
+
+			& .t--card {
+				position: absolute;
+				top: var(--space-2xs);
+				left: var(--space-2xs);
+				z-index: 1;
+				color: var(--c-bg);
+			}
+
+			& .media-video {
+				display: block;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+			}
+		}
+
+		/* 04: la grande, desde el 12 % hasta el borde derecho */
+		& .hero__content .hero__title-block-wrapper .relic-card.hero__title-bg-card {
+			position: relative;
+			top: auto;
+			left: auto;
+			z-index: 0;
+			justify-self: end;
+			width: 88%;
+			max-width: none;
+			aspect-ratio: 302 / 440;
+			margin-top: var(--space-md);
+			transform: none;
+		}
+
+		/* 01 y 03: verticales 3:4, con sombra, encima de la 04 */
+		& .hero__images .relic-card {
+			z-index: 1;
+			aspect-ratio: 3 / 4;
+			box-shadow: 0 0.75rem 1.875rem color-mix(in srgb, var(--c-text) 30%, transparent);
+		}
+
+		& .hero__images .relic-card--md {
+			justify-self: start;
+			align-self: start;
+			width: 38%;
+			/* 10 % del alto del collage, contando desde el margen de la 04 */
+			margin-top: calc(var(--space-md) + 14%);
+		}
+
+		& .hero__images .relic-card--sm {
+			justify-self: end;
+			align-self: end;
+			width: 32%;
+			margin: 0 4% -8% 0;
+		}
+
+		/* 02: no se muestra en móvil */
+		& .hero__title-block .relic-card--xs {
+			display: none;
+		}
+
+		/* Texto y botones a todo el ancho */
+		& .hero__text-wrapper {
+			grid-area: text;
+			flex-direction: column;
+			align-items: stretch;
+			margin-top: var(--space-lg);
+
+			& .hero__buttons {
+				gap: var(--space-2xs);
+
+				& .btn {
+					width: 100%;
+				}
+			}
+		}
+	}
+}
+
 /* MANIFEST Section */
 
 .manifest {
@@ -1016,11 +1157,14 @@ a {
 				background: var(--manifest-bg) center / cover no-repeat;
 			}
 
+			/* figura más pequeña que el fondo (76 %), como en la maqueta:
+			   el cromo se ve alrededor */
 			& .manifest__bg {
 				position: relative;
 				grid-area: 1 / 1;
 				align-self: end;
 				justify-self: center;
+				width: 76%;
 				left: auto;
 				bottom: auto;
 				transform: none;
@@ -1979,6 +2123,144 @@ a {
 		}
 
 	}
+
+	/* Grupos Shop / House: en escritorio, una sola columna como antes
+	   (mismo espacio entre grupos que entre enlaces) y el título solo
+	   para el lector de pantalla */
+	& .footer-nav__title {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	/* Las redes son enlaces de texto en escritorio: sin cromo
+	   (y sin recortar el subrayado) */
+	@media (min-width: 35.0625rem) {
+		& .footer__social-link {
+			overflow: visible;
+
+			&::before {
+				content: none;
+			}
+		}
+	}
+
+	/* MÓVIL (≤560): logo a todo el ancho y lema; enlaces en dos grupos
+	   pequeños (Shop, House); redes en píldoras; textos legales abajo */
+	@media (max-width: 35rem) {
+		--footer-line: color-mix(in srgb, var(--c-text) 18%, transparent);
+
+		& .container {
+			padding: var(--space-xl) 0 var(--space-md);
+		}
+
+		& .footer__grid {
+			gap: 0;
+
+			& .footer__item--brand {
+				flex-direction: column;
+				align-items: stretch;
+				gap: var(--space-xs);
+				width: 100%;
+
+				& .footer__logo,
+				& .footer__logo a,
+				& .footer__logo img {
+					display: block;
+					width: 100%;
+					height: auto;
+				}
+
+				& .footer__claim {
+					max-width: none;
+					font: var(--f-body-sm);
+					letter-spacing: 0.06em;
+				}
+			}
+
+			& .footer__item--nav {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: var(--space-sm);
+				width: 100%;
+				margin-top: var(--space-xl);
+				padding-top: var(--space-sm);
+				border-top: 1px solid var(--footer-line);
+			}
+
+			& .footer-nav__title {
+				position: static;
+				width: auto;
+				height: auto;
+				margin: 0 0 var(--space-xs);
+				overflow: visible;
+				clip-path: none;
+				font: var(--f-body-sm);
+				letter-spacing: 0.14em;
+				text-transform: uppercase;
+				color: var(--c-text--muted);
+			}
+
+			& .footer-nav__link {
+				font: var(--fw-medium) 0.875rem/1.2 var(--font-heading);
+			}
+
+			/* Redes: píldoras en fila */
+			& .footer__item--social {
+				margin-top: var(--space-md);
+
+				& ul {
+					flex-direction: row;
+					flex-wrap: wrap;
+					gap: var(--space-2xs);
+				}
+			}
+
+			& .footer__social-link {
+				display: inline-flex;
+				align-items: center;
+				padding: 0.75rem var(--space-xs);
+				border: 1px solid var(--c-text);
+				border-radius: var(--r-pill);
+				font: var(--f-link-sm);
+				letter-spacing: 0.06em;
+
+				/* sin subrayado: la píldora ya es el botón */
+				&::after {
+					content: none;
+				}
+
+				&:focus-visible {
+					outline: 2px solid var(--c-primary);
+					outline-offset: var(--space-3xs);
+				}
+			}
+
+			/* Textos legales: pequeños, al final, con línea arriba */
+			& .footer__text {
+				font-size: 0.6875rem;
+				line-height: 1.5;
+				letter-spacing: 0.06em;
+				text-align: start;
+				color: var(--c-text--muted);
+			}
+
+			& .footer__text--credit {
+				justify-self: stretch;
+				margin-top: var(--space-lg);
+				padding-top: var(--space-xs);
+				border-top: 1px solid var(--footer-line);
+			}
+
+			& .footer__text + .footer__text {
+				margin-top: var(--space-3xs);
+			}
+		}
+	}
 }
 
 
@@ -1987,9 +2269,12 @@ a {
 
 /* HEADER RESPONSIVE */
 
-/* ===== TABLET 768–1024 ===== */
+/* ===== TABLET Y MÓVIL ≤900 =====
+   A partir de 901 px la navegación horizontal cabe (logo + 3 enlaces + cápsula).
+   Por debajo: logo de 26 px a la izquierda; a la derecha el círculo de la
+   cápsula y el botón "Menu ≡", los dos de 40 px de alto, 8 px entre ellos */
 
-@media (max-width: 1024px) {
+@media (max-width: 56.25rem) {
 	.header {
 		& .header__container {
 			display: flex;
@@ -1997,11 +2282,62 @@ a {
 			align-items: center;
 		}
 
+		& .header__logo img {
+			display: block;
+			width: auto;
+			height: 1.625rem;
+		}
+
+		& .header__container .header__actions {
+			gap: var(--space-2xs);
+		}
+
+		& .wishlist-counter .wishlist-counter__badge {
+			width: var(--size-control);
+			height: var(--size-control);
+		}
+
+		/* Píldora: el borde sigue al color del texto (también en .header--inverse) */
 		& .header__menu-btn {
-			display: inline-block;
-			flex: 0 0 auto;
-			margin: 0 auto;
-			padding: var(--space-2xs) var(--space-xs);
+			display: inline-flex;
+			align-items: center;
+			gap: var(--space-2xs);
+			height: var(--size-control);
+			padding: 0 var(--space-xs);
+			border: 1px solid currentColor;
+			border-radius: var(--r-pill);
+			font: var(--f-link-sm);
+			letter-spacing: 0.06em;
+			text-transform: uppercase;
+			color: var(--c-text);
+
+			&:focus-visible {
+				outline: 2px solid var(--c-primary);
+				outline-offset: var(--space-3xs);
+			}
+
+			/* Sobre el cromo el texto siempre oscuro (aunque el header esté invertido) */
+			&:is(:hover, :focus-visible, :active) {
+				color: var(--c-text);
+			}
+		}
+
+		/* Icono ≡: dos líneas, la de abajo más corta */
+		& .header__menu-icon {
+			display: grid;
+			gap: 0.3125rem;
+			width: 1rem;
+
+			& i {
+				display: block;
+				height: 1.5px;
+				background-color: currentColor;
+			}
+
+			& i:last-child {
+				justify-self: end;
+				width: 0.625rem;
+			}
 		}
 
 		/* Ocultar nav horizontal */
@@ -2009,68 +2345,258 @@ a {
 			display: none;
 		}
 
-		/* Overlay debajo del header (tablet) */
-		& .header__menu-overlay {
-			position: fixed;
-			left: 50%;
-			transform: translateX(-50%);
-			top: calc(4rem + 2 * var(--space-xs));
-			display: none;
-			align-items: center;
-			justify-content: center;
-			max-width: 28rem;
-			border-radius: var(--r-xs);
-			z-index: 3;
-			backdrop-filter: blur(10px);
-			box-shadow: 0 2px 16px 0 rgba(25, 16, 38, 0.08);
+	}
+}
 
-			& .header__menu-nav {
-				display: flex;
-				flex-direction: row;
-				justify-content: space-between;
-				gap: var(--space-xs);
-				padding: var(--space-sm) var(--space-md);
+/* ===== MENÚ MÓVIL (≤900, js/header.js + js/menu.js) =====
+   Panel oscuro a pantalla completa debajo del header. El header (logo,
+   cápsula y botón "Close ✕") queda encima, en claro. Arriba los cuatro
+   enlaces grandes con número y contador; debajo la fila de looks
+   (scroll-snap), el botón de visita, el atelier y las redes. */
+@media (max-width: 56.25rem) {
+
+	/* Sin scroll de la página mientras el menú está abierto */
+	html.is-menu-locked {
+		overflow: hidden;
+	}
+
+	.header {
+		/* El contenido del header siempre por encima del panel */
+		& .header__container {
+			position: relative;
+			z-index: 1;
+		}
+
+		/* Menú abierto: header claro sobre el panel oscuro */
+		&.header--menu-open {
+			& .header__menu-btn {
+				color: var(--c-bg);
+
+				&:is(:hover, :focus-visible, :active) {
+					color: var(--c-text);
+				}
+			}
+
+			& .header__logo img {
+				filter: invert(1);
 			}
 		}
 
-		& .is-open {
-			display: flex;
+		/* Icono ✕: las dos líneas se cruzan (sin animación) */
+		& .header__menu-btn[aria-expanded="true"] .header__menu-icon {
+			& i {
+				grid-area: 1 / 1;
+				width: 0.9375rem;
+				justify-self: center;
+				rotate: 45deg;
+			}
+
+			& i:last-child {
+				width: 0.9375rem;
+				rotate: -45deg;
+			}
+		}
+	}
+
+	/* El header (backdrop-filter) es el bloque contenedor: el panel ocupa
+	   toda la pantalla desde su esquina superior izquierda */
+	.menu {
+		--menu-pad: var(--space-md);
+		--menu-line: color-mix(in srgb, var(--c-bg) 16%, transparent);
+
+		position: fixed;
+		inset: 0 auto auto 0;
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: 100dvh;
+		/* debajo del header: botón de 40 px + su padding vertical */
+		padding-top: calc(var(--size-control) + 2 * var(--space-sm));
+		overflow-y: auto;
+		overscroll-behavior: contain;
+		background-color: var(--c-text);
+		color: var(--c-bg);
+		/* cerrado: invisible y fuera del orden de tabulación */
+		visibility: hidden;
+		opacity: 0;
+		transition:
+			opacity var(--transition-normal),
+			visibility 0s var(--transition-normal);
+
+		&.is-open {
+			visibility: visible;
+			opacity: 1;
+			transition: opacity var(--transition-normal);
 		}
 
-		& .header__menu-close {
-			display: none;
+		@media (prefers-reduced-motion: reduce) {
+			&,
+			&.is-open {
+				transition: none;
+			}
+		}
+
+		@media (max-width: 40rem) {
+			--menu-pad: var(--space-sm);
+		}
+
+		& a:focus-visible,
+		& .menu__strip:focus-visible {
+			outline: 2px solid var(--c-primary--soft);
+			outline-offset: var(--space-3xs);
+		}
+
+		/* Enlaces grandes: número | nombre | contador */
+		& .menu__nav {
+			display: flex;
+			flex-direction: column;
+			padding: 0 var(--menu-pad);
+			border-top: 1px solid var(--menu-line);
+		}
+
+		& .menu__link {
+			display: grid;
+			grid-template-columns: 1.75rem minmax(0, 1fr) auto;
+			align-items: baseline;
+			gap: var(--space-2xs);
+			padding-block: var(--space-xs);
+			border-bottom: 1px solid var(--menu-line);
+		}
+
+		& .menu__num {
+			font: var(--fw-semibold) 0.625rem/1 var(--font-heading);
+			/* rojo suave: legible sobre el fondo oscuro */
+			color: var(--c-primary--soft);
+		}
+
+		& .menu__name {
+			min-width: 0;
+			font: var(--fw-semibold) clamp(1.375rem, 7vw, 1.875rem)/1 var(--font-heading);
+			letter-spacing: -0.01em;
+			text-transform: uppercase;
+			white-space: nowrap;
+			transition: color var(--transition-normal);
+		}
+
+		& .menu__link:hover .menu__name {
+			color: var(--c-primary--soft);
+		}
+
+		/* Página actual en rojo */
+		& .menu__link[aria-current="page"] .menu__name {
+			color: var(--c-primary);
+		}
+
+		& .menu__meta {
+			font: var(--f-body-sm);
+			letter-spacing: 0.1em;
+			text-transform: uppercase;
+			white-space: nowrap;
+			color: var(--c-text--muted-inverse);
+		}
+
+		/* Fila de looks */
+		& .menu__looks {
+			padding: var(--space-md) 0 0 var(--menu-pad);
+		}
+
+		& .menu__label {
+			display: flex;
+			justify-content: space-between;
+			margin-bottom: var(--space-xs);
+			padding-right: var(--menu-pad);
+			color: var(--c-text--muted-inverse);
+			letter-spacing: 0.14em;
+			text-transform: uppercase;
+		}
+
+		& .menu__strip {
+			display: flex;
+			gap: var(--space-xs);
+			padding-right: var(--menu-pad);
+			overflow-x: auto;
+			scroll-snap-type: x mandatory;
+			scroll-padding-inline: 0 var(--menu-pad);
+			scrollbar-width: none;
+
+			&::-webkit-scrollbar {
+				display: none;
+			}
+		}
+
+		& .menu__look {
+			flex: 0 0 8rem;
+			scroll-snap-align: start;
+		}
+
+		& .menu__look-link {
+			display: flex;
+			flex-direction: column;
+			gap: var(--space-3xs);
+		}
+
+		& .menu__look-photo {
+			display: block;
+			aspect-ratio: 3 / 4;
+			overflow: hidden;
+			background-color: var(--c-vitrine);
+
+			& img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				border-radius: 0;
+			}
+		}
+
+		& .menu__look-name {
+			margin-top: var(--space-2xs);
+			font: var(--f-link-sm);
+			text-transform: uppercase;
+		}
+
+		& .menu__look-count {
+			font: var(--f-body-sm);
+			color: var(--c-text--muted-inverse);
+		}
+
+		/* Abajo: visita, atelier y redes */
+		& .menu__foot {
+			display: grid;
+			gap: var(--space-xs);
+			margin-top: auto;
+			padding: var(--space-md) var(--menu-pad) var(--space-sm);
+		}
+
+		& .menu__visit {
+			font: var(--f-body-sm);
+			letter-spacing: 0.06em;
+			text-transform: uppercase;
+			color: var(--c-text--muted-inverse);
+
+			& span {
+				display: block;
+				margin-top: var(--space-3xs);
+				font-weight: var(--fw-medium);
+				color: var(--c-bg);
+			}
+		}
+
+		& .menu__social {
+			display: flex;
+			flex-wrap: wrap;
+			gap: var(--space-2xs) var(--space-sm);
+			font: var(--f-body-sm);
+			letter-spacing: 0.12em;
+			text-transform: uppercase;
 		}
 	}
 }
 
-/* ===== MOBILE < 768 ===== */
-@media (max-width: 768px) {
-	.header {
-		& .header__menu-overlay {
-			left: 0;
-			right: 0;
-			transform: none;
-			width: 100vw;
-			height: 100vh;
-			top: 0;
-			background-color: var(--c-bg);
-			max-width: none;
-
-			& .header__menu-nav {
-				flex-direction: column;
-				gap: var(--space-md);
-				padding: var(--space-lg) var(--space-2xl);
-			}
-		}
-
-		& .header__menu-close {
-			display: block;
-			position: absolute;
-			top: var(--space-2xs);
-			right: var(--space-xs);
-			font-size: 1rem;
-			color: var(--c-text);
-		}
+/* En escritorio el menú no existe */
+@media (min-width: 56.3125rem) {
+	.menu {
+		display: none;
 	}
 }
 
@@ -3019,20 +3545,6 @@ a {
 	}
 }
 
-/* Saltos de línea por breakpoint en los títulos: br.m solo en móvil, br.d solo en escritorio */
-.about-page br.m {
-	display: none;
-}
-
-@media (max-width: 35rem) {
-	.about-page br.m {
-		display: inline;
-	}
-
-	.about-page br.d {
-		display: none;
-	}
-}
 
 /* Línea fina de separación (la misma que en Visit) */
 .about-page {
@@ -3259,6 +3771,12 @@ a {
    las imágenes y el texto, que va debajo del panel */
 .manifest--about {
 	--manifest-bg: url("../assets/img/about-page/philosophy-bg.webp");
+
+	/* La figura del sombrero es más ancha que la de la home: más pequeña,
+	   para que el fondo cromado se vea como en la home */
+	& .manifest__wrapper .manifest__bg {
+		max-width: min(40rem, 70%);
+	}
 
 	& .manifest__wrapper {
 		background-position: center;
