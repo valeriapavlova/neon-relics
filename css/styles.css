@@ -86,6 +86,8 @@
 	--space-3xl: 8rem;
 	--space-4xl: 10rem;
 	--space-5xl: 20rem;
+	/* Aire entre la tira de tarjetas y los datos del hero de about (120 px) */
+	--space-hero-facts: 7.5rem;
 
 	/* Sizes */
 	--size-xs: 15rem;
@@ -2951,17 +2953,10 @@ a {
 .about-page {
 	--about-line: color-mix(in srgb, var(--c-text) 18%, transparent);
 
-	/* Secciones seguidas: solo aire arriba, el de abajo lo pone la siguiente */
-	& :is(.about-process, .about-philosophy, .about-manifesto) > .container {
-		padding: var(--space-3xl) 0 0;
-
-		@media (max-width: 48rem) {
-			padding-top: var(--space-xl);
-		}
-	}
-
+	/* Las secciones usan el padding normal de .container, como en la home;
+	   solo el hero tiene menos aire arriba (justo debajo del header) */
 	& .about-hero > .container {
-		padding: var(--space-lg) 0 0;
+		padding-top: var(--space-lg);
 
 		@media (max-width: 48rem) {
 			padding-top: var(--space-md);
@@ -2971,6 +2966,9 @@ a {
 
 /* HERO: título a todo el ancho, texto + botón, tira de tarjetas y datos */
 .about-hero {
+	/* Ancho de la tira de tarjetas: los datos ocupan el resto, a su izquierda */
+	--strip-w: 48.75rem;
+
 	& .about-hero__top {
 		display: grid;
 		grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
@@ -2991,10 +2989,11 @@ a {
 		font: var(--fw-semibold) clamp(2em, 9.2vw, 6.5em)/0.95 var(--font-heading);
 		text-transform: uppercase;
 		color: var(--c-primary);
+	}
 
-		& span {
-			display: block;
-		}
+	/* Solo las líneas propias del h1 (no los <span> que crea motion.js) */
+	& .about-hero__line {
+		display: block;
 	}
 
 	& .about-hero__side {
@@ -3023,7 +3022,7 @@ a {
 		grid-template-columns: repeat(5, minmax(0, 1fr));
 		align-items: start;
 		gap: var(--space-sm);
-		max-width: 48.75rem;
+		max-width: var(--strip-w);
 		margin: var(--space-lg) 0 0 auto;
 
 		&:focus-visible {
@@ -3082,19 +3081,24 @@ a {
 		}
 	}
 
-	/* Tres datos con línea arriba */
+	/* Tres datos con línea arriba: tres columnas iguales.
+	   Escritorio: en la parte izquierda, hasta donde empieza la tira,
+	   y 120 px por debajo de ella. Tablet: a todo el ancho */
 	& .about-hero__facts {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 0 var(--space-xl);
-		margin-top: var(--space-lg);
+		gap: 0 var(--space-md);
+		max-width: calc(100% - var(--strip-w));
+		margin-top: var(--space-hero-facts);
 
-		@media (max-width: 56.25rem) {
-			grid-template-columns: minmax(0, 1fr);
+		@media (max-width: 75rem) {
+			max-width: none;
+			margin-top: var(--space-xl);
 		}
 
 		/* Móvil: filas "etiqueta | valor" */
 		@media (max-width: 35rem) {
+			grid-template-columns: minmax(0, 1fr);
 			margin-top: var(--space-xl);
 			border-bottom: 1px solid var(--about-line);
 		}
@@ -3126,14 +3130,13 @@ a {
 	}
 }
 
-/* HOW A RELIC IS MADE: tres pasos con línea arriba */
+/* HOW A RELIC IS MADE: tres pasos */
 .about-process {
 	& .about-process__steps {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
 		gap: var(--space-xl);
 		margin-top: var(--space-xl);
-		border-top: 1px solid var(--c-text);
 
 		@media (max-width: 56.25rem) {
 			grid-template-columns: minmax(0, 1fr);
@@ -3166,78 +3169,31 @@ a {
 	}
 }
 
-/* PHILOSOPHY: panel con fondo (parallax), figura que asoma por arriba y texto */
-.about-philosophy {
-	& .about-philosophy__panel {
-		position: relative;
-		max-width: 68.75rem;
-		margin-inline: auto;
-		aspect-ratio: 2 / 1;
-		border-radius: var(--r-s);
-
-		/* Móvil: fondo cuadrado a sangre */
-		@media (max-width: 35rem) {
-			aspect-ratio: 1 / 1;
-			margin-inline: calc(-1 * var(--space-xs));
-			border-radius: 0;
-		}
-	}
-
-	/* Fondo fijo al viewport: al hacer scroll el panel "descubre" otra parte
-	   (parallax, como .manifest en la home). En tablet/móvil y con
-	   "reducir movimiento", fondo normal */
-	& .about-philosophy__bg {
-		position: absolute;
-		inset: 0;
-		border-radius: inherit;
+/* PHILOSOPHY (.manifest--about): usa el bloque .manifest de la home
+   (fondo con parallax, figura centrada, recorte, móvil). Solo cambian
+   las imágenes y el texto, que va debajo del panel */
+.manifest--about {
+	& .manifest__wrapper {
 		background-image: url("../assets/img/about-page/philosophy-bg.webp");
-		background-size: cover;
 		background-position: center;
-		background-repeat: no-repeat;
-		background-attachment: fixed;
-
-		@media (max-width: 56.25rem) {
-			background-attachment: scroll;
-		}
-
-		@media (prefers-reduced-motion: reduce) {
-			background-attachment: scroll;
-		}
 	}
 
-	/* La figura baja un poco del panel y el sombrero sale por arriba */
-	& .about-philosophy__figure {
-		position: absolute;
-		left: 50%;
-		bottom: -6%;
-		width: 50%;
-		height: auto;
-		transform: translateX(-50%);
+	& .manifest__content {
+		display: flex;
+		flex-direction: column;
+		gap: var(--space-lg);
+		margin-top: var(--space-xl);
 
 		@media (max-width: 35rem) {
-			width: 76%;
+			gap: var(--space-md);
+			margin-top: var(--space-lg);
 		}
 	}
 
-	/* Título: pisa la parte baja del panel (en móvil va debajo de la figura) */
-	& .about-philosophy__heading {
-		position: relative;
-		z-index: 1;
-		max-width: 68.75rem;
-		margin: calc(-1 * var(--space-xl)) auto 0;
-
-		@media (max-width: 35rem) {
-			margin-top: var(--space-xl);
-		}
-	}
-
-	& .about-philosophy__text {
+	& .manifest__text {
 		display: grid;
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 		gap: var(--space-md) var(--space-xl);
-		max-width: 68.75rem;
-		margin-inline: auto;
-		padding-top: var(--space-lg);
 
 		@media (max-width: 35rem) {
 			grid-template-columns: minmax(0, 1fr);
@@ -3474,6 +3430,8 @@ a {
 
 .lines__inner {
 	display: block;
+	/* la línea ya está medida: nunca se parte aunque falte una fracción de píxel */
+	white-space: nowrap;
 	translate: 0 105%;
 	transition: translate var(--dur-title) var(--ease-reveal);
 	transition-delay: calc(var(--line) * 110ms);

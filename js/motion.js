@@ -94,42 +94,47 @@ const LINE_STAGGER = 110;
 const HERO_VIDEO_FADE = 400;
 const HERO_VIDEO_WAIT = 1000; // si el vídeo no arranca (móvil, red lenta), no esperar más
 
-// Palabras del título; los <br> se guardan como null (salto forzado).
-// Un <br> oculto (p. ej. br.m en escritorio) no cuenta, y un <span> en
-// bloque es una línea fija (h1 de about): tras él también hay salto.
-function wordsOf(el) {
-    const words = [];
-    el.childNodes.forEach((node) => {
-        const display = node.nodeType === Node.ELEMENT_NODE ? getComputedStyle(node).display : 'inline';
-        if (node.nodeName === 'BR') {
-            if (display !== 'none') words.push(null);
-            return;
+// Líneas del título medidas sobre el HTML original, sin tocarlo:
+// un Range por palabra y su posición vertical. Los <br> visibles y los
+// <span> en bloque (h1 de about) ya cortan la línea; un <br> oculto
+// (p. ej. br.m en escritorio) no cuenta. Así los cortes son exactamente
+// los que ve el usuario (antes, al envolver cada palabra en un <span>,
+// el título podía ganar una fracción de píxel y saltar una palabra).
+function measureLines(el) {
+    const tolerance = parseFloat(getComputedStyle(el).fontSize) / 2;
+    const range = document.createRange();
+    const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
+    const lines = [];
+    let top = null;
+
+    for (let node = walker.nextNode(); node; node = walker.nextNode()) {
+        const re = /\S+/g;
+        let match;
+        while ((match = re.exec(node.data))) {
+            range.setStart(node, match.index);
+            range.setEnd(node, match.index + match[0].length);
+            const rect = range.getClientRects()[0];
+            if (!rect) continue;
+            if (top === null || rect.top - top > tolerance) {
+                lines.push([]);
+                top = rect.top;
+            }
+            lines[lines.length - 1].push(match[0]);
         }
-        node.textContent.split(/\s+/).filter(Boolean).forEach((w) => words.push(w));
-        if (display === 'block') words.push(null);
-    });
-    return words;
+    }
+    return lines;
 }
 
 function splitAndReveal(el, delay) {
     // se guarda el HTML original (p. ej. los <span> con contadores y los <br>)
     const html = el.innerHTML;
     const text = el.textContent.trim().replace(/\s+/g, ' ');
+
+    // 1. Dónde corta cada línea, antes de cambiar nada
+    const lines = measureLines(el);
     // el ancho se fija mientras dura la animación: un título que se ajusta
     // a su contenido (p. ej. centrado) no cambia de tamaño al dividirlo
     el.style.width = getComputedStyle(el).width;
-
-    // 1. Palabras sueltas para saber dónde corta cada línea
-    el.innerHTML = wordsOf(el).map((w) => (w === null ? '<br>' : `<span class="lines__word">${esc(w)}</span>`)).join(' ');
-    const lines = [];
-    let top = null;
-    el.querySelectorAll('.lines__word').forEach((word) => {
-        if (word.offsetTop !== top) {
-            lines.push([]);
-            top = word.offsetTop;
-        }
-        lines[lines.length - 1].push(word.textContent);
-    });
 
     // 2. Una caja por línea; el lector de pantalla lee el aria-label
     el.setAttribute('aria-label', text);
