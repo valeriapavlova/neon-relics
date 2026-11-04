@@ -2953,17 +2953,10 @@ a {
 .about-page {
 	--about-line: color-mix(in srgb, var(--c-text) 18%, transparent);
 
-	/* Secciones seguidas: solo aire arriba, el de abajo lo pone la siguiente */
-	& :is(.about-process, .manifest--about, .about-manifesto) > .container {
-		padding: var(--space-3xl) 0 0;
-
-		@media (max-width: 48rem) {
-			padding-top: var(--space-xl);
-		}
-	}
-
+	/* Las secciones usan el padding normal de .container, como en la home;
+	   solo el hero tiene menos aire arriba (justo debajo del header) */
 	& .about-hero > .container {
-		padding: var(--space-lg) 0 0;
+		padding-top: var(--space-lg);
 
 		@media (max-width: 48rem) {
 			padding-top: var(--space-md);
