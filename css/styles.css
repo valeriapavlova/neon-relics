@@ -36,6 +36,15 @@
 	/* Gris secundario sobre fondos oscuros (#0F1821): contraste 4,89:1 */
 	--c-text--muted-inverse: #82868B;
 
+	/* Cromo para el hover de los botones: franjas grises y blancas.
+	   El dibujo se repite dos veces (0–50 % y 50–100 %), así al desplazarlo
+	   -50 % no se ve el borde */
+	--g-chrome: linear-gradient(100deg,
+			var(--c-text--muted-inverse) 0%, #FFF 8%, var(--c-bg) 16%, var(--c-text--muted-inverse) 25%,
+			var(--c-bg--soft) 33%, #FFF 41%, var(--c-text--muted-inverse) 50%, #FFF 58%,
+			var(--c-bg) 66%, var(--c-text--muted-inverse) 75%, var(--c-bg--soft) 83%, #FFF 91%,
+			var(--c-text--muted-inverse) 100%);
+
 	/* Typography */
 	--font-base: "Jost", system-ui, sans-serif;
 	--font-heading: "Unbounded", system-ui, sans-serif;
@@ -308,43 +317,68 @@ a {
 	font-size: inherit;
 	padding: var(--space-xs) var(--space-md);
 	border-radius: var(--r-xs);
-	transition: background-color var(--transition-normal);
+	transition: color var(--transition-normal);
 	text-align: center;
+}
+
+/* Hover "cromo que se desliza": un ::before con --g-chrome (200 % de ancho)
+   aparece y se desplaza -50 % una sola vez. Solo opacity y transform.
+   Al salir se apaga y, ya invisible, vuelve a su sitio sin moverse.
+   Los botones de icono (.btn--card) no lo llevan */
+.btn:not(.btn--card) {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+
+	&::before {
+		content: "";
+		position: absolute;
+		inset: 0 auto 0 0;
+		z-index: -1;
+		width: 200%;
+		background: var(--g-chrome);
+		opacity: 0;
+		pointer-events: none;
+		transition:
+			opacity var(--transition-normal),
+			transform 0s var(--transition-normal);
+	}
+
+	&:is(:hover, :focus-visible, :active):not(:disabled, [aria-disabled="true"]) {
+		color: var(--c-text);
+
+		&::before {
+			opacity: 1;
+			transform: translateX(-50%);
+			transition:
+				opacity var(--transition-normal),
+				transform 900ms var(--ease-reveal);
+		}
+	}
+
+	/* Con "reducir movimiento": solo el fundido, sin desplazamiento */
+	@media (prefers-reduced-motion: reduce) {
+		&:is(:hover, :focus-visible, :active)::before {
+			transform: none;
+		}
+	}
 }
 
 .btn--primary {
 	background-color: var(--c-text);
 	color: var(--c-bg);
-
-	&:hover,
-	&:focus-visible {
-		background-color: var(--c-primary);
-	}
 }
 
 .btn--secondary {
 	background-color: transparent;
 	color: var(--c-text);
 	border: 1px solid var(--c-text);
-
-	&:hover,
-	&:focus-visible {
-		color: var(--c-primary);
-		border-color: var(--c-primary);
-	}
 }
 
 .btn--light {
 	background-color: var(--c-bg);
 	color: var(--c-primary);
 	border: 1px solid var(--c-bg);
-
-	&:hover,
-	&:focus-visible {
-		background-color: transparent;
-		color: var(--c-bg);
-		border-color: var(--c-bg);
-	}
 }
 
 /* Button style for cards (icon buttons) */
