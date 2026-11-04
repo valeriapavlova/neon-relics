@@ -346,8 +346,9 @@ br.m {
 /* Hover "cromo que se desliza": un ::before con --g-chrome (200 % de ancho)
    aparece y se desplaza -50 % una sola vez. Solo opacity y transform.
    Al salir se apaga y, ya invisible, vuelve a su sitio sin moverse.
-   Los botones de icono (.btn--card) no lo llevan; el botón Menu del header, sí */
-:is(.btn:not(.btn--card), .header__menu-btn) {
+   Los botones de icono (.btn--card) no lo llevan; el botón Menu del header
+   y las redes del footer en móvil (píldoras), sí */
+:is(.btn:not(.btn--card), .header__menu-btn, .footer__social-link) {
 	position: relative;
 	isolation: isolate;
 	overflow: hidden;
@@ -2118,6 +2119,144 @@ br.m {
 			}
 		}
 
+	}
+
+	/* Grupos Shop / House: en escritorio, una sola columna como antes
+	   (mismo espacio entre grupos que entre enlaces) y el título solo
+	   para el lector de pantalla */
+	& .footer-nav__title {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		margin: -1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
+	/* Las redes son enlaces de texto en escritorio: sin cromo
+	   (y sin recortar el subrayado) */
+	@media (min-width: 35.0625rem) {
+		& .footer__social-link {
+			overflow: visible;
+
+			&::before {
+				content: none;
+			}
+		}
+	}
+
+	/* MÓVIL (≤560): logo a todo el ancho y lema; enlaces en dos grupos
+	   pequeños (Shop, House); redes en píldoras; textos legales abajo */
+	@media (max-width: 35rem) {
+		--footer-line: color-mix(in srgb, var(--c-text) 18%, transparent);
+
+		& .container {
+			padding: var(--space-xl) 0 var(--space-md);
+		}
+
+		& .footer__grid {
+			gap: 0;
+
+			& .footer__item--brand {
+				flex-direction: column;
+				align-items: stretch;
+				gap: var(--space-xs);
+				width: 100%;
+
+				& .footer__logo,
+				& .footer__logo a,
+				& .footer__logo img {
+					display: block;
+					width: 100%;
+					height: auto;
+				}
+
+				& .footer__claim {
+					max-width: none;
+					font: var(--f-body-sm);
+					letter-spacing: 0.06em;
+				}
+			}
+
+			& .footer__item--nav {
+				display: grid;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: var(--space-sm);
+				width: 100%;
+				margin-top: var(--space-xl);
+				padding-top: var(--space-sm);
+				border-top: 1px solid var(--footer-line);
+			}
+
+			& .footer-nav__title {
+				position: static;
+				width: auto;
+				height: auto;
+				margin: 0 0 var(--space-xs);
+				overflow: visible;
+				clip-path: none;
+				font: var(--f-body-sm);
+				letter-spacing: 0.14em;
+				text-transform: uppercase;
+				color: var(--c-text--muted);
+			}
+
+			& .footer-nav__link {
+				font: var(--fw-medium) 0.875rem/1.2 var(--font-heading);
+			}
+
+			/* Redes: píldoras en fila */
+			& .footer__item--social {
+				margin-top: var(--space-md);
+
+				& ul {
+					flex-direction: row;
+					flex-wrap: wrap;
+					gap: var(--space-2xs);
+				}
+			}
+
+			& .footer__social-link {
+				display: inline-flex;
+				align-items: center;
+				padding: 0.75rem var(--space-xs);
+				border: 1px solid var(--c-text);
+				border-radius: var(--r-pill);
+				font: var(--f-link-sm);
+				letter-spacing: 0.06em;
+
+				/* sin subrayado: la píldora ya es el botón */
+				&::after {
+					content: none;
+				}
+
+				&:focus-visible {
+					outline: 2px solid var(--c-primary);
+					outline-offset: var(--space-3xs);
+				}
+			}
+
+			/* Textos legales: pequeños, al final, con línea arriba */
+			& .footer__text {
+				font-size: 0.6875rem;
+				line-height: 1.5;
+				letter-spacing: 0.06em;
+				text-align: start;
+				color: var(--c-text--muted);
+			}
+
+			& .footer__text--credit {
+				justify-self: stretch;
+				margin-top: var(--space-lg);
+				padding-top: var(--space-xs);
+				border-top: 1px solid var(--footer-line);
+			}
+
+			& .footer__text + .footer__text {
+				margin-top: var(--space-3xs);
+			}
+		}
 	}
 }
 
