@@ -184,28 +184,31 @@
             </div>
         </section>
 
-        <!-- PHILOSOPHY: panel con fondo (parallax) y figura que asoma por arriba -->
-        <section class="section about-philosophy" aria-labelledby="philosophy-title" data-reveal>
+        <!-- PHILOSOPHY: el mismo bloque que .manifest de la home (fondo con parallax
+             y figura centrada); el texto va debajo del panel -->
+        <section class="section manifest manifest--about" aria-labelledby="philosophy-title" data-reveal>
             <div class="container">
-                <div class="about-philosophy__panel">
-                    <!-- Fondo con parallax (background-attachment: fixed), como .manifest en la home -->
-                    <div class="about-philosophy__bg" aria-hidden="true"></div>
-                    <img class="about-philosophy__figure" src="assets/img/about-page/philosophy-figure.webp"
-                        alt="A man in a wide black hat with a red bouquet at his collar" loading="lazy" width="1171" height="1300">
+                <div class="manifest__wrapper">
+                    <div class="manifest__bg">
+                        <img class="manifest__image" src="assets/img/about-page/philosophy-figure.webp"
+                            alt="A man in a wide black hat with a red bouquet at his collar" loading="lazy" width="1171" height="1300">
+                    </div>
                 </div>
 
-                <!-- br.m: salto solo en móvil · br.d: salto solo en escritorio -->
-                <div class="about-philosophy__heading heading-block flex-column">
-                    <span class="subtitle">philosophy</span>
-                    <h2 class="t--md" id="philosophy-title">A private<br class="m"> ritual<br class="d"> of<br class="m"> adornment</h2>
-                </div>
+                <div class="manifest__content">
+                    <!-- br.m: salto solo en móvil · br.d: salto solo en escritorio -->
+                    <div class="heading-block flex-column">
+                        <span class="subtitle">philosophy</span>
+                        <h2 class="manifest__title t--md" id="philosophy-title">A private<br class="m"> ritual<br class="d"> of<br class="m"> adornment</h2>
+                    </div>
 
-                <div class="about-philosophy__text">
-                    <p class="body-text">Neon Relics exists in the space where high fashion crosses over with interface
-                        design. Each piece is a silent signal: it states something without saying it, occupying space
-                        without asking permission.</p>
-                    <p class="body-text">We don't follow seasons or trends. We create relics, objects that amplify
-                        what already exists inside the wearer.</p>
+                    <div class="manifest__text">
+                        <p class="body-text">Neon Relics exists in the space where high fashion crosses over with interface
+                            design. Each piece is a silent signal: it states something without saying it, occupying space
+                            without asking permission.</p>
+                        <p class="body-text">We don't follow seasons or trends. We create relics, objects that amplify
+                            what already exists inside the wearer.</p>
+                    </div>
                 </div>
             </div>
         </section>
