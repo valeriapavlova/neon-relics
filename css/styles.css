@@ -2930,10 +2930,6 @@ a {
 			object-fit: cover;
 		}
 	}
-
-	& .about-card__crop--contain img {
-		object-fit: contain;
-	}
 }
 
 /* Saltos de línea por breakpoint en los títulos: br.m solo en móvil, br.d solo en escritorio */
@@ -3449,70 +3445,6 @@ a {
 		}
 	}
 }
-
-/* CÁPSULA: título, texto + botón y forma flotante */
-.about-capsule {
-	overflow-x: clip;
-
-	& .container {
-		position: relative;
-		display: flex;
-		flex-direction: column;
-		gap: var(--space-lg);
-		padding: var(--space-4xl) 0 var(--space-4xl) var(--space-4xl);
-
-		@media (max-width: 64rem) {
-			padding-left: 0;
-		}
-
-		@media (max-width: 48rem) {
-			gap: var(--space-md);
-			padding-block: var(--space-2xl);
-		}
-	}
-
-	& .about-capsule__blob {
-		position: absolute;
-		top: -1rem;
-		left: 79.07%;
-		width: 32.56%;
-		height: auto;
-		transform: rotate(98.31deg);
-		pointer-events: none;
-
-		@media (max-width: 48rem) {
-			top: 0;
-			left: 66%;
-			width: 34%;
-		}
-	}
-
-	& .heading-block {
-		position: relative;
-	}
-
-	& .about-capsule__row {
-		position: relative;
-		display: flex;
-		align-items: flex-end;
-		gap: var(--space-lg);
-
-		& p {
-			max-width: 37.5rem;
-		}
-
-		& .btn {
-			flex: 0 0 auto;
-		}
-
-		@media (max-width: 48rem) {
-			flex-direction: column;
-			align-items: flex-start;
-			gap: var(--space-md);
-		}
-	}
-}
-
 
 /* =============================================
    MOTION (js/motion.js)
