@@ -2412,6 +2412,8 @@ br.m {
 		height: 100dvh;
 		/* debajo del header: botón de 40 px + su padding vertical */
 		padding-top: calc(var(--size-control) + 2 * var(--space-sm));
+		/* solo scroll vertical: la fila de looks nunca arrastra el panel */
+		overflow-x: clip;
 		overflow-y: auto;
 		overscroll-behavior: contain;
 		background-color: var(--c-text);
@@ -2517,6 +2519,9 @@ br.m {
 			overflow-x: auto;
 			scroll-snap-type: x mandatory;
 			scroll-padding-inline: 0 var(--menu-pad);
+			/* el gesto horizontal se queda en la fila (no pasa al panel) */
+			overscroll-behavior-x: contain;
+			touch-action: pan-x pan-y;
 			scrollbar-width: none;
 
 			&::-webkit-scrollbar {
@@ -2529,7 +2534,10 @@ br.m {
 			scroll-snap-align: start;
 		}
 
+		/* relative: el nombre oculto (.visually-hidden, absolute) se coloca
+		   dentro de la tarjeta y no ensancha el panel */
 		& .menu__look-link {
+			position: relative;
 			display: flex;
 			flex-direction: column;
 			gap: var(--space-3xs);
