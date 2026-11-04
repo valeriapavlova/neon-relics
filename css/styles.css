@@ -86,6 +86,8 @@
 	--space-3xl: 8rem;
 	--space-4xl: 10rem;
 	--space-5xl: 20rem;
+	/* Aire entre la tira de tarjetas y los datos del hero de about (120 px) */
+	--space-hero-facts: 7.5rem;
 
 	/* Sizes */
 	--size-xs: 15rem;
@@ -2971,6 +2973,9 @@ a {
 
 /* HERO: título a todo el ancho, texto + botón, tira de tarjetas y datos */
 .about-hero {
+	/* Ancho de la tira de tarjetas: los datos ocupan el resto, a su izquierda */
+	--strip-w: 48.75rem;
+
 	& .about-hero__top {
 		display: grid;
 		grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
@@ -3024,7 +3029,7 @@ a {
 		grid-template-columns: repeat(5, minmax(0, 1fr));
 		align-items: start;
 		gap: var(--space-sm);
-		max-width: 48.75rem;
+		max-width: var(--strip-w);
 		margin: var(--space-lg) 0 0 auto;
 
 		&:focus-visible {
@@ -3083,19 +3088,24 @@ a {
 		}
 	}
 
-	/* Tres datos con línea arriba */
+	/* Tres datos con línea arriba: tres columnas iguales.
+	   Escritorio: en la parte izquierda, hasta donde empieza la tira,
+	   y 120 px por debajo de ella. Tablet: a todo el ancho */
 	& .about-hero__facts {
 		display: grid;
 		grid-template-columns: repeat(3, minmax(0, 1fr));
-		gap: 0 var(--space-xl);
-		margin-top: var(--space-lg);
+		gap: 0 var(--space-md);
+		max-width: calc(100% - var(--strip-w));
+		margin-top: var(--space-hero-facts);
 
-		@media (max-width: 56.25rem) {
-			grid-template-columns: minmax(0, 1fr);
+		@media (max-width: 75rem) {
+			max-width: none;
+			margin-top: var(--space-xl);
 		}
 
 		/* Móvil: filas "etiqueta | valor" */
 		@media (max-width: 35rem) {
+			grid-template-columns: minmax(0, 1fr);
 			margin-top: var(--space-xl);
 			border-bottom: 1px solid var(--about-line);
 		}
