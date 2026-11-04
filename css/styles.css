@@ -891,6 +891,8 @@ a {
 /* MANIFEST Section */
 
 .manifest {
+	/* Fondo del panel (about lo cambia con .manifest--about) */
+	--manifest-bg: url("../assets/img/manifest/blob_2bg.webp");
 	/* Solo se recorta en horizontal: el retrato (con el sombrero) sale por arriba del fondo */
 	overflow-x: clip;
 
@@ -907,14 +909,15 @@ a {
 		overflow: visible;
 		/* Alto suficiente para que el retrato quepa entero dentro de la sección */
 		min-height: 50rem;
-		background-image: url("../assets/img/manifest/blob_2bg.webp");
+		background-image: var(--manifest-bg);
 		background-size: cover;
 		background-position: left top;
 		background-repeat: no-repeat;
 		background-attachment: fixed;
 
-		/* Sin parallax si el usuario pide menos movimiento (como en about) */
-		@media (prefers-reduced-motion: reduce) {
+		/* Sin parallax si el usuario pide menos movimiento (como en about)
+		   ni en tablet y móvil (≤900) */
+		@media (prefers-reduced-motion: reduce), (max-width: 56.25rem) {
 			background-attachment: scroll;
 		}
 
@@ -990,6 +993,52 @@ a {
 
 			& .manifest__title {
 				max-width: 52rem;
+			}
+		}
+
+		/* Móvil (≤560): fondo cuadrado a todo el ancho de la pantalla, la figura
+		   centrada sale por arriba y el texto va debajo (como Philosophy en about).
+		   El fondo pasa a un ::before cuadrado; la figura y el texto, a la rejilla */
+		@media (max-width: 35rem) {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr);
+			min-height: 0;
+			/* fuera del padding de .section: de borde a borde */
+			margin-inline: calc(-1 * var(--space-xs));
+			border-radius: 0;
+			background-image: none;
+
+			&::before {
+				content: "";
+				grid-area: 1 / 1;
+				align-self: end;
+				aspect-ratio: 1;
+				background: var(--manifest-bg) center / cover no-repeat;
+			}
+
+			& .manifest__bg {
+				position: relative;
+				grid-area: 1 / 1;
+				align-self: end;
+				justify-self: center;
+				left: auto;
+				bottom: auto;
+				transform: none;
+			}
+
+			/* home: el texto está dentro del panel; aquí baja debajo de la imagen */
+			& .manifest__content {
+				grid-area: 2 / 1;
+				align-items: flex-start;
+				gap: var(--space-md);
+				margin-top: var(--space-lg);
+				padding-inline: var(--space-xs);
+
+				& > p {
+					padding: 0;
+					background-color: transparent;
+					color: var(--c-text);
+				}
 			}
 		}
 	}
@@ -3209,8 +3258,9 @@ a {
    (fondo con parallax, figura centrada, recorte, móvil). Solo cambian
    las imágenes y el texto, que va debajo del panel */
 .manifest--about {
+	--manifest-bg: url("../assets/img/about-page/philosophy-bg.webp");
+
 	& .manifest__wrapper {
-		background-image: url("../assets/img/about-page/philosophy-bg.webp");
 		background-position: center;
 	}
 
