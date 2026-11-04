@@ -36,6 +36,15 @@
 	/* Gris secundario sobre fondos oscuros (#0F1821): contraste 4,89:1 */
 	--c-text--muted-inverse: #82868B;
 
+	/* Cromo para el hover de los botones: franjas grises y blancas.
+	   El dibujo se repite dos veces (0–50 % y 50–100 %), así al desplazarlo
+	   -50 % no se ve el borde */
+	--g-chrome: linear-gradient(100deg,
+			var(--c-text--muted-inverse) 0%, #FFF 8%, var(--c-bg) 16%, var(--c-text--muted-inverse) 25%,
+			var(--c-bg--soft) 33%, #FFF 41%, var(--c-text--muted-inverse) 50%, #FFF 58%,
+			var(--c-bg) 66%, var(--c-text--muted-inverse) 75%, var(--c-bg--soft) 83%, #FFF 91%,
+			var(--c-text--muted-inverse) 100%);
+
 	/* Typography */
 	--font-base: "Jost", system-ui, sans-serif;
 	--font-heading: "Unbounded", system-ui, sans-serif;
@@ -98,6 +107,8 @@
 	--size-xxl: 64rem;
 	--size-xxxl: 75rem;
 	--size-xxxxl: 87.125rem;
+	/* Ancho cómodo de lectura para párrafos (600 px) */
+	--size-measure: 37.5rem;
 
 	/* screen size */
 	--screen-sm: 23.4375rem;
@@ -306,43 +317,68 @@ a {
 	font-size: inherit;
 	padding: var(--space-xs) var(--space-md);
 	border-radius: var(--r-xs);
-	transition: background-color var(--transition-normal);
+	transition: color var(--transition-normal);
 	text-align: center;
+}
+
+/* Hover "cromo que se desliza": un ::before con --g-chrome (200 % de ancho)
+   aparece y se desplaza -50 % una sola vez. Solo opacity y transform.
+   Al salir se apaga y, ya invisible, vuelve a su sitio sin moverse.
+   Los botones de icono (.btn--card) no lo llevan */
+.btn:not(.btn--card) {
+	position: relative;
+	isolation: isolate;
+	overflow: hidden;
+
+	&::before {
+		content: "";
+		position: absolute;
+		inset: 0 auto 0 0;
+		z-index: -1;
+		width: 200%;
+		background: var(--g-chrome);
+		opacity: 0;
+		pointer-events: none;
+		transition:
+			opacity var(--transition-normal),
+			transform 0s var(--transition-normal);
+	}
+
+	&:is(:hover, :focus-visible, :active):not(:disabled, [aria-disabled="true"]) {
+		color: var(--c-text);
+
+		&::before {
+			opacity: 1;
+			transform: translateX(-50%);
+			transition:
+				opacity var(--transition-normal),
+				transform 900ms var(--ease-reveal);
+		}
+	}
+
+	/* Con "reducir movimiento": solo el fundido, sin desplazamiento */
+	@media (prefers-reduced-motion: reduce) {
+		&:is(:hover, :focus-visible, :active)::before {
+			transform: none;
+		}
+	}
 }
 
 .btn--primary {
 	background-color: var(--c-text);
 	color: var(--c-bg);
-
-	&:hover,
-	&:focus-visible {
-		background-color: var(--c-primary);
-	}
 }
 
 .btn--secondary {
 	background-color: transparent;
 	color: var(--c-text);
 	border: 1px solid var(--c-text);
-
-	&:hover,
-	&:focus-visible {
-		color: var(--c-primary);
-		border-color: var(--c-primary);
-	}
 }
 
 .btn--light {
 	background-color: var(--c-bg);
 	color: var(--c-primary);
 	border: 1px solid var(--c-bg);
-
-	&:hover,
-	&:focus-visible {
-		background-color: transparent;
-		color: var(--c-bg);
-		border-color: var(--c-bg);
-	}
 }
 
 /* Button style for cards (icon buttons) */
@@ -855,6 +891,8 @@ a {
 /* MANIFEST Section */
 
 .manifest {
+	/* Fondo del panel (about lo cambia con .manifest--about) */
+	--manifest-bg: url("../assets/img/manifest/blob_2bg.webp");
 	/* Solo se recorta en horizontal: el retrato (con el sombrero) sale por arriba del fondo */
 	overflow-x: clip;
 
@@ -871,14 +909,15 @@ a {
 		overflow: visible;
 		/* Alto suficiente para que el retrato quepa entero dentro de la sección */
 		min-height: 50rem;
-		background-image: url("../assets/img/manifest/blob_2bg.webp");
+		background-image: var(--manifest-bg);
 		background-size: cover;
 		background-position: left top;
 		background-repeat: no-repeat;
 		background-attachment: fixed;
 
-		/* Sin parallax si el usuario pide menos movimiento (como en about) */
-		@media (prefers-reduced-motion: reduce) {
+		/* Sin parallax si el usuario pide menos movimiento (como en about)
+		   ni en tablet y móvil (≤900) */
+		@media (prefers-reduced-motion: reduce), (max-width: 56.25rem) {
 			background-attachment: scroll;
 		}
 
@@ -954,6 +993,52 @@ a {
 
 			& .manifest__title {
 				max-width: 52rem;
+			}
+		}
+
+		/* Móvil (≤560): fondo cuadrado a todo el ancho de la pantalla, la figura
+		   centrada sale por arriba y el texto va debajo (como Philosophy en about).
+		   El fondo pasa a un ::before cuadrado; la figura y el texto, a la rejilla */
+		@media (max-width: 35rem) {
+			display: grid;
+			grid-template-columns: minmax(0, 1fr);
+			min-height: 0;
+			/* fuera del padding de .section: de borde a borde */
+			margin-inline: calc(-1 * var(--space-xs));
+			border-radius: 0;
+			background-image: none;
+
+			&::before {
+				content: "";
+				grid-area: 1 / 1;
+				align-self: end;
+				aspect-ratio: 1;
+				background: var(--manifest-bg) center / cover no-repeat;
+			}
+
+			& .manifest__bg {
+				position: relative;
+				grid-area: 1 / 1;
+				align-self: end;
+				justify-self: center;
+				left: auto;
+				bottom: auto;
+				transform: none;
+			}
+
+			/* home: el texto está dentro del panel; aquí baja debajo de la imagen */
+			& .manifest__content {
+				grid-area: 2 / 1;
+				align-items: flex-start;
+				gap: var(--space-md);
+				margin-top: var(--space-lg);
+				padding-inline: var(--space-xs);
+
+				& > p {
+					padding: 0;
+					background-color: transparent;
+					color: var(--c-text);
+				}
 			}
 		}
 	}
@@ -3173,8 +3258,9 @@ a {
    (fondo con parallax, figura centrada, recorte, móvil). Solo cambian
    las imágenes y el texto, que va debajo del panel */
 .manifest--about {
+	--manifest-bg: url("../assets/img/about-page/philosophy-bg.webp");
+
 	& .manifest__wrapper {
-		background-image: url("../assets/img/about-page/philosophy-bg.webp");
 		background-position: center;
 	}
 
@@ -3197,6 +3283,11 @@ a {
 
 		@media (max-width: 35rem) {
 			grid-template-columns: minmax(0, 1fr);
+		}
+
+		/* Cada párrafo, como mucho 600 px (no media pantalla) */
+		& p {
+			max-width: var(--size-measure);
 		}
 	}
 }
@@ -3534,7 +3625,8 @@ a {
 }
 
 /* ---- Respiración de las secciones (js/motion.js → initSectionReveals) ----
-   Secciones con [data-reveal] y el hero de about. Cada tipo, su manera:
+   Secciones con [data-reveal] y el hero de about (eyebrow, texto, botón
+   y tarjetas). Cada tipo, su manera:
    - h2: por líneas (bloque de arriba)
    - textos (.subtitle, .eyebrow, .body-text): suben 20 px, --dur-text
    - fotos y figuras grandes (img, video): suben 48 px, --dur-media, sin zoom ni recorte
@@ -3550,7 +3642,7 @@ a {
 			opacity: 0;
 		}
 
-		& [data-reveal] :is(.subtitle, .eyebrow, .body-text, .body-text--big):not(.is-settled, [data-reveal-skip] *) {
+		& :is([data-reveal] :is(.subtitle, .eyebrow, .body-text, .body-text--big), .about-hero :is(.subtitle, .about-hero__intro, .about-hero__side .btn)):not(.is-settled, [data-reveal-skip] *) {
 			opacity: 0;
 			translate: 0 20px;
 			transition:
