@@ -9,8 +9,15 @@ export function setupHeaderMenu() {
 
     if (!menuBtn || !menuOverlay || !closeBtn) return;
 
-    const openMenu = () => menuOverlay.classList.add('is-open');
-    const closeMenu = () => menuOverlay.classList.remove('is-open');
+    // aria-expanded: el lector de pantalla sabe si el menú está abierto
+    const openMenu = () => {
+        menuOverlay.classList.add('is-open');
+        menuBtn.setAttribute('aria-expanded', 'true');
+    };
+    const closeMenu = () => {
+        menuOverlay.classList.remove('is-open');
+        menuBtn.setAttribute('aria-expanded', 'false');
+    };
 
     menuBtn.addEventListener('click', openMenu);
     closeBtn.addEventListener('click', closeMenu);

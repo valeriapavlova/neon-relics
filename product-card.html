@@ -28,8 +28,6 @@
                 <a href="index.html"><img src="assets/svg/logo_light.svg" alt="NEON RELICS logo"></a>
             </div>
 
-            <!-- header menu responsive button-->
-            <button type="button" class="header__menu-btn t--link">Menu</button>
 
             <!-- header nav-->
             <nav class="header__nav nav">
@@ -46,6 +44,11 @@
                     <span class="wishlist-counter__label t--link">Capsule</span>
                     <span class="wishlist-counter__badge" aria-hidden="true">0</span>
                 </a>
+                <!-- Botón del menú móvil (≤900): abre el panel #menuOverlay -->
+                <button type="button" class="header__menu-btn" aria-expanded="false" aria-controls="menuOverlay">
+                    <span class="header__menu-label">Menu</span>
+                    <span class="header__menu-icon" aria-hidden="true"><i></i><i></i></span>
+                </button>
             </div>
         </div>
 

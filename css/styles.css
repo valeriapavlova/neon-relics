@@ -109,6 +109,8 @@
 	--size-xxxxl: 87.125rem;
 	/* Ancho cómodo de lectura para párrafos (600 px) */
 	--size-measure: 37.5rem;
+	/* Alto de los controles del header en móvil (botón Menu, círculo de la cápsula) */
+	--size-control: 2.5rem;
 
 	/* screen size */
 	--screen-sm: 23.4375rem;
@@ -125,6 +127,8 @@
 	/* Border radius */
 	--r-xs: 0.125rem;
 	--r-s: 0.25rem;
+	/* Píldora (botón Menu, redes del footer en móvil) */
+	--r-pill: 999px;
 
 	/* Motion */
 	--transition-fast: 150ms ease-out;
@@ -324,8 +328,8 @@ a {
 /* Hover "cromo que se desliza": un ::before con --g-chrome (200 % de ancho)
    aparece y se desplaza -50 % una sola vez. Solo opacity y transform.
    Al salir se apaga y, ya invisible, vuelve a su sitio sin moverse.
-   Los botones de icono (.btn--card) no lo llevan */
-.btn:not(.btn--card) {
+   Los botones de icono (.btn--card) no lo llevan; el botón Menu del header, sí */
+:is(.btn:not(.btn--card), .header__menu-btn) {
 	position: relative;
 	isolation: isolate;
 	overflow: hidden;
@@ -652,8 +656,8 @@ a {
 		line-height: 1;
 	}
 
-	/* En móvil solo el círculo; el aria-label mantiene el texto completo */
-	@media (max-width: 48rem) {
+	/* En tablet y móvil (≤900) solo el círculo; el aria-label mantiene el texto completo */
+	@media (max-width: 56.25rem) {
 		& .wishlist-counter__label {
 			display: none;
 		}
@@ -1987,9 +1991,12 @@ a {
 
 /* HEADER RESPONSIVE */
 
-/* ===== TABLET 768–1024 ===== */
+/* ===== TABLET Y MÓVIL ≤900 =====
+   A partir de 901 px la navegación horizontal cabe (logo + 3 enlaces + cápsula).
+   Por debajo: logo de 26 px a la izquierda; a la derecha el círculo de la
+   cápsula y el botón "Menu ≡", los dos de 40 px de alto, 8 px entre ellos */
 
-@media (max-width: 1024px) {
+@media (max-width: 56.25rem) {
 	.header {
 		& .header__container {
 			display: flex;
@@ -1997,11 +2004,62 @@ a {
 			align-items: center;
 		}
 
+		& .header__logo img {
+			display: block;
+			width: auto;
+			height: 1.625rem;
+		}
+
+		& .header__container .header__actions {
+			gap: var(--space-2xs);
+		}
+
+		& .wishlist-counter .wishlist-counter__badge {
+			width: var(--size-control);
+			height: var(--size-control);
+		}
+
+		/* Píldora: el borde sigue al color del texto (también en .header--inverse) */
 		& .header__menu-btn {
-			display: inline-block;
-			flex: 0 0 auto;
-			margin: 0 auto;
-			padding: var(--space-2xs) var(--space-xs);
+			display: inline-flex;
+			align-items: center;
+			gap: var(--space-2xs);
+			height: var(--size-control);
+			padding: 0 var(--space-xs);
+			border: 1px solid currentColor;
+			border-radius: var(--r-pill);
+			font: var(--f-link-sm);
+			letter-spacing: 0.06em;
+			text-transform: uppercase;
+			color: var(--c-text);
+
+			&:focus-visible {
+				outline: 2px solid var(--c-primary);
+				outline-offset: var(--space-3xs);
+			}
+
+			/* Sobre el cromo el texto siempre oscuro (aunque el header esté invertido) */
+			&:is(:hover, :focus-visible, :active) {
+				color: var(--c-text);
+			}
+		}
+
+		/* Icono ≡: dos líneas, la de abajo más corta */
+		& .header__menu-icon {
+			display: grid;
+			gap: 0.3125rem;
+			width: 1rem;
+
+			& i {
+				display: block;
+				height: 1.5px;
+				background-color: currentColor;
+			}
+
+			& i:last-child {
+				justify-self: end;
+				width: 0.625rem;
+			}
 		}
 
 		/* Ocultar nav horizontal */
