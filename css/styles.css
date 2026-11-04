@@ -4085,6 +4085,22 @@ br.m {
 	translate: none;
 }
 
+/* Párrafos de introducción ([data-reveal-text]): mismo efecto, con menos
+   recorrido, fundido y 60 ms entre líneas (TEXT_LINE_STAGGER en motion.js) */
+.lines--text .lines__inner {
+	opacity: 0;
+	translate: 0 60%;
+	transition:
+		opacity var(--dur-text) var(--ease-reveal),
+		translate var(--dur-text) var(--ease-reveal);
+	transition-delay: calc(var(--line) * 60ms);
+}
+
+.lines--text.lines--in .lines__inner {
+	opacity: 1;
+	translate: none;
+}
+
 @media (prefers-reduced-motion: no-preference) {
 	.has-motion {
 
@@ -4195,13 +4211,26 @@ br.m {
 			opacity: 0;
 		}
 
-		& :is([data-reveal] :is(.subtitle, .eyebrow, .body-text, .body-text--big), .about-hero :is(.subtitle, .about-hero__intro, .about-hero__side .btn), .hero :is(.hero__eyebrow, .hero__text-wrapper .body-text--big, .hero__buttons .btn)):not(.is-settled, [data-reveal-skip] *) {
+		/* eyebrows y botones: suben 20 px */
+		& :is([data-reveal] :is(.subtitle, .eyebrow), .about-hero :is(.subtitle, .about-hero__side .btn), .hero :is(.hero__eyebrow, .hero__buttons .btn)):not(.is-settled, [data-reveal-skip] *) {
 			opacity: 0;
 			translate: 0 20px;
 			transition:
 				opacity var(--dur-text) var(--ease-reveal),
 				translate var(--dur-text) var(--ease-reveal);
 			transition-delay: var(--breath-delay, 0ms);
+		}
+
+		/* textos largos y descripciones: solo fundido, sin bloques */
+		& :is([data-reveal] :is(.body-text, .body-text--big, .piece__desc), [data-reveal-fade]):not(.is-settled, [data-reveal-skip] *, [data-reveal-text]) {
+			opacity: 0;
+			transition: opacity var(--dur-text) var(--ease-reveal);
+			transition-delay: var(--breath-delay, 0ms);
+		}
+
+		/* introducciones por líneas: no se ven hasta que están divididas */
+		& [data-reveal-text]:not(.lines--ready) {
+			opacity: 0;
 		}
 
 		/* las fotos de las tarjetas se mueven con su tarjeta */
@@ -4223,7 +4252,7 @@ br.m {
 			transition-delay: var(--breath-delay, 0ms);
 		}
 
-		& :is([data-reveal], .about-hero, .hero) .is-in:not(.is-settled) {
+		& :is(:is([data-reveal], .about-hero, .hero) .is-in, [data-reveal-fade].is-in):not(.is-settled) {
 			opacity: 1;
 			translate: none;
 		}

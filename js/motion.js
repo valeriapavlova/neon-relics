@@ -91,6 +91,8 @@ export function onceVisible(el, callback, threshold = 0.2, rootMargin = IN_VIEW)
 
 const esc = (s) => String(s).replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const LINE_STAGGER = 110;
+// textos por líneas: paso más corto (igual que --line-step en .lines--text)
+const TEXT_LINE_STAGGER = 60;
 const HERO_VIDEO_FADE = 400;
 const HERO_VIDEO_WAIT = 1000; // si el vídeo no arranca (móvil, red lenta), no esperar más
 
@@ -125,10 +127,11 @@ function measureLines(el) {
     return lines;
 }
 
-function splitAndReveal(el, delay) {
+function splitAndReveal(el, delay, isText) {
     // se guarda el HTML original (p. ej. los <span> con contadores y los <br>)
     const html = el.innerHTML;
     const text = el.textContent.trim().replace(/\s+/g, ' ');
+    const step = isText ? TEXT_LINE_STAGGER : LINE_STAGGER;
 
     // 1. Dónde corta cada línea, antes de cambiar nada
     const lines = measureLines(el);
@@ -136,11 +139,19 @@ function splitAndReveal(el, delay) {
     // a su contenido (p. ej. centrado) no cambia de tamaño al dividirlo
     el.style.width = getComputedStyle(el).width;
 
-    // 2. Una caja por línea; el lector de pantalla lee el aria-label
-    el.setAttribute('aria-label', text);
-    el.innerHTML = lines.map((words, i) => `
+    // 2. Una caja por línea. El lector de pantalla lee el texto entero:
+    //    en los títulos, el aria-label; en un párrafo (<p> no admite
+    //    aria-label), una copia oculta solo visualmente
+    const boxes = lines.map((words, i) => `
         <span class="lines__line" aria-hidden="true"><span class="lines__inner" style="--line: ${i}">${esc(words.join(' '))}</span></span>`).join('');
+    if (isText) {
+        el.innerHTML = `<span class="visually-hidden">${esc(text)}</span>${boxes}`;
+    } else {
+        el.setAttribute('aria-label', text);
+        el.innerHTML = boxes;
+    }
     el.classList.add('lines--ready', 'lines--split');
+    el.classList.toggle('lines--text', isText);
 
     // 3. Arrancar en el siguiente frame (para que la transición se vea)
     requestAnimationFrame(() => {
@@ -155,17 +166,28 @@ function splitAndReveal(el, delay) {
         el.style.removeProperty('width');
         el.classList.remove('lines--split');
     };
-    const total = delay + cssMs('--dur-title', 900) + (lines.length - 1) * LINE_STAGGER + 150;
+    const duration = isText ? cssMs('--dur-text', 800) : cssMs('--dur-title', 900);
+    const total = delay + duration + (lines.length - 1) * step + 150;
     setTimeout(restore, total);
 }
 
 // Devuelve una promesa que se cumple cuando el título empieza a subir
-// (después de esperar a las fuentes)
-export function revealLines(el, delay = 0) {
+// (después de esperar a las fuentes).
+// { text: true }: párrafos cortos de introducción ([data-reveal-text]):
+// el mismo efecto, con menos recorrido, fundido y 60 ms entre líneas.
+export function revealLines(el, delay = 0, { text = false } = {}) {
     if (!el || !prefersMotion()) return Promise.resolve();
     // esperar a las fuentes: con otra fuente los cortes de línea serían otros
     const fonts = document.fonts ? document.fonts.ready : Promise.resolve();
-    return fonts.then(() => splitAndReveal(el, delay));
+    return fonts.then(() => splitAndReveal(el, delay, text));
+}
+
+const isLineText = (el) => el.hasAttribute('data-reveal-text');
+
+// Un texto aparece: por líneas si es una introducción, si no "respira"
+function showText(el, delay, duration) {
+    if (isLineText(el)) revealLines(el, delay, { text: true });
+    else breathe(el, delay, duration);
 }
 
 // Hero de la home. En escritorio primero aparece el vídeo (fade 400 ms)
@@ -173,7 +195,7 @@ export function revealLines(el, delay = 0) {
 // En ≤900 (allí no hay vídeo, solo pósters) o sin vídeos, el h1 sale en
 // cuanto cargan las fuentes. Después, uno a uno, el eyebrow, el texto
 // y los botones (como en about). Es el primer pantallazo: no espera al scroll.
-const HOME_HERO_TEXT = '.hero__eyebrow, .hero__text-wrapper .body-text--big, .hero__buttons .btn';
+const HOME_HERO_TEXT = '.hero__eyebrow, .hero__text-wrapper [data-reveal-text], .hero__buttons .btn';
 const MOBILE = '(max-width: 56.25rem)';
 
 function revealHeroTitle(title, hero) {
@@ -198,8 +220,8 @@ function revealHeroTitle(title, hero) {
 
 // =============================================
 // HERO DE ABOUT
-// Primero el h1 (por líneas); después, uno a uno, el eyebrow, el texto
-// y el botón (suben 20 px, --dur-text, como los textos de las secciones),
+// Primero el h1 (por líneas); después, uno a uno, el eyebrow (sube 20 px),
+// el texto (por líneas, [data-reveal-text]) y el botón (sube 20 px),
 // y al final las tarjetas, una a una:
 // suben 32 px con 140 ms entre ellas y un pequeño desfase distinto
 // para cada una, así "flotan" en vez de salir en fila. Todo en ~1,6 s.
@@ -220,7 +242,7 @@ const cardDelay = (i, base = 0) => base + i * CARD_STEP + CARD_JITTER[i % CARD_J
 // empieza el h1). Devuelve cuándo empieza el último.
 function riseAfterTitle(texts, base = 0) {
     const durText = cssMs('--dur-text', 800);
-    texts.forEach((text, i) => breathe(text, base + TEXT_AFTER_TITLE + i * TEXT_STEP, durText));
+    texts.forEach((text, i) => showText(text, base + TEXT_AFTER_TITLE + i * TEXT_STEP, durText));
     return base + TEXT_AFTER_TITLE + Math.max(0, texts.length - 1) * TEXT_STEP;
 }
 
@@ -230,6 +252,7 @@ function initAboutHero(hero) {
     const cards = [...hero.querySelectorAll('.about-hero__card')];
 
     if (!prefersMotion() || !('IntersectionObserver' in window)) {
+        texts.filter(isLineText).forEach((el) => el.classList.add('lines--ready'));
         [...texts, ...cards].forEach((el) => el.classList.add('is-settled'));
         return;
     }
@@ -244,6 +267,16 @@ function initAboutHero(hero) {
     }, 0.5);
 }
 
+// Textos que salen detrás de un h1 fuera de [data-reveal] (cápsula, look):
+// dentro del mismo [data-reveal-group] que el título, los [data-reveal-text]
+// (por líneas) y los [data-reveal-fade] (solo fundido)
+function titleFollowers(title) {
+    const group = title.closest('[data-reveal-group]');
+    if (!group) return [];
+    return [...group.querySelectorAll('[data-reveal-text], [data-reveal-fade]')]
+        .filter((el) => !el.closest('[data-reveal]'));
+}
+
 // Todos los títulos con [data-reveal-lines] de la página.
 // Solo el h1 del hero de la home sale al cargar; los demás, cuando se ven.
 export function initTitleReveals() {
@@ -254,7 +287,9 @@ export function initTitleReveals() {
     document.querySelectorAll('[data-reveal-lines]').forEach((title) => {
         const hero = title.closest('.hero');
         if (hero) revealHeroTitle(title, hero);
-        else if (!title.closest('.about-hero')) onceVisible(title, () => revealLines(title), 0.5);
+        else if (!title.closest('.about-hero')) {
+            onceVisible(title, () => revealLines(title).then(() => riseAfterTitle(titleFollowers(title))), 0.5);
+        }
     });
 }
 
@@ -388,15 +423,17 @@ export function collapse(el, duration = 200) {
 // sola vez, cuando entra de verdad en pantalla (onceVisible), y cada tipo
 // tiene su manera (los estados ocultos están en el CSS, bloque MOTION):
 //   - h2: por líneas, como el h1 del hero (--dur-title, 110 ms por línea)
-//   - textos (.subtitle, .eyebrow, .body-text): suben 20 px, --dur-text,
-//     150 ms después del título y 100 ms entre ellos
+//   - .subtitle y .eyebrow: suben 20 px, --dur-text; textos largos
+//     (.body-text, .piece__desc): solo fundido; introducciones cortas
+//     ([data-reveal-text]): por líneas. 150 ms después del título y
+//     100 ms entre ellos
 //   - fotos y figuras (img, video): suben 48 px, --dur-media, 120 ms entre ellas
 //   - tarjetas (.about-card): suben 32 px, --dur-card, 140 ms entre ellas con
 //     un pequeño desfase; el texto que va junto a una tarjeta sale con ella
 // Lo que esté dentro de [data-reveal-skip] no se toca.
 // =============================================
 
-const BREATH_TEXT = '.subtitle, .eyebrow, .body-text, .body-text--big';
+const BREATH_TEXT = '.subtitle, .eyebrow, .body-text, .body-text--big, .piece__desc';
 const BREATH_MEDIA = 'img, video';
 const BREATH_CARD = '.about-card';
 const TEXT_AFTER_TITLE = 150;
@@ -423,7 +460,7 @@ function initSection(section) {
     const media = [...section.querySelectorAll(BREATH_MEDIA)].filter((el) => own(el) && !el.closest(BREATH_CARD));
 
     if (!prefersMotion() || !('IntersectionObserver' in window)) {
-        titles.forEach((title) => title.classList.add('lines--ready'));
+        [...titles, ...texts.filter(isLineText)].forEach((el) => el.classList.add('lines--ready'));
         [...texts, ...media, ...cards].forEach((el) => el.classList.add('is-settled'));
         return;
     }
@@ -467,7 +504,7 @@ function initSection(section) {
             } else if (el.matches(BREATH_CARD)) {
                 const delay = cardDelay(cardIndex++, afterTitle);
                 breathe(el, delay, durCard);
-                followers.get(el).forEach((text) => breathe(text, delay + TEXT_AFTER_TITLE, durText));
+                followers.get(el).forEach((text) => showText(text, delay + TEXT_AFTER_TITLE, durText));
             } else if (el.matches(BREATH_MEDIA)) {
                 breathe(el, afterTitle + mediaIndex++ * MEDIA_STEP, durMedia);
             } else {
@@ -475,7 +512,7 @@ function initSection(section) {
             }
         });
 
-        textQueue.sort(byDocument).forEach((el, i) => breathe(el, afterTitle + i * TEXT_STEP, durText));
+        textQueue.sort(byDocument).forEach((el, i) => showText(el, afterTitle + i * TEXT_STEP, durText));
     }, { threshold: 0, rootMargin: IN_VIEW });
 
     [...titles, ...cards, ...free, ...media].forEach((el) => observer.observe(el));
