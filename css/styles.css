@@ -1157,11 +1157,14 @@ br.m {
 				background: var(--manifest-bg) center / cover no-repeat;
 			}
 
+			/* figura más pequeña que el fondo (76 %), como en la maqueta:
+			   el cromo se ve alrededor */
 			& .manifest__bg {
 				position: relative;
 				grid-area: 1 / 1;
 				align-self: end;
 				justify-self: center;
+				width: 76%;
 				left: auto;
 				bottom: auto;
 				transform: none;
@@ -3768,6 +3771,12 @@ br.m {
    las imágenes y el texto, que va debajo del panel */
 .manifest--about {
 	--manifest-bg: url("../assets/img/about-page/philosophy-bg.webp");
+
+	/* La figura del sombrero es más ancha que la de la home: más pequeña,
+	   para que el fondo cromado se vea como en la home */
+	& .manifest__wrapper .manifest__bg {
+		max-width: min(40rem, 70%);
+	}
 
 	& .manifest__wrapper {
 		background-position: center;
