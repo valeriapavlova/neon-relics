@@ -2991,10 +2991,11 @@ a {
 		font: var(--fw-semibold) clamp(2em, 9.2vw, 6.5em)/0.95 var(--font-heading);
 		text-transform: uppercase;
 		color: var(--c-primary);
+	}
 
-		& span {
-			display: block;
-		}
+	/* Solo las líneas propias del h1 (no los <span> que crea motion.js) */
+	& .about-hero__line {
+		display: block;
 	}
 
 	& .about-hero__side {
@@ -3474,6 +3475,8 @@ a {
 
 .lines__inner {
 	display: block;
+	/* la línea ya está medida: nunca se parte aunque falte una fracción de píxel */
+	white-space: nowrap;
 	translate: 0 105%;
 	transition: translate var(--dur-title) var(--ease-reveal);
 	transition-delay: calc(var(--line) * 110ms);
