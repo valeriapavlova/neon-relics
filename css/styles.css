@@ -4168,8 +4168,8 @@ br.m {
 }
 
 /* ---- Respiración de las secciones (js/motion.js → initSectionReveals) ----
-   Secciones con [data-reveal] y el hero de about (eyebrow, texto, botón
-   y tarjetas). Cada tipo, su manera:
+   Secciones con [data-reveal], el hero de about (eyebrow, texto, botón
+   y tarjetas) y el de la home (eyebrow, texto y botones). Cada tipo, su manera:
    - h2: por líneas (bloque de arriba)
    - textos (.subtitle, .eyebrow, .body-text): suben 20 px, --dur-text
    - fotos y figuras grandes (img, video): suben 48 px, --dur-media, sin zoom ni recorte
@@ -4185,7 +4185,7 @@ br.m {
 			opacity: 0;
 		}
 
-		& :is([data-reveal] :is(.subtitle, .eyebrow, .body-text, .body-text--big), .about-hero :is(.subtitle, .about-hero__intro, .about-hero__side .btn)):not(.is-settled, [data-reveal-skip] *) {
+		& :is([data-reveal] :is(.subtitle, .eyebrow, .body-text, .body-text--big), .about-hero :is(.subtitle, .about-hero__intro, .about-hero__side .btn), .hero :is(.hero__eyebrow, .hero__text-wrapper .body-text--big, .hero__buttons .btn)):not(.is-settled, [data-reveal-skip] *) {
 			opacity: 0;
 			translate: 0 20px;
 			transition:
@@ -4213,7 +4213,7 @@ br.m {
 			transition-delay: var(--breath-delay, 0ms);
 		}
 
-		& :is([data-reveal], .about-hero) .is-in:not(.is-settled) {
+		& :is([data-reveal], .about-hero, .hero) .is-in:not(.is-settled) {
 			opacity: 1;
 			translate: none;
 		}

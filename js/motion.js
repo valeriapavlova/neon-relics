@@ -168,21 +168,32 @@ export function revealLines(el, delay = 0) {
     return fonts.then(() => splitAndReveal(el, delay));
 }
 
-// Hero de la home: primero aparece el vídeo (fade 400 ms) y luego el h1.
-// Es el primer pantallazo, así que no espera al scroll.
+// Hero de la home. En escritorio primero aparece el vídeo (fade 400 ms)
+// y luego el h1; si el vídeo no arranca, no se espera más de 1 s.
+// En ≤900 (allí no hay vídeo, solo pósters) o sin vídeos, el h1 sale en
+// cuanto cargan las fuentes. Después, uno a uno, el eyebrow, el texto
+// y los botones (como en about). Es el primer pantallazo: no espera al scroll.
+const HOME_HERO_TEXT = '.hero__eyebrow, .hero__text-wrapper .body-text--big, .hero__buttons .btn';
+const MOBILE = '(max-width: 56.25rem)';
+
 function revealHeroTitle(title, hero) {
     const videos = [...hero.querySelectorAll('video[data-motion-video]')];
+    const texts = [...hero.querySelectorAll(HOME_HERO_TEXT)];
     let started = false;
 
-    const start = () => {
+    const start = (delay) => {
         if (started) return;
         started = true;
         videos.forEach((video) => video.classList.add('is-shown'));
-        revealLines(title, HERO_VIDEO_FADE);
+        revealLines(title, delay).then(() => riseAfterTitle(texts, delay));
     };
 
-    videos.forEach((video) => video.addEventListener('playing', start, { once: true }));
-    setTimeout(start, videos.length ? HERO_VIDEO_WAIT : 0);
+    if (!videos.length || window.matchMedia(MOBILE).matches) {
+        start(0);
+        return;
+    }
+    videos.forEach((video) => video.addEventListener('playing', () => start(HERO_VIDEO_FADE), { once: true }));
+    setTimeout(() => start(HERO_VIDEO_FADE), HERO_VIDEO_WAIT);
 }
 
 // =============================================
@@ -205,6 +216,14 @@ const HERO_TEXT = '.subtitle, .about-hero__intro, .about-hero__side .btn';
 
 const cardDelay = (i, base = 0) => base + i * CARD_STEP + CARD_JITTER[i % CARD_JITTER.length];
 
+// Textos de un hero que suben uno a uno después del h1 (base = cuándo
+// empieza el h1). Devuelve cuándo empieza el último.
+function riseAfterTitle(texts, base = 0) {
+    const durText = cssMs('--dur-text', 800);
+    texts.forEach((text, i) => breathe(text, base + TEXT_AFTER_TITLE + i * TEXT_STEP, durText));
+    return base + TEXT_AFTER_TITLE + Math.max(0, texts.length - 1) * TEXT_STEP;
+}
+
 function initAboutHero(hero) {
     const title = hero.querySelector('[data-reveal-lines]');
     const texts = [...hero.querySelectorAll(HERO_TEXT)];
@@ -217,11 +236,9 @@ function initAboutHero(hero) {
 
     onceVisible(title, () => {
         revealLines(title).then(() => {
-            const durText = cssMs('--dur-text', 800);
             const durCard = cssMs('--dur-card', 900);
-            texts.forEach((text, i) => breathe(text, TEXT_AFTER_TITLE + i * TEXT_STEP, durText));
             // las tarjetas, cuando ya ha empezado el último texto
-            const cardsAfter = TEXT_AFTER_TITLE + (texts.length - 1) * TEXT_STEP + HERO_CARDS_AFTER;
+            const cardsAfter = riseAfterTitle(texts) + HERO_CARDS_AFTER;
             cards.forEach((card, i) => breathe(card, cardDelay(i, cardsAfter), durCard));
         });
     }, 0.5);
