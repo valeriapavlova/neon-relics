@@ -107,7 +107,7 @@ export function updateCapsuleCounter() {
         // al añadir: un pulso suave del círculo (1 → 1.15 → 1, 300 ms)
         if (lastCount !== null && count > lastCount && prefersMotion()) {
             badge.animate(
-                [{ transform: 'scale(1)' }, { transform: 'scale(1.15)' }, { transform: 'scale(1)' }],
+                [{ scale: 1 }, { scale: 1.15 }, { scale: 1 }],
                 { duration: 300, easing: 'ease-out' },
             );
         }

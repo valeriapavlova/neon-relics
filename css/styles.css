@@ -119,10 +119,16 @@
 	--transition-slow: 500ms ease-out;
 
 	/* Motion: revelados, morph entre páginas y líneas */
-	--ease-reveal: cubic-bezier(.2, .7, .2, 1);
+	/* frenado suave al final (para todo el movimiento) */
+	--ease-reveal: cubic-bezier(.16, 1, .3, 1);
 	--dur-reveal: 700ms;
 	--dur-morph: 650ms;
 	--dur-draw: 900ms;
+	/* aparición por tipo de elemento (js/motion.js) */
+	--dur-title: 900ms;
+	--dur-text: 800ms;
+	--dur-card: 900ms;
+	--dur-media: 1100ms;
 }
 
 /* 3. GLOBAL (body, headings, links, imágenes) */
@@ -3486,13 +3492,22 @@ a {
 
 /* =============================================
    MOTION (js/motion.js)
-   Solo opacity y transform; cada animación se ve una vez.
+   Solo opacity y transform (o sus propiedades sueltas translate / scale); cada animación se ve una vez.
    Los estados iniciales ocultos dependen de .has-motion (lo pone
    el script del <head>) y de prefers-reduced-motion: no-preference,
    así sin JS o con "reducir movimiento" todo se ve al momento.
    ============================================= */
 
-/* ---- Títulos por líneas ---- */
+/* ---- Títulos por líneas ----
+   Se anima "translate" (no "transform"): así no se pisa ningún transform
+   propio del elemento (p. ej. translateX(-50%) para centrar) */
+/* En columna flex los márgenes negativos de las líneas no se colapsan:
+   el título dividido mide lo mismo que el texto normal (sin saltos al restaurar) */
+.lines--split {
+	display: flex;
+	flex-direction: column;
+}
+
 .lines__line {
 	display: block;
 	overflow: hidden;
@@ -3503,13 +3518,13 @@ a {
 
 .lines__inner {
 	display: block;
-	transform: translateY(105%);
-	transition: transform var(--dur-reveal) var(--ease-reveal);
-	transition-delay: calc(var(--line) * 90ms);
+	translate: 0 105%;
+	transition: translate var(--dur-title) var(--ease-reveal);
+	transition-delay: calc(var(--line) * 110ms);
 }
 
 .lines--in .lines__inner {
-	transform: none;
+	translate: none;
 }
 
 @media (prefers-reduced-motion: no-preference) {
@@ -3520,8 +3535,8 @@ a {
 			opacity: 0;
 		}
 
-		/* Vídeos del hero: fade de 400 ms antes del título */
-		& :is(.hero, .about-hero) video[data-motion-video] {
+		/* Vídeo del hero de la home: fade de 400 ms antes del título */
+		& .hero video[data-motion-video] {
 			opacity: 0;
 			transition: opacity 400ms ease-out;
 
@@ -3605,42 +3620,53 @@ a {
 }
 
 /* ---- Respiración de las secciones (js/motion.js → initSectionReveals) ----
-   Secciones con [data-reveal]: h2 por líneas, textos que suben 16 px y
-   fotos / vídeos que pasan de scale(1.06) a 1. Lo que está dentro de
-   [data-reveal-skip] tiene su propio movimiento y no se toca.
-   .is-in = aparece; .is-settled = terminado (vuelven sus propios estilos). */
+   Secciones con [data-reveal] y el hero de about. Cada tipo, su manera:
+   - h2: por líneas (bloque de arriba)
+   - textos (.subtitle, .eyebrow, .body-text): suben 20 px, --dur-text
+   - fotos y figuras grandes (img, video): suben 48 px, --dur-media, sin zoom ni recorte
+   - tarjetas pequeñas (.about-card, tarjetas del hero de about): suben 32 px, --dur-card
+   Solo se animan "opacity" y "translate": "translate" se suma al transform
+   propio del elemento (translateX(-50%), rotate…) y no lo pisa.
+   .is-in = aparece; .is-settled = terminado. El estado final es igual al
+   natural del elemento, así que al quitar las clases no se mueve nada.
+   Lo que está dentro de [data-reveal-skip] tiene su propio movimiento. */
 @media (prefers-reduced-motion: no-preference) {
-	.has-motion [data-reveal] {
-		& h2:not(.lines--ready, [data-reveal-skip] *) {
+	.has-motion {
+		& [data-reveal] h2:not(.lines--ready, [data-reveal-skip] *) {
 			opacity: 0;
 		}
 
-		& :is(.subtitle, .eyebrow, .body-text, .body-text--big):not(.is-settled, [data-reveal-skip] *) {
+		& [data-reveal] :is(.subtitle, .eyebrow, .body-text, .body-text--big):not(.is-settled, [data-reveal-skip] *) {
 			opacity: 0;
-			transform: translateY(16px);
+			translate: 0 20px;
 			transition:
-				opacity 600ms var(--ease-reveal),
-				transform 600ms var(--ease-reveal);
+				opacity var(--dur-text) var(--ease-reveal),
+				translate var(--dur-text) var(--ease-reveal);
 			transition-delay: var(--breath-delay, 0ms);
 		}
 
-		& :is(img, video):not(.is-settled, [data-reveal-skip] *) {
+		/* las fotos de las tarjetas se mueven con su tarjeta */
+		& [data-reveal] :is(img, video):not(.is-settled, [data-reveal-skip] *, .about-card *) {
 			opacity: 0;
-			transform: scale(1.06);
+			translate: 0 48px;
 			transition:
-				opacity var(--dur-draw) var(--ease-reveal),
-				transform var(--dur-draw) var(--ease-reveal);
+				opacity var(--dur-media) var(--ease-reveal),
+				translate var(--dur-media) var(--ease-reveal);
 			transition-delay: var(--breath-delay, 0ms);
 		}
 
-		& .is-in:not(.is-settled) {
+		& :is([data-reveal] .about-card, .about-hero__card):not(.is-settled, [data-reveal-skip] *) {
+			opacity: 0;
+			translate: 0 32px;
+			transition:
+				opacity var(--dur-card) var(--ease-reveal),
+				translate var(--dur-card) var(--ease-reveal);
+			transition-delay: var(--breath-delay, 0ms);
+		}
+
+		& :is([data-reveal], .about-hero) .is-in:not(.is-settled) {
 			opacity: 1;
-			transform: none;
-		}
-
-		/* la caja de una imagen sola recorta el zoom (clip: sin cambiar el layout) */
-		& .breath-clip {
-			overflow: clip;
+			translate: none;
 		}
 	}
 }
@@ -3649,15 +3675,15 @@ a {
 @media (prefers-reduced-motion: no-preference) {
 	.has-motion .reveal {
 		opacity: 0;
-		transform: translateY(24px);
+		translate: 0 24px;
 		transition:
 			opacity var(--dur-reveal) var(--ease-reveal),
-			transform var(--dur-reveal) var(--ease-reveal);
+			translate var(--dur-reveal) var(--ease-reveal);
 		transition-delay: var(--reveal-delay, 0ms);
 
 		&.is-revealed {
 			opacity: 1;
-			transform: none;
+			translate: none;
 		}
 
 		&.is-static {
