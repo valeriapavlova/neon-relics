@@ -346,9 +346,12 @@ br.m {
 /* Hover "cromo que se desliza": un ::before con --g-chrome (200 % de ancho)
    aparece y se desplaza -50 % una sola vez. Solo opacity y transform.
    Al salir se apaga y, ya invisible, vuelve a su sitio sin moverse.
-   Los botones de icono (.btn--card) no lo llevan; el botón Menu del header
-   y las redes del footer en móvil (píldoras), sí */
-:is(.btn:not(.btn--card), .header__menu-btn, .footer__social-link) {
+   Los botones de icono (.btn--card) no lo llevan; el botón Menu del header,
+   las redes del footer en móvil (píldoras) y las acciones de la vitrina
+   ("Keep in capsule", "Keep the whole look", "Seal my capsule"), sí.
+   "In capsule ✓" (aria-pressed="true") y los desactivados no: son un estado,
+   no una acción */
+:is(.btn:not(.btn--card), .header__menu-btn, .footer__social-link, .vitrine__btn:is([aria-pressed="false"], [data-all], [type="submit"])) {
 	position: relative;
 	isolation: isolate;
 	overflow: hidden;
@@ -2794,6 +2797,13 @@ br.m {
 				border-color: var(--c-primary--soft);
 				color: var(--c-primary--soft);
 			}
+		}
+
+		/* Con hover cromado: el cromo tapa el fondo rojo; texto oscuro
+		   y borde claro (también en "Seal my capsule", que es --filled) */
+		&:is([aria-pressed="false"], [data-all], [type="submit"]):is(:hover, :focus-visible, :active):not(:disabled, [aria-disabled="true"]) {
+			border-color: var(--c-bg);
+			color: var(--c-text);
 		}
 
 		&[aria-disabled="true"] {
